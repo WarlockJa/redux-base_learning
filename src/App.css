@@ -1,0 +1,83 @@
+.App > * {
+    max-width: var(--media-medium-size-threshold);
+    margin: 0 auto;
+}
+
+.header {
+    position: sticky;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3rem;
+    background-color: var(--clr-header-bg);
+}
+
+.header > nav {
+    display: flex;
+    align-items: center;
+}
+
+.counter {
+    display: flex;
+    flex-direction: column;
+}
+
+.counter > * {
+    margin: 1rem 0;
+}
+
+.app-logo {
+    height: 40vmin;
+    pointer-events: none;
+    animation: rotate-logo 8s linear infinite;
+    background: transparent;
+}
+
+.counter-controlSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.asyncButton {
+    position: relative;
+}
+
+.asyncButton:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    background-color: var(--clr-async-animation);
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: width 1s linear, opacity 0.5s ease 1s;
+}
+
+.asyncButton:active:after {
+    width: 0%;
+    opacity: 1;
+    transition: 0s;
+}
+
+@keyframes rotate-logo {
+    50% {
+        transform: rotateZ(180deg) scale(1.1);
+    }
+    100% {
+        transform: rotateZ(360deg) scale(1);
+    }
+}
+
+@media screen and (width < 700px) {
+    .flex-wide {
+        flex-direction: column;
+    }
+
+    .flex-wide > * {
+        width: 100%;
+    }
+}

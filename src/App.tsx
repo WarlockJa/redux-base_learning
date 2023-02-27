@@ -1,3 +1,4 @@
+import './App.css'
 import { Navigate, Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
 import Counter from "./features/counter/Counter"
