@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path='/*' element={<App />} />
+          <Route path='/*' element={<App />}/>
         </Routes>
       </BrowserRouter>
     </Provider>

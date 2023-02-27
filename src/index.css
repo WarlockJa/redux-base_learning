@@ -2,8 +2,9 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --clr-font-main: rgba(255, 255, 255, 0.87);
+  --clr-bg-main: #242424;
+  --clr-button-bg: #414141;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,6 +15,8 @@
 
 * {
   box-sizing: border-box;
+  color: var(--clr-font-main);
+  background-color: var(--clr-bg-main);
 }
 
 a {
@@ -31,7 +34,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--clr-button-bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -43,10 +46,11 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --clr-font-main: #213547;
+    --clr-bg-main: #ffffff;
+    --clr-button-bg: #FAFAFA;
   }
   a:hover {
     color: #747bff;
