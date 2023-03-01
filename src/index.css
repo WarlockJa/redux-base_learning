@@ -6,7 +6,7 @@
   --clr-bg-main: #242424;
   --clr-button-bg: #414141;
   --clr-header-bg: #242424;
-  --clr-async-animation: #dad4;
+  --clr-async-animation: rgb(120,90,188, 0.5);
 
   --media-medium-size-threshold: 700px;
 
@@ -35,11 +35,36 @@ a:hover {
   color: #535bf2;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li, form, article {
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid var(--clr-font-main);
+  border-radius: 15px;
+}
+
+form > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  margin: 0.5em;
+}
+
+p {
+  padding: 0 0.5em;
+}
+
 label {
   text-align: center;
 }
 
-button, input {
+button, input, select {
   text-align: center;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -65,7 +90,7 @@ input:focus-visible {
   :root {
     --clr-font-main: #213547;
     --clr-bg-main: #ffffff;
-    --clr-button-bg: #FAFAFA;
+    --clr-button-bg: rgb(225, 225, 225);
     --clr-header-bg: #ffffff;
   }
   a:hover {

@@ -10,11 +10,14 @@
     top: 0;
     height: 3rem;
     background-color: var(--clr-header-bg);
+    display: flex;
+    align-items: center;
 }
 
 .header > nav {
     display: flex;
     align-items: center;
+    gap: 1rem;
 }
 
 .counter {
@@ -61,6 +64,37 @@
     width: 0%;
     opacity: 1;
     transition: 0s;
+}
+
+.postDescription {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.postHeader {
+    display: flex;
+}
+
+.postHeader > p:nth-child(3) {
+    margin-left: auto;
+}
+
+.postFooter {
+    display: flex;
+    flex-direction: column;
+
+    line-height: 0;
+    margin-top: 1rem;
+}
+
+.postFooter > p {
+    align-self: flex-end;
+}
+
+.todoFooter {
+    display: flex;
+    justify-content: space-between;
 }
 
 @keyframes rotate-logo {
