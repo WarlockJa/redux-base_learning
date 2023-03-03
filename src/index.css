@@ -37,7 +37,7 @@ a:hover {
 
 ul {
   list-style: none;
-  padding: 0;
+  padding: 0 1px;
 }
 
 li, form, article {
@@ -56,15 +56,19 @@ form > * {
   margin: 0.5em;
 }
 
-p {
-  padding: 0 0.5em;
-}
-
 label {
   text-align: center;
 }
 
-button, input, select {
+textarea {
+  resize: vertical;
+}
+
+button {
+  cursor: pointer;
+}
+
+button, input, select, textarea {
   text-align: center;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -73,7 +77,6 @@ button, input, select {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--clr-button-bg);
-  cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover, input:hover {

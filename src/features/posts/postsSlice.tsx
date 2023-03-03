@@ -15,39 +15,66 @@ interface IPost {
     published_at: string;
 }
 
+interface IPagination {
+    limit: number;
+    offset: number;
+    count: number;
+    total: number;
+}
+
+interface IAPIResponse {
+    pagination: IPagination;
+    data: IPost[];
+}
+
 interface IInitialState {
     posts: IPost[];
+    pagination: IPagination;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null
 }
 
 const initialState: IInitialState = {
     posts: [],
+    pagination: {
+        limit: 10,
+        offset: 0,
+        count: 10,
+        total: 10
+    },
     status: 'idle',
     error: null
 }
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-    const response = await axios.get(import.meta.env.VITE_APP_MEDIASTACK_API_URL!)
-    return response.data
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ API_URL, limit, offset }: { API_URL: string, limit: string | number, offset: string | number }) => {
+    const FetchURL = API_URL.concat(`&limit=${limit}&offset=${offset}`)
+    const response = await axios.get(FetchURL)
+    return response.data 
 })
 
 const postsSlice = createSlice({
     name: 'posts',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        changeStatusToIdle(state) {
+            state.status = 'idle'
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(fetchPosts.pending, (state, action) => {
                 state.status = 'loading'
             })
-            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<{ data: IPost[] }>) => {
+            .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
                 state.status = 'succeeded'
                 const loadedPosts = action.payload.data.map(post => {
                     post.id = nanoid()
                     return post
                 })
-                state.posts = state.posts.concat(loadedPosts)
+                state.pagination.offset = action.payload.pagination.offset
+                state.pagination.total = action.payload.pagination.total
+                // state.posts = state.posts.concat(loadedPosts)
+                state.posts = loadedPosts
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed'
@@ -55,6 +82,10 @@ const postsSlice = createSlice({
             })
     },
 })
+
+export const {
+    changeStatusToIdle,
+} = postsSlice.actions
 
 export default postsSlice.reducer
 

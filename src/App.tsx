@@ -15,6 +15,7 @@ function App() {
         <Route path='posts'>
           <Route index element={<PostsList />}/>
           <Route path=':postId' element={<SinglePostPage />}/>
+          <Route path=':page' element={<PostsList />}/>
         </Route>
 
         <Route path='todos'>

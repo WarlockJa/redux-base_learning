@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
+import TimeAgo from '../../util/TimeAgo'
 import { selectPostById } from './postsSlice'
 
 const PostExcerpt = ({ postId }: { postId: string}) => {
@@ -9,24 +10,21 @@ const PostExcerpt = ({ postId }: { postId: string}) => {
             <h3>No post found</h3>
         </li>
     )
+
+    const shortenedDescription = post.description.length < 70 ? post.description : post.description.substring(0, 70).concat('...')
+
     return (
         <li
             key={post.id}
             className='listItem'
         >
             <h3>{post.title}</h3>
-            <div className="postHeader">
-                <p>Language: {post.language}</p>
-                <p>Country: {post.country}</p>
-                <p>Category: {post.category}</p>
-            </div>
-            <p className="postDescription">{post.description}</p>
-            <Link to={`${post.id}`}>View post</Link>
+            <p className="postDescription">{shortenedDescription}</p>
+            <Link to={post.id}>View post</Link>
             <div className="postFooter">
-                <a href={post.url}>link to source</a>
                 <p>{post.author ? post.author : ''}</p>
-                <p>{post.published_at}</p>
-                {/* <p>{TimeAgo(post.published_at)}</p> */}
+                <a href={post.url} target="_blank">link to source</a>
+                <p>{TimeAgo(post.published_at)}</p>
             </div>
         </li>
     )
