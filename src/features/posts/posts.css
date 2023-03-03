@@ -27,3 +27,30 @@
     color: var(--clr-link-disabled);
     cursor: default;
 }
+
+.postMultimedia {
+    display: flex;
+    gap: 1rem;
+}
+
+.postMultimedia > div > p {
+    text-align: right;
+}
+
+.modalImage {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--clr-bg-modal);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalImage > img {
+    height: 100%;
+    object-fit: contain;
+}

@@ -11,7 +11,7 @@ const PostExcerpt = ({ postId }: { postId: string}) => {
         </li>
     )
 
-    const shortenedDescription = post.description.length < 70 ? post.description : post.description.substring(0, 70).concat('...')
+    const shortenedDescription = post.abstract.length < 70 ? post.abstract : post.abstract.substring(0, 70).concat('...')
 
     return (
         <li
@@ -22,9 +22,8 @@ const PostExcerpt = ({ postId }: { postId: string}) => {
             <p className="postDescription">{shortenedDescription}</p>
             <Link to={post.id}>View post</Link>
             <div className="postFooter">
-                <p>{post.author ? post.author : ''}</p>
-                {/* <a href={post.url} target="_blank">link to source</a> */}
-                <p>{TimeAgo(post.published_at)}</p>
+                <p>{post.byline ? post.byline : ''}</p>
+                <p>{TimeAgo(post.published_date)}</p>
             </div>
         </li>
     )

@@ -2,55 +2,44 @@ import { createAsyncThunk, createSlice, nanoid, PayloadAction } from "@reduxjs/t
 import { RootState } from "../../app/store";
 import axios from 'axios'
 
-interface IPost {
-    id: string;
-    author?: string;
-    title: string;
-    description: string;
-    url: string;
-    source: string;
-    category: string;
-    language: string;
-    country: string;
-    published_at: string;
+export interface IMultimediaNYTimes {
+    url: string;                        // url
+    format: string;                     // some NYT format string
+    height: number;                     // height of the image
+    width: number;                      // width of the image
+    caption: string;                    // description
+    copyright: string;                  // author
 }
 
-interface IPagination {
-    limit: number;
-    offset: number;
-    count: number;
-    total: number;
+interface IPostNYTimes {
+    id: string;                         // arbitraty app id
+    section: string;                    // section name
+    title: string;                      // title of the post
+    abstract: string;                   // short description
+    url: string;                        // url to the source
+    byline: string;                     // author
+    published_date: string;             // date of publishing
+    multimedia: IMultimediaNYTimes[];   // multimedia array
 }
 
 interface IAPIResponse {
-    pagination: IPagination;
-    data: IPost[];
+    results: IPostNYTimes[];
 }
 
 interface IInitialState {
-    posts: IPost[];
-    pagination: IPagination;
+    posts: IPostNYTimes[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null
 }
 
 const initialState: IInitialState = {
     posts: [],
-    pagination: {
-        limit: 10,
-        offset: 0,
-        count: 10,
-        total: 10
-    },
     status: 'idle',
     error: null
 }
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ API_URL, limit, offset }: { API_URL: string, limit: string | number, offset: string | number }) => {
-    const FetchURL = API_URL.concat(`&limit=${limit}&offset=${offset}`)
-    const response = await axios.get(FetchURL)
-    // const response = await fetch(FetchURL).then(response => response.json())
-    console.log(response)
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ API_URL }: { API_URL: string }) => {
+    const response = await axios.get(API_URL)
     return response.data
 })
 
@@ -69,14 +58,13 @@ const postsSlice = createSlice({
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
                 state.status = 'succeeded'
-                const loadedPosts = action.payload.data.map(post => {
-                    post.id = nanoid() //TODO Change post.id to Index0
+                console.log(action.payload)
+                const loadedPosts = action.payload.results.map(post => {
+                    post.id = nanoid()
                     return post
                 })
-                state.pagination.offset = action.payload.pagination.offset
-                state.pagination.total = action.payload.pagination.total
-                // state.posts = state.posts.concat(loadedPosts)
-                state.posts = loadedPosts //TODO append fetched posts
+
+                state.posts = state.posts.concat(loadedPosts)
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed'

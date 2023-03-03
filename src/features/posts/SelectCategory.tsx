@@ -1,21 +1,40 @@
 export const categoryList = [
-    { category: 'Uncategorized News', code: 'general'},
-    { category: 'Business News', code: 'business'},
-    { category: 'Entertainment News', code: 'entertainment'},
-    { category: 'Health News', code: 'health'},
-    { category: 'Science News', code: 'science'},
-    { category: 'Sports News', code: 'sports'},
-    { category: 'Technology News', code: 'technology'},
+    { category: 'arts' },
+    { category: 'automobiles' },
+    { category: 'books' },
+    { category: 'business' },
+    { category: 'fashion' },
+    { category: 'food' },
+    { category: 'health' },
+    { category: 'home' },
+    { category: 'insider' },
+    { category: 'magazine' },
+    { category: 'movies' },
+    { category: 'nyregion' },
+    { category: 'obituaries' },
+    { category: 'opinion' },
+    { category: 'politics' },
+    { category: 'realestate' },
+    { category: 'science' },
+    { category: 'sports' },
+    { category: 'sundayreview' },
+    { category: 'technology' },
+    { category: 'theater' },
+    { category: 't-magazine' },
+    { category: 'travel' },
+    { category: 'upshot' },
+    { category: 'us' },
+    { category: 'world' },
 ]
 
 const SelectCategory = () => {
     return (
-        <article>
+        <nav>
             <label htmlFor="selectCategory">Category</label>
             <select id="selectCategory">
-                {categoryList.map(item => <option key={item.code}>{item.category}</option>)}
+                {categoryList.map(item => <option key={item.category}>{item.category}</option>)}
             </select>
-        </article>
+        </nav>
     )
 }
 
