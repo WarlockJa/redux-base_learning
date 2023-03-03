@@ -7,6 +7,9 @@
   --clr-button-bg: #414141;
   --clr-header-bg: #242424;
   --clr-async-animation: rgb(120,90,188, 0.5);
+  --clr-link: #646cff;
+  --clr-link-hover: #535bf2;
+  --clr-link-disabled: #535bf255;
 
   --media-medium-size-threshold: 700px;
 
@@ -28,11 +31,17 @@ body {
 }
 
 a {
-  color: #646cff;
+  color: var(--clr-link);
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: var(--clr-link-hover);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 ul {
@@ -53,7 +62,7 @@ form > * {
   align-items: center;
 
   width: 100%;
-  margin: 0.5em;
+  margin: 0.5em 0;
 }
 
 label {

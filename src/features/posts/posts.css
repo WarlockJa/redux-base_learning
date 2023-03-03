@@ -1,0 +1,29 @@
+.postDescription {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.postHeader {
+    display: flex;
+}
+
+.postHeader > p {
+    padding: 0 0.5em;
+}
+
+.postFooter {
+    display: flex;
+    flex-direction: column;
+
+    line-height: 0;
+}
+
+.postFooter > p {
+    align-self: flex-end;
+}
+
+.disabled, .disabled:hover {
+    color: var(--clr-link-disabled);
+    cursor: default;
+}

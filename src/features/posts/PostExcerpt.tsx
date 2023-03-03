@@ -23,7 +23,7 @@ const PostExcerpt = ({ postId }: { postId: string}) => {
             <Link to={post.id}>View post</Link>
             <div className="postFooter">
                 <p>{post.author ? post.author : ''}</p>
-                <a href={post.url} target="_blank">link to source</a>
+                {/* <a href={post.url} target="_blank">link to source</a> */}
                 <p>{TimeAgo(post.published_at)}</p>
             </div>
         </li>

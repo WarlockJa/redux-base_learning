@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Link, NavLink, useParams, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import PostExcerpt from "./PostExcerpt"
 import { fetchPosts, selectAllPosts } from "./postsSlice"
@@ -10,11 +10,9 @@ const PostsList = () => {
     
     const [searchParams] = useSearchParams()
     const offset = searchParams.get('offset')
-    const { page } = useParams()
 
     useEffect(() => {
         if(posts.status === 'idle') {
-            console.log(page)
             const fetchRequest = {
                 API_URL: import.meta.env.VITE_APP_MEDIASTACK_API_URL,
                 limit: posts.pagination.limit,
@@ -27,36 +25,73 @@ const PostsList = () => {
 
     let content
     let pagesNavigation
+    let controls
     if(posts.status === 'loading') {
         content = <p>Loading...</p>
     } else if(posts.status === 'failed') {
         content = <p>Error: {posts.error}</p>
-    } else {
+    } else if(posts.status === 'succeeded') {
+        // forming content for the page
         content = posts.posts.map(post => 
             <PostExcerpt key={post.id} postId={post.id} />
         )
-        const pagesNumber = Math.floor(posts.pagination.total / posts.pagination.limit)
-        console.log(pagesNumber)
-        pagesNavigation = [...Array(pagesNumber)].map((_item, index) =>
-            <NavLink style={({ isActive }) => isActive ? {fontSize: '1.2rem'} : undefined}
-                to={`/posts?offset=${index * posts.pagination.limit}`}
+        
+        const activePage = Number(offset) / posts.pagination.limit
+        const pagesTotalNumber = Math.floor(posts.pagination.total / posts.pagination.limit)
+        
+        const navPageFirst = activePage - 5 >= 0 ? activePage - 5 : 0
+        const navPageLast = navPageFirst + 11 <= pagesTotalNumber ? navPageFirst + 11 : pagesTotalNumber
+
+        // forming pages navigation
+        pagesNavigation = [...Array(navPageLast - navPageFirst)].map((_item, index) =>
+            index + navPageFirst === activePage
+            ?<p key={'navPagesActivePage'}>{index + navPageFirst}</p>
+            :<Link
+                to={`/posts?offset=${(index + navPageFirst) * posts.pagination.limit}`}
                 reloadDocument
                 key={index}
-            >{index + 1}</NavLink>
+            >{index + navPageFirst}</Link>
         )
+
+        // forming page navigation controls
+        controls = activePage === navPageFirst
+            ? <nav>
+                <div className="disabled">Previous</div>
+                <Link to={`/posts?offset=${posts.pagination.offset + posts.pagination.limit}`} reloadDocument>Next</Link>
+            </nav>
+            : activePage === navPageLast
+                ? <nav>
+                    <Link to={`/posts?offset=${posts.pagination.offset - posts.pagination.limit}`} reloadDocument>Previous</Link>
+                    <div className="disabled">Next</div>
+                </nav>
+                : <nav>
+                    <Link to={`/posts?offset=${posts.pagination.offset - posts.pagination.limit}`} reloadDocument>Previous</Link>
+                    <Link to={`/posts?offset=${posts.pagination.offset + posts.pagination.limit}`} reloadDocument>Next</Link>
+                </nav>
+
+        if(navPageFirst > 0) {
+            pagesNavigation.unshift(<p key={'pagesNavigationPlugFirst'}>. . .</p>)
+            pagesNavigation.unshift(<Link to={'/posts?offset=0'} key={'navPagesLinkToFirstPage'} reloadDocument>First</Link>)
+        }
+        if(navPageLast < pagesTotalNumber) {
+            pagesNavigation.push(<p key={'pagesNavigationPlugLast'}>. . .</p>)
+            pagesNavigation.push(<Link to={`/posts?offset=${pagesTotalNumber * posts.pagination.limit}`} key={'navPagesLinkToLastPage'} reloadDocument>Last</Link>)
+        }
     }
 
     return (
         <section className="newsSection">
             <h2>News Posts</h2>
-            <div className="controls">
-                <Link to={`/posts?offset=${posts.pagination.offset - posts.pagination.limit}`} reloadDocument>Previous</Link>
-                <Link to={`/posts?offset=${posts.pagination.offset + posts.pagination.limit}`} reloadDocument>Next</Link>
-            </div>
+            {controls}
+            <nav>
+                {pagesNavigation}
+            </nav>
             <ul>
                 {content}
             </ul>
-            {pagesNavigation}
+            <nav>
+                {pagesNavigation}
+            </nav>
         </section>
     )
 }

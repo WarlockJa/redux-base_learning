@@ -1,4 +1,6 @@
 import './App.css'
+import './features/posts/posts.css'
+import './features/todos/todos.css'
 import { Navigate, Route, Routes } from "react-router-dom"
 import Layout from "./components/Layout"
 import Counter from "./features/counter/Counter"
@@ -15,7 +17,6 @@ function App() {
         <Route path='posts'>
           <Route index element={<PostsList />}/>
           <Route path=':postId' element={<SinglePostPage />}/>
-          <Route path=':page' element={<PostsList />}/>
         </Route>
 
         <Route path='todos'>
