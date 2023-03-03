@@ -3,6 +3,9 @@ import { Link, useSearchParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import PostExcerpt from "./PostExcerpt"
 import { fetchPosts, selectAllPosts } from "./postsSlice"
+import SelectCategory from "./SelectCategory"
+import SelectCountry from "./SelectCountry"
+import SelectLanguage from "./SelectLanguage"
 
 const PostsList = () => {
     const dispatch = useAppDispatch()
@@ -16,7 +19,11 @@ const PostsList = () => {
             const fetchRequest = {
                 API_URL: import.meta.env.VITE_APP_MEDIASTACK_API_URL,
                 limit: posts.pagination.limit,
-                offset: offset ? offset : posts.pagination.offset
+                offset: offset ? offset : posts.pagination.offset,
+                // languages: ,
+                // categories: ,
+                // sources: ,
+                // countries: 
             }
 
             dispatch(fetchPosts(fetchRequest))
@@ -43,14 +50,14 @@ const PostsList = () => {
         const navPageLast = navPageFirst + 11 <= pagesTotalNumber ? navPageFirst + 11 : pagesTotalNumber
 
         // forming pages navigation
-        pagesNavigation = [...Array(navPageLast - navPageFirst)].map((_item, index) =>
+        pagesNavigation = [...Array(navPageLast - navPageFirst + 1)].map((_item, index) =>
             index + navPageFirst === activePage
-            ?<p key={'navPagesActivePage'}>{index + navPageFirst}</p>
+            ?<p key={'navPagesActivePage'}>{index + navPageFirst + 1}</p>
             :<Link
                 to={`/posts?offset=${(index + navPageFirst) * posts.pagination.limit}`}
                 reloadDocument
                 key={index}
-            >{index + navPageFirst}</Link>
+            >{index + navPageFirst + 1}</Link>
         )
 
         // forming page navigation controls
@@ -82,6 +89,11 @@ const PostsList = () => {
     return (
         <section className="newsSection">
             <h2>News Posts</h2>
+            <section>
+                <SelectLanguage />
+                <SelectCountry />
+                <SelectCategory />
+            </section>
             {controls}
             <nav>
                 {pagesNavigation}

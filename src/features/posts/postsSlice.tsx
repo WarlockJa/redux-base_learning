@@ -49,7 +49,9 @@ const initialState: IInitialState = {
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ API_URL, limit, offset }: { API_URL: string, limit: string | number, offset: string | number }) => {
     const FetchURL = API_URL.concat(`&limit=${limit}&offset=${offset}`)
     const response = await axios.get(FetchURL)
-    return response.data 
+    // const response = await fetch(FetchURL).then(response => response.json())
+    console.log(response)
+    return response.data
 })
 
 const postsSlice = createSlice({
@@ -68,16 +70,17 @@ const postsSlice = createSlice({
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
                 state.status = 'succeeded'
                 const loadedPosts = action.payload.data.map(post => {
-                    post.id = nanoid()
+                    post.id = nanoid() //TODO Change post.id to Index0
                     return post
                 })
                 state.pagination.offset = action.payload.pagination.offset
                 state.pagination.total = action.payload.pagination.total
                 // state.posts = state.posts.concat(loadedPosts)
-                state.posts = loadedPosts
+                state.posts = loadedPosts //TODO append fetched posts
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed'
+                console.log(action.error)
                 state.error = action.error.message!
             })
     },
