@@ -41,4 +41,4 @@ export const incrementAsync = (amount: number) => (dispatch: AppDispatch) => {
     },1000)
 }
 
-export default counterSlice.reducer
+export default counterSlice.reducer 
