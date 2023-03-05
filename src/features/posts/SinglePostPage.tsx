@@ -5,8 +5,11 @@ import TimeAgo from "../../util/TimeAgo"
 import { IMultimediaNYTimes, selectPostById } from "./postsSlice"
 
 const SinglePostPage = () => {
-    const { postId } = useParams()
-    const post = useAppSelector(state => selectPostById(state, postId!))
+    const { postId, categoryId } = useParams()
+
+    console.log(postId, categoryId)
+
+    const post = useAppSelector(state => selectPostById(state, categoryId, postId!))
 
     if(!post) return (<Navigate to='/posts' replace />)
     
@@ -43,12 +46,6 @@ const Multimedia = ({ multimediaItem, largeImage }: { multimediaItem: IMultimedi
                 <p>{multimediaItem.copyright}</p>
             </div>
         </div>
-    )
-}
-
-const ModalImage = ({ small, large }: { small: string, large: string | undefined }) => {
-    return (
-        <img src="" alt="" />
     )
 }
 

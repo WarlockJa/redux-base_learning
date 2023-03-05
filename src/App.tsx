@@ -1,7 +1,7 @@
 import './App.css'
 import './features/posts/posts.css'
 import './features/todos/todos.css'
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, useRoutes } from "react-router-dom"
 import Layout from "./components/Layout"
 import Counter from "./features/counter/Counter"
 import PostsList from './features/posts/PostsList'
@@ -9,24 +9,51 @@ import TodosList from './features/todos/TodosList'
 import SinglePostPage from './features/posts/SinglePostPage'
 
 function App() {
+  const RoutesElement = useRoutes([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Counter />
+        },
+        {
+          path: '/posts',
+          children: [
+            {
+              index: true,
+              element: <PostsList />,
+            },
+            {
+              path: ':categoryId',
+              children: [
+                {
+                  index: true,
+                  element: <PostsList />,
+                },
+                {
+                  path: ':postId',
+                  element: <SinglePostPage />
+                }
+              ]
+            }
+          ]
+        },
+        {
+          path: '/todos',
+          element: <TodosList />
+        },
+        {
+          path: '/*',
+          element: <Navigate to='/' replace />
+        }
+      ]
+    }
+  ])
+
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Counter />}/>
-        
-        <Route path='posts'>
-          <Route index element={<PostsList />}/>
-          <Route path=':categoryId' element={<PostsList />}/>
-          {/* <Route path=':postId' element={<SinglePostPage />}/> */}
-        </Route>
-
-        <Route path='todos'>
-          <Route index element={<TodosList />}/>
-        </Route>
-      </Route>
-
-      <Route path="*" element={<Navigate to='/' replace />} />
-    </Routes>
+    RoutesElement
   )
 }
 
