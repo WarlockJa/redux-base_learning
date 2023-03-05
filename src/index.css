@@ -78,6 +78,10 @@ button {
   cursor: pointer;
 }
 
+option {
+  text-align: start;
+}
+
 button, input, select, textarea {
   text-align: center;
   border-radius: 8px;

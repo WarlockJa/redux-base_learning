@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const Header = () => {
     return (
         <section className="header">
             <nav>
-                <Link to='/'>Home</Link>
-                <Link to='posts'>News</Link>
-                <Link to='todos'>Todos</Link>
+                <NavLink to='/'>Home</NavLink>
+                <NavLink to={'posts'}>News</NavLink>
+                <NavLink to='todos'>Todos</NavLink>
             </nav>
         </section>
     )

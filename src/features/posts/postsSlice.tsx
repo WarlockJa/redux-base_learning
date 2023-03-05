@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, nanoid, PayloadAction } from "@reduxjs/t
 import { RootState } from "../../app/store";
 import axios from 'axios'
 
+export type NYTimesSectionsType = 'arts' | 'automobiles' | 'books' | 'business' | 'fashion' | 'food' | 'health' | 'home' | 'insider' | 'magazine' | 'movies' | 'obituaries' | 'opinion' | 'science' | 'sports' | 'technology' | 'theater' | 'travel'; //'nyregion' = New York | 'politics' = U.S. Politics | 'realestate' = Real Estate| 'sundayreview' = Sunday Opinion | 't-magazine' = T Magazine | 'upshot' = The Upshot | 'us' = U.S. News | 'world' = World News
+
 export interface IMultimediaNYTimes {
     url: string;                        // url
     format: string;                     // some NYT format string
@@ -23,19 +25,27 @@ interface IPostNYTimes {
 }
 
 interface IAPIResponse {
+    section: NYTimesSectionsType;
     results: IPostNYTimes[];
 }
 
-interface IInitialState {
+interface ICategoryNYTimes {
+    categoryId: NYTimesSectionsType;
     posts: IPostNYTimes[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null
 }
 
-const initialState: IInitialState = {
-    posts: [],
-    status: 'idle',
-    error: null
+interface IState {
+    data: ICategoryNYTimes[];
+    currentCategory: NYTimesSectionsType | undefined;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed' | 'init';
+    error: string | null;
+}
+
+const initialState: IState = {
+    data: [],
+    currentCategory: undefined,
+    status: 'init',
+    error: null,
 }
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async ({ API_URL }: { API_URL: string }) => {
@@ -49,26 +59,40 @@ const postsSlice = createSlice({
     reducers: {
         changeStatusToIdle(state) {
             state.status = 'idle'
+        },
+        createCategory(state, action: PayloadAction<NYTimesSectionsType>) {
+            const categoryExists = state.data.filter(item => item.categoryId === action.payload)
+            if (categoryExists.length > 0) return
+            
+            // creating empty category if not found in the store
+            state.data.push({
+                categoryId: action.payload,
+                posts: [],
+            })
+        },
+        changeCurrentCategory(state, action: PayloadAction<NYTimesSectionsType>) {
+            state.currentCategory = action.payload
         }
     },
     extraReducers(builder) {
         builder
-            .addCase(fetchPosts.pending, (state, action) => {
+            .addCase(fetchPosts.pending, (state) => {
+                // const categoryIndex = state.data.findIndex(newsSection => newsSection.categoryId === action.payload)
                 state.status = 'loading'
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
+                const categoryIndex = state.data.findIndex(newsSection => newsSection.categoryId === action.payload.section.toLocaleLowerCase())
                 state.status = 'succeeded'
-                console.log(action.payload)
+
                 const loadedPosts = action.payload.results.map(post => {
                     post.id = nanoid()
                     return post
                 })
 
-                state.posts = state.posts.concat(loadedPosts)
+                state.data[categoryIndex].posts = state.data[categoryIndex].posts.concat(loadedPosts)
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed'
-                console.log(action.error)
                 state.error = action.error.message!
             })
     },
@@ -76,9 +100,14 @@ const postsSlice = createSlice({
 
 export const {
     changeStatusToIdle,
+    createCategory,
+    changeCurrentCategory
 } = postsSlice.actions
 
 export default postsSlice.reducer
 
 export const selectAllPosts = (state: RootState) => state.posts
-export const selectPostById = (state: RootState, postId: string) => state.posts.posts.find(post => post.id === postId)
+export const selectPostById = (state: RootState, categoryId: NYTimesSectionsType, postId: string) => {
+    const categoryIndex = state.posts.data.findIndex(newsSection => newsSection.categoryId === categoryId)
+    return state.posts.data[categoryIndex].posts.find(post => post.id === postId)
+}

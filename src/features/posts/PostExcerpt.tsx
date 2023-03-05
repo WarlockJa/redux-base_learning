@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
 import TimeAgo from '../../util/TimeAgo'
-import { selectPostById } from './postsSlice'
+import { NYTimesSectionsType, selectPostById } from './postsSlice'
 
-const PostExcerpt = ({ postId }: { postId: string}) => {
-    const post = useAppSelector(state => selectPostById(state, postId))
+const PostExcerpt = ({ category, postId }: { category: NYTimesSectionsType, postId: string}) => {
+    const post = useAppSelector(state => selectPostById(state, category, postId))
     if(!post) return (
         <li>
             <h3>No post found</h3>

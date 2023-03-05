@@ -60,6 +60,11 @@
     transition: 0s;
 }
 
+.active {
+    pointer-events: none;
+    color: var(--clr-font-main);
+}
+
 @keyframes rotate-logo {
     50% {
         transform: rotateZ(180deg) scale(1.1);
