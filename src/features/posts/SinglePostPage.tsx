@@ -3,13 +3,16 @@ import { Navigate, useParams } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import TimeAgo from "../../util/TimeAgo"
 import { IMultimediaNYTimes, selectPostById } from "./postsSlice"
+import { categoryList } from "./SelectCategory"
 
 const SinglePostPage = () => {
     const { postId, categoryId } = useParams()
 
-    console.log(postId, categoryId)
+    const categoryTypeExists = categoryList.find(item => item.id === categoryId)
 
-    const post = useAppSelector(state => selectPostById(state, categoryId, postId!))
+    let post
+    // check if category in url exists on the type NYTimesSectionsType
+    if(categoryTypeExists?.id) post = useAppSelector(state => selectPostById(state, categoryTypeExists.id, postId!))
 
     if(!post) return (<Navigate to='/posts' replace />)
     
