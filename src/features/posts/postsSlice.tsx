@@ -77,7 +77,6 @@ const postsSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(fetchPosts.pending, (state) => {
-                // const categoryIndex = state.data.findIndex(newsSection => newsSection.categoryId === action.payload)
                 state.status = 'loading'
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
