@@ -41,10 +41,6 @@ interface IState {
     error: string | null;
 }
 
-// const postsAdapter = createEntityAdapter<IPostNYTimes>({
-//     sortComparer: (a, b) => b.published_date.localeCompare(a.published_date)
-// })
-
 const initialState: IState = {
     data: [],
     currentCategory: undefined,
@@ -74,9 +70,19 @@ const postsSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
+                
+                // adding ids and sorting the result
+                const sortedPosts = action.payload.results.map(post => {
+                    return {
+                        ...post,
+                        id: nanoid(),
+                    }
+                }).sort((a,b) => b.published_date.localeCompare(a.published_date))
+
+                // adding fetched category to the store
                 state.data.push({
                     categoryId: action.payload.section.toLocaleLowerCase() as NYTimesSectionsType,
-                    posts: action.payload.results.sort((a,b) => b.published_date.localeCompare(a.published_date))
+                    posts: sortedPosts
                 })
 
                 state.status = 'succeeded'

@@ -55,6 +55,7 @@ const PostsList = () => {
     } else if(posts.status === 'succeeded') {
         const activeCategoryIndex = posts.data.findIndex(item => item.categoryId === posts.currentCategory)
         content = posts.data[activeCategoryIndex].posts.map(post => {
+            console.log(post)
             if(posts.currentCategory) return <PostExcerpt key={post.id} category={posts.currentCategory} postId={post.id} />
         })
     }
