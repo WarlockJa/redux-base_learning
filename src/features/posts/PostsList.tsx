@@ -1,6 +1,8 @@
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import ScrollToTopButton from "../../util/ScrollToTopButton"
+import Spinner from "../../util/Spinner"
 import PostExcerpt from "./PostExcerpt"
 import { changeCurrentCategory, changeStatusToIdle, fetchPosts, selectAllPosts } from "./postsSlice"
 import SelectCategory from "./SelectCategory"
@@ -49,7 +51,13 @@ const PostsList = () => {
     // forming content for the page
     let content
     if(posts.status === 'loading') {
-        content = <p>Loading...</p>
+        content = <>
+            <Spinner />
+            <Spinner />
+            <Spinner />
+            <Spinner />
+            <Spinner />
+        </>
     } else if(posts.status === 'failed') {
         content = <p>Error: {posts.error}</p>
     } else if(posts.status === 'succeeded') {
@@ -67,6 +75,7 @@ const PostsList = () => {
             <ul>
                 {content}
             </ul>
+            <ScrollToTopButton />
         </section>
     )
 }

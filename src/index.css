@@ -11,6 +11,7 @@
   --clr-link-hover: #535bf2;
   --clr-link-disabled: #535bf255;
   --clr-bg-modal: #0004;
+  --clr-spinner: white;
 
   --media-medium-size-threshold: 700px;
 
@@ -111,6 +112,7 @@ input:focus-visible {
     --clr-bg-main: #ffffff;
     --clr-button-bg: rgb(225, 225, 225);
     --clr-header-bg: #ffffff;
+    --clr-spinner: #232323;
   }
   a:hover {
     color: #747bff;

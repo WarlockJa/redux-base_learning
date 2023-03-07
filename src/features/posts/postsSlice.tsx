@@ -1,9 +1,8 @@
-import { createAsyncThunk, createEntityAdapter, createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createEntityAdapter, createSlice, EntityState, nanoid, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store";
 import axios from 'axios'
 
-export type NYTimesSectionsType = 'arts' | 'automobiles' | 'books' | 'business' | 'fashion' | 'food' | 'health' | 'home' | 'insider' | 'magazine' | 'movies' | 'obituaries' | 'opinion' | 'science' | 'sports' | 'technology' | 'theater' | 'travel'; //'nyregion' = New York | 'politics' = U.S. Politics | 'realestate' = Real Estate| 'sundayreview' = Sunday Opinion | 't-magazine' = T Magazine | 'upshot' = The Upshot | 'us' = U.S. News | 'world' = World News
-
+export type NYTimesSectionsType = 'arts' | 'automobiles' | 'books' | 'business' | 'fashion' | 'food' | 'health' | 'home' | 'insider' | 'magazine' | 'movies' | 'obituaries' | 'opinion' | 'science' | 'sports' | 'technology' | 'theater' | 'travel' | 'nyregion' | 'politics' | 'realestate' | 'sundayreview' | 't-magazine' | 'upshot' | 'us' | 'world'
 export interface IMultimediaNYTimes {
     url: string;                        // url
     format: string;                     // some NYT format string
@@ -41,6 +40,10 @@ interface IState {
     error: string | null;
 }
 
+const postsAdapter = createEntityAdapter<IPostNYTimes>({
+    sortComparer: (a, b) => b.published_date.localeCompare(a.published_date)
+})
+
 const initialState: IState = {
     data: [],
     currentCategory: undefined,
@@ -70,7 +73,6 @@ const postsSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
-                
                 // adding ids and sorting the result
                 const sortedPosts = action.payload.results.map(post => {
                     return {
@@ -81,7 +83,7 @@ const postsSlice = createSlice({
 
                 // adding fetched category to the store
                 state.data.push({
-                    categoryId: action.payload.section.toLocaleLowerCase() as NYTimesSectionsType,
+                    categoryId: state.currentCategory!,
                     posts: sortedPosts
                 })
 

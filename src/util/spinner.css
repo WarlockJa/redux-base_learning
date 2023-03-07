@@ -1,0 +1,232 @@
+.loading-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5em;
+    border: 1px solid var(--clr-spinner);
+    border-radius: 30px;
+}
+
+.spinner {
+    position: relative;
+    background-color: var(--clr-spinner);
+    width: 5em;
+    height: 5em;
+
+    border-radius: 50%;
+    animation: spinner-breath 10s infinite linear;
+}
+
+.spinner > * {
+    position: absolute;
+}
+
+.spinner__block-cover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    animation: cross-breath 1s infinite ease;
+}
+
+.outer-pommel {
+    width: 10%;
+    height: 10%;
+    border-radius: 50%;
+    background-color: var(--clr-spinner);
+}
+
+.spinner__pommel-top-left {
+    top: 4.7%;
+    left: 25%;
+    animation: spinner__pommel-top-left 1s ease infinite;
+}
+
+.spinner__pommel-top-right {
+    top: 4.7%;
+    right: 25%;
+    animation: spinner__pommel-top-right 1s ease infinite;
+}
+
+.spinner__pommel-bottom-left {
+    bottom: 4.7%;
+    left: 25%;
+    animation: spinner__pommel-bottom-left 1s ease infinite;
+}
+
+.spinner__pommel-bottom-right {
+    bottom: 4.7%;
+    right: 25%;
+    animation: spinner__pommel-bottom-right 1s ease infinite;
+}
+
+.spinner__pommel-left-left {
+    top: 64.7%;
+    left: 4.7%;
+    animation: spinner__pommel-left-left 1s ease infinite;
+}
+
+.spinner__pommel-left-right {
+    bottom: 64.7%;
+    left: 4.7%;
+    animation: spinner__pommel-left-right 1s ease infinite;
+}
+
+.spinner__pommel-right-left {
+    top: 64.7%;
+    right: 4.7%;
+    animation: spinner__pommel-right-left 1s ease infinite;
+}
+
+.spinner__pommel-right-right {
+    bottom: 64.7%;
+    right: 4.7%;
+    animation: spinner__pommel-right-right 1s ease infinite;
+}
+
+.spinner__inner-circle {
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+}
+
+@keyframes cross-breath {
+    0% {
+        clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    }
+    50% {
+        clip-path: polygon(27% 0, 0 27%, 30% 50%, 0 73%, 27% 100%, 50% 70%, 73% 100%, 100% 73%, 70% 50%, 100% 27%, 73% 0, 50% 30%);
+    }
+    100% {
+        clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+    }
+}
+
+@keyframes spinner-breath {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spinner__pommel-top-left {
+    0% {
+        top: 4.7%;
+        left: 25%;
+    }
+    50% {
+        top: 4%;
+        left: 27.5%;
+    }
+    100% {
+        top: 4.7%;
+        left: 25%;
+    }
+}
+
+@keyframes spinner__pommel-top-right {
+    0% {
+        top: 4.7%;
+        right: 25%;
+    }
+    50% {
+        top: 4%;
+        right: 27.5%;
+    }
+    100% {
+        top: 4.7%;
+        right: 25%;
+    }
+}
+
+@keyframes spinner__pommel-bottom-left {
+    0% {
+        bottom: 4.7%;
+        left: 25%;
+    }
+    50% {
+        bottom: 4%;
+        left: 27.5%;
+    }
+    100% {
+        bottom: 4.7%;
+        left: 25%;
+    }
+}
+
+@keyframes spinner__pommel-bottom-right {
+    0% {
+        bottom: 4.7%;
+        right: 25%;
+    }
+    50% {
+        bottom: 4%;
+        right: 27.5%;
+    }
+    100% {
+        bottom: 4.7%;
+        right: 25%;
+    }
+}
+
+@keyframes spinner__pommel-left-left {
+    0% {
+        top: 64.7%;
+        left: 4.7%;
+    }
+    50% {
+        top: 62.5%;
+        left: 4%;
+    }
+    100% {
+        top: 64.7%;
+        left: 4.7%;
+    }
+}
+
+@keyframes spinner__pommel-left-right {
+    0% {
+        bottom: 64.7%;
+        left: 4.7%;
+    }
+    50% {
+        bottom: 62.5%;
+        left: 4%;
+    }
+    100% {
+        bottom: 64.7%;
+        left: 4.7%;
+    }
+}
+
+@keyframes spinner__pommel-right-left {
+    0% {
+        top: 64.7%;
+        right: 4.7%;
+    }
+    50% {
+        top: 62.5%;
+        right: 4%;
+    }
+    100% {
+        top: 64.7%;
+        right: 4.7%;
+    }
+}
+
+@keyframes spinner__pommel-right-right {
+    0% {
+        bottom: 64.7%;
+        right: 4.7%;
+    }
+    50% {
+        bottom: 62.5%;
+        right: 4%;
+    }
+    100% {
+        bottom: 64.7%;
+        right: 4.7%;
+    }
+}

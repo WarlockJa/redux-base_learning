@@ -25,14 +25,14 @@ export const categoryList: ICategoryList[] = [
     { name: 'Technology', id: 'technology' },
     { name: 'Theater', id: 'theater' },
     { name: 'Travel', id: 'travel' },
-    // { name: 'New York', id: 'nyregion' },
-    // { name: 'U.S. Politics', id: 'politics' },
-    // { name: 'Real Estate', id: 'realestate' },
-    // { name: 'Sunday Opinion', id: 'sundayreview' },
-    // { name: 'T Magazine', id: 't-magazine' },
-    // { name: 'The Upshot', id: 'upshot' },
-    // { name: 'U.S. News', id: 'us' },
-    // { name: 'World News', id: 'world' },
+    { name: 'New York', id: 'nyregion' },
+    { name: 'U.S. Politics', id: 'politics' },
+    { name: 'Real Estate', id: 'realestate' },
+    { name: 'Sunday Opinion', id: 'sundayreview' },
+    { name: 'T Magazine', id: 't-magazine' },
+    { name: 'The Upshot', id: 'upshot' },
+    { name: 'U.S. News', id: 'us' },
+    { name: 'World News', id: 'world' },
 ]
 
 const findOptionId = (value: string) => {

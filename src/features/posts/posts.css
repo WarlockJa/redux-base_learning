@@ -54,3 +54,9 @@
     height: 100%;
     object-fit: contain;
 }
+
+.scrollToTop-button {
+    position: fixed;
+    bottom: 1%;
+    right: 10%;
+}
