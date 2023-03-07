@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import PostExcerpt from "./PostExcerpt"
-import { changeCurrentCategory, changeStatusToIdle, createCategory, fetchPosts, selectAllPosts } from "./postsSlice"
+import { changeCurrentCategory, changeStatusToIdle, fetchPosts, selectAllPosts } from "./postsSlice"
 import SelectCategory from "./SelectCategory"
 import { categoryList } from "./SelectCategory"
 
@@ -25,8 +25,6 @@ const PostsList = () => {
             const activeCategoryIndex = posts.data.findIndex(item => item.categoryId === categoryTypeExists.id)
             // category not found
             if(activeCategoryIndex === -1) {
-                // creating category in the store
-                dispatch(createCategory(categoryTypeExists.id))
                 // initiating data fetch
                 dispatch(changeStatusToIdle())
             }

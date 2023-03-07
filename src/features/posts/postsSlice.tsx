@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createEntityAdapter, createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store";
 import axios from 'axios'
 
@@ -41,6 +41,10 @@ interface IState {
     error: string | null;
 }
 
+// const postsAdapter = createEntityAdapter<IPostNYTimes>({
+//     sortComparer: (a, b) => b.published_date.localeCompare(a.published_date)
+// })
+
 const initialState: IState = {
     data: [],
     currentCategory: undefined,
@@ -60,16 +64,6 @@ const postsSlice = createSlice({
         changeStatusToIdle(state) {
             state.status = 'idle'
         },
-        createCategory(state, action: PayloadAction<NYTimesSectionsType>) {
-            const categoryExists = state.data.filter(item => item.categoryId === action.payload)
-            if (categoryExists.length > 0) return
-            
-            // creating empty category if not found in the store
-            state.data.push({
-                categoryId: action.payload,
-                posts: [],
-            })
-        },
         changeCurrentCategory(state, action: PayloadAction<NYTimesSectionsType>) {
             state.currentCategory = action.payload
         }
@@ -80,15 +74,12 @@ const postsSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IAPIResponse>) => {
-                const categoryIndex = state.data.findIndex(newsSection => newsSection.categoryId === action.payload.section.toLocaleLowerCase())
-                state.status = 'succeeded'
-
-                const loadedPosts = action.payload.results.map(post => {
-                    post.id = nanoid()
-                    return post
+                state.data.push({
+                    categoryId: action.payload.section.toLocaleLowerCase() as NYTimesSectionsType,
+                    posts: action.payload.results.sort((a,b) => b.published_date.localeCompare(a.published_date))
                 })
 
-                state.data[categoryIndex].posts = state.data[categoryIndex].posts.concat(loadedPosts)
+                state.status = 'succeeded'
             })
             .addCase(fetchPosts.rejected, (state, action) => {
                 state.status = 'failed'
@@ -99,7 +90,6 @@ const postsSlice = createSlice({
 
 export const {
     changeStatusToIdle,
-    createCategory,
     changeCurrentCategory
 } = postsSlice.actions
 
