@@ -2,13 +2,6 @@ import Spinner from "../../util/Spinner"
 import { useGetTodosQuery } from "../api/apiSlice"
 import AddTodo from "./AddTodo"
 
-export interface ITodo {
-    userId: number;
-    id: number;
-    title: string;
-    completed: boolean;
-}
-
 const TodosList = () => {
     const {
         data: todos,
@@ -28,7 +21,7 @@ const TodosList = () => {
             <Spinner />
         </>
     } else if (isError) {
-        content = <p>{error.toString()}</p>
+        content = <p>{JSON.stringify(error)}</p>
     } else if (isSuccess) {
         content = todos.map(todo => 
             <li key={todo.id}>
