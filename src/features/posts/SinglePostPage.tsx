@@ -38,10 +38,10 @@ const Multimedia = ({ multimediaItem, largeImage }: { multimediaItem: IMultimedi
     const [showLarge, setShowLarge] = useState(false)
     return (
         <div className="postMultimedia">
-            <img onClick={() => setShowLarge(true)} src={multimediaItem.url} alt="icon" />
+            <img className="buttonLike" onClick={() => setShowLarge(true)} src={multimediaItem.url} alt="icon" />
             {showLarge &&
                 <div onClick={() => setShowLarge(false)} className="modalImage">
-                    <img src={largeImage} alt='large' />
+                    <img className="buttonLike" src={largeImage} alt='large' />
                 </div>
             }
             <div>

@@ -3,31 +3,31 @@ import { useState } from "react"
 import { useAppDispatch } from "../../app/hooks"
 import { addTodo } from "./todosSlice"
 
-const AddTodo = () => {
+const AddTodo = ({ visibility }: { visibility: boolean }) => {
     const [title, setTitle] = useState('')
 
     const dispatch = useAppDispatch()
 
     const handleSubmit = () => {
-        if(title) {
-            dispatch(addTodo({
-                id: nanoid(),
-                title: title,
-                userId: 1,
-                completed: false
-            }))
+        // if(title) {
+        //     dispatch(addTodo({
+        //         id: nanoid(),
+        //         title: title,
+        //         userId: 1,
+        //         completed: false
+        //     }))
 
-            setTitle('')
-        }
+        //     setTitle('')
+        // }
     }
 
     return (
-        <section>
+        <section className="addTodo" visible={visibility ? 1 : 0}>
             <form>
                 <h3>Add Todo</h3>
-                <label htmlFor="todoTitle">Todo title</label>
+                <label htmlFor="addTodo__todoTitle">Todo title</label>
                 <input
-                    id="todoTitle"
+                    id="addTodo__todoTitle"
                     type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}

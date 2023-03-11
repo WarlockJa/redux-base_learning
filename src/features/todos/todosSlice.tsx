@@ -5,6 +5,11 @@ export interface ITodo {
     userId: number;
     title: string;
     completed: boolean;
+    description: string;
+    date_created: string;
+    date_due: string;
+    reminder: boolean;
+    reminder_interval: number;
 }
 
 const initialState: ITodo[] = []

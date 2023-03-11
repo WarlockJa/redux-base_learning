@@ -12,6 +12,8 @@
   --clr-link-disabled: #535bf255;
   --clr-bg-modal: #0004;
   --clr-spinner: white;
+  --clr-positive: rgb(63, 122, 63);
+  --clr-negative: crimson;
 
   --media-medium-size-threshold: 700px;
 
@@ -83,7 +85,7 @@ option {
   text-align: start;
 }
 
-button, input, select, textarea, img {
+button, input, select, textarea, .buttonLike {
   text-align: center;
   border-radius: 8px;
   border: 1px solid transparent;
