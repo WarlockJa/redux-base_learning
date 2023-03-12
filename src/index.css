@@ -14,6 +14,7 @@
   --clr-spinner: white;
   --clr-positive: rgb(63, 122, 63);
   --clr-negative: crimson;
+  --clr-font-disabled: #666;
 
   --media-medium-size-threshold: 700px;
 
@@ -85,7 +86,7 @@ option {
   text-align: start;
 }
 
-button, input, select, textarea, .buttonLike {
+button, input, select, textarea, .buttonLike, .react-datetime-picker {
   text-align: center;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -98,7 +99,7 @@ button, input, select, textarea, .buttonLike {
 button, input, select, textarea {
   padding: 0.6em 1.2em;
 }
-button:hover, input:hover, img:hover {
+button:hover, input:hover, img:hover, textarea:hover {
   border-color: #646cff;
 }
 button:focus,
@@ -115,6 +116,7 @@ input:focus-visible {
     --clr-button-bg: rgb(225, 225, 225);
     --clr-header-bg: #ffffff;
     --clr-spinner: #232323;
+    --clr-font-disabled: #6664;
   }
   a:hover {
     color: #747bff;

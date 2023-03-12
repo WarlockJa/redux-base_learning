@@ -46,9 +46,7 @@ const TodosList = () => {
 
     return (
         <section className="todos">
-            {/* <h2>Todos <span onClick={() => setAddTodoMenuVisible((prev) => !prev)}><img className="todos__button--addTodo" src={AddTodoIcon2} alt="show add todo menu"/></span></h2> */}
             <h2>Todos <span><AddTodoIcon onClick={() => setAddTodoMenuVisible((prev) => !prev)} className='todos__button--addTodo' /></span></h2>
-            {/* <img onClick={() => setAddTodoMenuVisible((prev) => !prev)} className="todos__button--addTodo" src={AddTodoIcon} alt="show add todo menu"/> */}
             <AddTodo visibility={addTodoMenuVisible} />
             <ul className='test' visible={addTodoMenuVisible ? 1 : 0}>
                 {content}
