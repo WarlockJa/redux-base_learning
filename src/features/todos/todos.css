@@ -1,7 +1,6 @@
 .todos__button--addTodo {
     background: transparent;
     stroke: none;
-    fill: var(--clr-positive);
     width: 1.2rem;
     height: 1.2rem;
 }
@@ -61,22 +60,24 @@
     cursor: pointer;
 }
 
-.test[visible='1'] {
+.todos__contentContainer[visible='1'] {
     transition: transform 300ms ease;
+    transform: translateY(24em);
 }
-.test[visible='0'] {
+.todos__contentContainer[visible='0'] {
     transition: transform 500ms ease;
-    transform: translateY(-13em);
 }
 
 /* add todo */
-.addTodo {
+.todos__addTodo--wrapper {
     transition: transform 400ms ease;
     transform-origin: left top;
+    transform: rotateX(90deg);
 }
 
-.addTodo[visible='0'] {
-    transform: rotateX(90deg);
+.todos__addTodo--wrapper[visible='1'] {
+    transform: rotateX(0deg);
+    /* max-height: 0; */
 }
 
 .addTodo__dueDate {
@@ -88,7 +89,6 @@
 .react-datetime-picker {
     display: inherit;
     padding: 0.2em;
-    /* background-color: #fff3; */
 }
 
 @media screen and (width < 700px) {

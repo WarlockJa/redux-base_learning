@@ -43,7 +43,8 @@
   background: none;
 }
 .react-calendar__navigation button:disabled {
-  background-color: var(--clr-bg-main); /* #f0f0f0; */
+  background-color: var(--clr-bg-main)!important;
+  color: var(--clr-font-disabled);
 }
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
@@ -84,7 +85,7 @@
   line-height: 16px;
 }
 .react-calendar__tile:disabled {
-  background-color: var(--clr-bg-main);
+  background-color: var(--clr-bg-main)!important;
   cursor: default;
 }
 .react-calendar__tile:disabled > * {

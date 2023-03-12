@@ -1,38 +1,51 @@
-import { nanoid } from "@reduxjs/toolkit"
-import { useState } from "react"
-import { useAppDispatch } from "../../app/hooks"
-import { addTodo } from "./todosSlice"
-import DateTimePicker from 'react-datetime-picker'
 import './datetimepicker.css';
 import './calendar.css';
+import { nanoid } from "@reduxjs/toolkit"
+import { useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+// import { addTodo } from "./todosSlice"
+import DateTimePicker from 'react-datetime-picker'
+import { useAddTodoMutation } from "../api/apiSlice"
+import { selectAddTodoState, switchAddTodo } from './todosSlice';
 
-const AddTodo = ({ visibility }: { visibility: boolean }) => {
+const AddTodo = () => {
     const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
     const [dueDate, setDueDate] = useState(new Date())
     const [reminder, setReminder] = useState(false)
 
+    // redux store state for the addTodo menu
+    // const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
+    // RTK Query method for posting new todo
+    const [addTodo, { isLoading }] = useAddTodoMutation()
 
-    const handleSubmit = () => {
-        // if(title) {
-        //     dispatch(addTodo({
-        //         id: nanoid(),
-        //         title: title,
-        //         userId: 1,
-        //         completed: false
-        //     }))
+    const canSave = [title].every(Boolean) && !isLoading
 
-        //     setTitle('')
-        // }
+    const handleSubmit = async () => {
+        if(canSave) {
+            try {
+                await addTodo({ userid: 1, title, description, reminder, date_due: dueDate.getTime().toString() }).unwrap()
+                setTitle('')
+                setDescription('')
+                setDueDate(new Date())
+                setReminder(false)
+                dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
+            } catch (error) {
+                console.error('Failed to save the post: ', error)
+            }
+        }
     }
 
     return (
-        <section className="addTodo" visible={visibility ? 1 : 0}>
+        <section className="addTodo">
+        {/* <section className="addTodo" visible={visibility ? 1 : 0}> */}
             <form>
                 <h3>Add Todo</h3>
                 <label htmlFor="addTodo__todoTitle">Todo Title</label>
                 <input
                     id="addTodo__todoTitle"
+                    className={title ? '' : 'invalid'}
                     type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -43,13 +56,15 @@ const AddTodo = ({ visibility }: { visibility: boolean }) => {
                     id="addTodo__todoDescription"
                     rows={5}
                     maxLength={500}
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
                 ></textarea>
                 <div className="addTodo__dueDate">
                     <div className="addTodo__dueDate--reminderBlock">
                         <label htmlFor="addTodo__dueDate--reminderCheckBox">Set reminder</label>
                         <input value={reminder ? "on" : "unchecked"} onChange={() => setReminder((prev) => !prev)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
                     </div>
-                    <label>Select due date</label>
+                    <label>Select date</label>
                     <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date()} />
                 </div>
                 <button type="button" onClick={handleSubmit}>Add Todo</button>

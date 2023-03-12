@@ -10,7 +10,7 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
         <li className='todoItem'>
             <div className="todoItem__body">
                 <h2>{todo.title}</h2>
-                <p>{todo.description} Lupus Orifus doctorus Housus never admittus. Everybodious lieius except for me, who always straightforwardius and honestius . Everybodious lieius except for me, who always straightforwardius and honestius . Everybodious lieius except for me, who always straightforwardius and honestius . Everybodious lieius except for me, who always straightforwardius and honestius . Everybodious lieius except for me, who always straightforwardius and honestius . Everybodious lieius except for me, who always straightforwardius and honestius </p>
+                <p>{todo.description}</p>
             </div>
             <div className="todoItem__completedState faIcon-container">
                 {todo.completed

@@ -65,6 +65,22 @@
     color: var(--clr-font-main);
 }
 
+.invalid {
+    border: 1px solid red;
+}
+
+.svg-positive {
+    fill: var(--clr-positive);
+}
+
+.svg-negative {
+    fill: var(--clr-negative);
+}
+
+.translucent {
+    opacity: 0.6;
+}
+
 @keyframes rotate-logo {
     50% {
         transform: rotateZ(180deg) scale(1.1);

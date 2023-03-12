@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
+import { RootState } from "../../app/store";
 
 export interface ITodo {
     id: string;
@@ -9,23 +10,41 @@ export interface ITodo {
     date_created: string;
     date_due: string;
     reminder: boolean;
-    reminder_interval: number;
+    // reminder_interval: number;
 }
 
-const initialState: ITodo[] = []
+export interface IPostTodo {
+    userid: number;
+    title: string;
+    description: string;
+    date_due: string;
+    reminder: boolean;
+}
+
+interface ITodoMenu {
+    addTodoMenuState: boolean;
+}
+
+const initialState: ITodoMenu = { addTodoMenuState: false }
 
 const todosSlice = createSlice({
     name: 'todos',
     initialState: initialState,
     reducers: {
-        addTodo: (state, action: PayloadAction<ITodo>) => {
-            state.push(action.payload)
+        switchAddTodo: (state) => {
+            state.addTodoMenuState = !state.addTodoMenuState
         }
+        // addTodo: (state, action: PayloadAction<ITodo>) => {
+        //     state.push(action.payload)
+        // }
     }
 })
 
 export const {
-    addTodo
+    // addTodo
+    switchAddTodo
 } = todosSlice.actions
 
 export default todosSlice.reducer
+
+export const selectAddTodoState = (state: RootState) => state.todos.addTodoMenuState
