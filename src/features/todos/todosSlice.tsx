@@ -17,7 +17,7 @@ export interface IPostTodo {
     userid: number;
     title: string;
     description: string;
-    date_due: string;
+    date_due: Date;
     reminder: boolean;
 }
 
@@ -34,9 +34,6 @@ const todosSlice = createSlice({
         switchAddTodo: (state) => {
             state.addTodoMenuState = !state.addTodoMenuState
         }
-        // addTodo: (state, action: PayloadAction<ITodo>) => {
-        //     state.push(action.payload)
-        // }
     }
 })
 

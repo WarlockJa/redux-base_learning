@@ -1,12 +1,10 @@
 import './datetimepicker.css';
 import './calendar.css';
-import { nanoid } from "@reduxjs/toolkit"
 import { useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-// import { addTodo } from "./todosSlice"
+import { useAppDispatch } from "../../app/hooks"
 import DateTimePicker from 'react-datetime-picker'
 import { useAddTodoMutation } from "../api/apiSlice"
-import { selectAddTodoState, switchAddTodo } from './todosSlice';
+import { switchAddTodo } from './todosSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')
@@ -25,7 +23,7 @@ const AddTodo = () => {
     const handleSubmit = async () => {
         if(canSave) {
             try {
-                await addTodo({ userid: 1, title, description, reminder, date_due: dueDate.getTime().toString() }).unwrap()
+                await addTodo({ userid: 1, title, description, reminder, date_due: dueDate }).unwrap()
                 setTitle('')
                 setDescription('')
                 setDueDate(new Date())

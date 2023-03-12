@@ -5,6 +5,7 @@
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
+  height: 272px;
 }
 .react-calendar--doubleView {
   width: 700px;
@@ -96,11 +97,11 @@
   background-color: #e6e6e6;
 }
 .react-calendar__tile--now {
-  background: var(--clr-positive);
+  background: var(--clr-positive)!important;
 }
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
+  background: var(--clr-positive);
 }
 .react-calendar__tile--hasActive {
   background: #76baff;
