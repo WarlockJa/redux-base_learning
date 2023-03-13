@@ -5,6 +5,8 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { formatRelative } from "date-fns"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorPlug from "../../util/ErrorPlug"
+import { useDeleteTodoMutation } from "../api/apiSlice"
+import classNames from "classnames"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -18,8 +20,18 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
 }
 
 const TodoItemContent = ({ todo }: { todo: ITodo }) => {
+    const [deleteTodo, { isLoading }] = useDeleteTodoMutation()
+
+    const handleDeleteTodo = async () => {
+        try {
+            await deleteTodo(todo.id).unwrap()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
-        <li className='todoItem'>
+        <li className={classNames('todoItem', { translucent: isLoading })}>
             <div className="todoItem__body">
                 <h2>{todo.title}</h2>
                 <p>{todo.description}</p>
@@ -47,7 +59,10 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     <label htmlFor="todoItem__footer--reminder">Set reminder</label>
                 </div>
             </div>
-            <div className="todoItem__delete faIcon-container">
+            <div
+                className="todoItem__delete faIcon-container"
+                onClick={handleDeleteTodo}
+            >
                 <FontAwesomeIcon icon={faTrash as IconProp} />
             </div>
         </li>

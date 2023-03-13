@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store";
 
 export interface ITodo {
-    id: string;
+    id: number;
     userId: number;
     title: string;
     completed: boolean;

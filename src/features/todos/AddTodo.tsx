@@ -16,7 +16,7 @@ const AddTodo = () => {
     // const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
     // RTK Query method for posting new todo
-    const [addTodo, { isLoading }] = useAddTodoMutation()
+    const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 
     const canSave = [title].every(Boolean) && !isLoading
 
@@ -30,10 +30,17 @@ const AddTodo = () => {
                 setReminder(false)
                 dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
             } catch (error) {
-                console.error('Failed to save the post: ', error)
+                dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
+                console.log(error)
             }
         }
     }
+    
+    if(isError) return (
+        <section className='addTodo'>
+            <p>{`Failed to save the post: ${error}`}</p>
+        </section>
+    )
 
     return (
         <section className="addTodo">

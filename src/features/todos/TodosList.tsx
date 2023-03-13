@@ -43,7 +43,7 @@ const TodosList = () => {
             <Spinner embed={false} height='12em' width="100%"/>
         </>
     } else if (isError) {
-        content = <p>{JSON.stringify(error)}</p>
+        content = <pre>{JSON.stringify(error)}</pre>
     } else if (isSuccess) {
         if(sortedTodos) {
             const renderedTodos = sortedTodos.map(todo => 
