@@ -3,12 +3,22 @@ import { RootState } from "../../app/store";
 
 export interface ITodo {
     id: number;
-    userId: number;
+    userid: number;
     title: string;
     completed: boolean;
     description: string;
     date_created: string;
-    date_due: string;
+    date_due: Date;
+    reminder: boolean;
+}
+
+export interface IUpdateTodo {
+    id: number;
+    userid: number;
+    title: string;
+    completed: boolean;
+    description: string;
+    date_due: Date;
     reminder: boolean;
 }
 

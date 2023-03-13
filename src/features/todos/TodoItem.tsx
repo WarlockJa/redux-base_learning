@@ -5,8 +5,9 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { formatRelative } from "date-fns"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorPlug from "../../util/ErrorPlug"
-import { useDeleteTodoMutation } from "../api/apiSlice"
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "../api/apiSlice"
 import classNames from "classnames"
+import { useEffect, useState } from "react"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -21,6 +22,14 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
 
 const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [deleteTodo, { isLoading }] = useDeleteTodoMutation()
+    const [updateTodo, { isLoading: isUpdating }] = useUpdateTodoMutation()
+
+    const [todoHasChanges, setTodoHasChanges] = useState(false)
+    const [completed, setCompleted] = useState(todo.completed)
+    const [title, setTitle] = useState(todo.title)
+    const [description, setDescription] = useState(todo.description)
+    const [reminder, setReminded] = useState(todo.reminder)
+    const [dueDate, setDueDate] = useState(todo.date_due)
 
     const handleDeleteTodo = async () => {
         try {
@@ -30,17 +39,44 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
         }
     }
 
+    const handleUpdateTodo = async () => {
+        try {
+            await updateTodo({ id: todo.id, userid: 1, title, description, completed, reminder, date_due: dueDate })
+            setTodoHasChanges(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect (() => {
+        todo.completed === completed
+            ? todo.title === title
+                ? todo.description === description
+                    ? todo.reminder === reminder
+                        ? todo.date_due === dueDate
+                            ? setTodoHasChanges(false)
+                            : setTodoHasChanges(true)
+                        : setTodoHasChanges(true)
+                    : setTodoHasChanges(true)
+                : setTodoHasChanges(true)
+            : setTodoHasChanges(true)
+    },[completed, dueDate, reminder, title, description])
+
     return (
-        <li className={classNames('todoItem', { translucent: isLoading })}>
+        <li className={classNames('todoItem', { translucent: isLoading || isUpdating })}>
             <div className="todoItem__body">
                 <h2>{todo.title}</h2>
                 <p>{todo.description}</p>
             </div>
-            <div className="todoItem__completedState faIcon-container">
-                {todo.completed
+            <div
+                className="todoItem__completedState faIcon-container"
+                onClick={() => setCompleted(prev => !prev)}
+            >
+                {completed
                     ? <FontAwesomeIcon icon={faCheck as IconProp} />
                     : <FontAwesomeIcon icon={faMinusCircle as IconProp} />
                 }
+                {todoHasChanges && <button onClick={() => handleUpdateTodo()}>Update</button>}
             </div>
             <div className="todoItem__footer">
                 <div className="todoItem__footer--dateCreated">
@@ -50,7 +86,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 <div className="todoItem__footer--dateDue">
                     <p>due</p>
                     {todo.date_due
-                        ? <p>{formatRelative(Date.parse(todo.date_due), new Date())}</p>
+                        ? <p>{formatRelative(Date.parse(todo.date_due.toString()), new Date())}</p>
                         : <p>Set due date</p>
                     }
                 </div>
