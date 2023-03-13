@@ -3,6 +3,7 @@ import { RootState } from "../../app/store";
 import axios from 'axios'
 
 export type NYTimesSectionsType = 'arts' | 'automobiles' | 'books' | 'business' | 'fashion' | 'food' | 'health' | 'home' | 'insider' | 'magazine' | 'movies' | 'obituaries' | 'opinion' | 'science' | 'sports' | 'technology' | 'theater' | 'travel' | 'nyregion' | 'politics' | 'realestate' | 'sundayreview' | 't-magazine' | 'upshot' | 'us' | 'world'
+
 export interface IMultimediaNYTimes {
     url: string;                        // url
     format: string;                     // some NYT format string

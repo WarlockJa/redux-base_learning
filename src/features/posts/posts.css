@@ -29,8 +29,8 @@
 }
 
 .postMultimedia {
-    display: flex;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
 }
 
 .postMultimedia > div > p {
@@ -46,7 +46,6 @@
     background-color: var(--clr-bg-modal);
 
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 

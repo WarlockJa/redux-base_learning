@@ -52,18 +52,17 @@ const PostsList = () => {
     let content
     if(posts.status === 'loading') {
         content = <>
-            <Spinner />
-            <Spinner />
-            <Spinner />
-            <Spinner />
-            <Spinner />
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
         </>
     } else if(posts.status === 'failed') {
         content = <p>Error: {posts.error}</p>
     } else if(posts.status === 'succeeded') {
         const activeCategoryIndex = posts.data.findIndex(item => item.categoryId === posts.currentCategory)
         content = posts.data[activeCategoryIndex].posts.map(post => {
-            console.log(post)
             if(posts.currentCategory) return <PostExcerpt key={post.id} category={posts.currentCategory} postId={post.id} />
         })
     }

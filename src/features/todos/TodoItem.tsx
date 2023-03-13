@@ -3,9 +3,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faCheck, faMinusCircle } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { formatRelative } from "date-fns"
+import { ErrorBoundary } from "react-error-boundary"
+import ErrorPlug from "../../util/ErrorPlug"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
+    return (
+        <ErrorBoundary
+            FallbackComponent={ErrorPlug}
+        >
+            <TodoItemContent todo={todo} />
+        </ErrorBoundary>
+    )
+}
+
+const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     return (
         <li className='todoItem'>
             <div className="todoItem__body">

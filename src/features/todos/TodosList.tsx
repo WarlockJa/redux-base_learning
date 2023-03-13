@@ -37,10 +37,10 @@ const TodosList = () => {
     let containerClassname
     if(isLoading) {
         content = <>
-            <Spinner />
-            <Spinner />
-            <Spinner />
-            <Spinner />
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='12em' width="100%"/>
         </>
     } else if (isError) {
         content = <p>{JSON.stringify(error)}</p>

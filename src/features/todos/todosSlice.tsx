@@ -10,7 +10,6 @@ export interface ITodo {
     date_created: string;
     date_due: string;
     reminder: boolean;
-    // reminder_interval: number;
 }
 
 export interface IPostTodo {
@@ -38,7 +37,6 @@ const todosSlice = createSlice({
 })
 
 export const {
-    // addTodo
     switchAddTodo
 } = todosSlice.actions
 

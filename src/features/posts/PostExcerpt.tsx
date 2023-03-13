@@ -1,9 +1,21 @@
+import { ErrorBoundary } from 'react-error-boundary'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from '../../app/hooks'
+import ErrorPlug from '../../util/ErrorPlug'
 import TimeAgo from '../../util/TimeAgo'
 import { NYTimesSectionsType, selectPostById } from './postsSlice'
 
 const PostExcerpt = ({ category, postId }: { category: NYTimesSectionsType, postId: string}) => {
+    return (
+        <ErrorBoundary
+            FallbackComponent={ErrorPlug}
+        >
+            <Post category={category} postId={postId} />
+        </ErrorBoundary>
+    )
+}
+
+const Post = ({ category, postId }: { category: NYTimesSectionsType, postId: string}) => {
     const post = useAppSelector(state => selectPostById(state, category, postId))
     if(!post) return (
         <li>
@@ -12,7 +24,7 @@ const PostExcerpt = ({ category, postId }: { category: NYTimesSectionsType, post
     )
 
     const shortenedDescription = post.abstract.length < 70 ? post.abstract : post.abstract.substring(0, 70).concat('...')
-
+    
     return (
         <li
             key={post.id}
