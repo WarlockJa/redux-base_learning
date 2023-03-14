@@ -8,6 +8,7 @@ import ErrorPlug from "../../util/ErrorPlug"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "../api/apiSlice"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
+import DateTimePicker from "react-datetime-picker"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -28,7 +29,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [completed, setCompleted] = useState(todo.completed)
     const [title, setTitle] = useState(todo.title)
     const [description, setDescription] = useState(todo.description)
-    const [reminder, setReminded] = useState(todo.reminder)
+    const [reminder, setReminder] = useState(todo.reminder)
     const [dueDate, setDueDate] = useState(todo.date_due)
 
     const handleDeleteTodo = async () => {
@@ -78,23 +79,19 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 }
                 {todoHasChanges && <button onClick={() => handleUpdateTodo()}>Update</button>}
             </div>
-            <div className="todoItem__footer">
+            {/* <div className="todoItem__footer"> */}
+                <div className="todoItem__footer--setReminder">
+                    <div>
+                        <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder} onChange={() => setReminder(prev => !prev)} />
+                        <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
+                    </div>
+                    <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date()} />
+                </div>
                 <div className="todoItem__footer--dateCreated">
                     <p>created</p>
                     <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p>
                 </div>
-                <div className="todoItem__footer--dateDue">
-                    <p>due</p>
-                    {todo.date_due
-                        ? <p>{formatRelative(Date.parse(todo.date_due.toString()), new Date())}</p>
-                        : <p>Set due date</p>
-                    }
-                </div>
-                <div className="todoItem__footer--setReminder">
-                    <input type="checkbox" id="todoItem__footer--reminder" disabled={todo.date_due ? false : true} />
-                    <label htmlFor="todoItem__footer--reminder">Set reminder</label>
-                </div>
-            </div>
+            {/* </div> */}
             <div
                 className="todoItem__delete faIcon-container"
                 onClick={handleDeleteTodo}

@@ -67,7 +67,7 @@ const AddTodo = () => {
                 <div className="addTodo__dueDate">
                     <div className="addTodo__dueDate--reminderBlock">
                         <label htmlFor="addTodo__dueDate--reminderCheckBox">Set reminder</label>
-                        <input value={reminder ? "on" : "unchecked"} onChange={() => setReminder((prev) => !prev)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
+                        <input checked={reminder} onChange={() => setReminder((prev) => !prev)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
                     </div>
                     <label>Select date</label>
                     <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date()} />

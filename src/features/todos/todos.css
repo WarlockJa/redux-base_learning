@@ -30,8 +30,8 @@
 }
 
 .todoItem__footer {
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
+    /* grid-row: 2 / 3;
+    grid-column: 1 / 2; */
 
     display: flex;
     align-items: center;
@@ -43,6 +43,10 @@
     border-radius: 20px;
 }
 
+.todoItem__footer--dateCreated {
+    grid-row: 3 / 4;
+}
+
 .todoItem__footer--dateCreated,
 .todoItem__footer--dateDue {
     padding: 0 1em;
@@ -50,10 +54,12 @@
 
 .todoItem__footer--setReminder {
     padding: 1em;
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
 }
 
 .todoItem__delete {
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
     grid-column: 2 / 3;
     font-size: 1.5rem;
 }
@@ -65,7 +71,6 @@
 
 .todos__contentContainer[visible='1'] {
     transition: transform 300ms ease;
-    transform: translateY(24em);
 }
 .todos__contentContainer[visible='0'] {
     transition: transform 500ms ease;
@@ -98,5 +103,10 @@
 
     .addTodo__dueDate {
         flex-direction: column;
+    }
+
+    .todoItem__footer {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

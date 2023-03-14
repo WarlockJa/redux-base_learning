@@ -4,7 +4,7 @@ import Spinner from "../../util/Spinner"
 import { useGetTodosQuery } from "../api/apiSlice"
 import AddTodo from "./AddTodo"
 import TodoItem from "./TodoItem"
-import { useMemo } from "react"
+import { useLayoutEffect, useMemo, useRef, useState } from "react"
 import ScrollToTopButton from '../../util/ScrollToTopButton'
 import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -14,6 +14,16 @@ const TodosList = () => {
     // redux store for addTodo menu state
     const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
+
+    // addTodoMenu ref
+    const addTodoRef = useRef<HTMLDivElement>(null)
+    const [todoMenuHeight, setTodoMenuHeight] = useState(0)
+
+    useLayoutEffect(() => {
+        addTodoMenuState
+            ? setTodoMenuHeight(addTodoRef.current!.children[0].clientHeight)
+            : setTodoMenuHeight(0)
+    },[addTodoMenuState])
 
     // RTK Query states for data fetching
     const {
@@ -51,7 +61,7 @@ const TodosList = () => {
             )
             // adding 'translucent' class name to the already present data on a new POST request for css
             containerClassname = classnames('todos__contentContainer', {
-                translucent: isFetching
+                translucent: isFetching,
             })
 
             content = renderedTodos
@@ -72,10 +82,14 @@ const TodosList = () => {
                     }
                 </span>
             </h2>
-            <div className="todos__addTodo--wrapper" visible={addTodoMenuState ? 1 : 0}>
+            <div className="todos__addTodo--wrapper" ref={addTodoRef} visible={addTodoMenuState ? 1 : 0}>
                 {addTodoMenuState && <AddTodo />}
             </div>
-            <ul className={containerClassname} visible={addTodoMenuState ? 1 : 0}>
+            <ul
+                className={containerClassname}
+                style={{ transform: `translateY(${todoMenuHeight}px)`}}
+                visible={addTodoMenuState ? 1 : 0}
+            >
                 {content}
             </ul>
             <ScrollToTopButton />
