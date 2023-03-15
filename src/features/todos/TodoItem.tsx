@@ -47,13 +47,20 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
         }
     }
 
+    // add todo improper data saveguards
+    const dueDateIsValid = !reminder || new Date < dueDate
+
+    const canSave = [title, dueDateIsValid].every(Boolean) && !isLoading && !isUpdating
+
     // updating todo
     const handleUpdateTodo = async () => {
-        try {
-            await updateTodo({ id: todo.id, userid: 1, title, description, completed, reminder, date_due: dueDate })
-            setTodoHasChanges(false)
-        } catch (error) {
-            console.log(error)
+        if(canSave) {
+            try {
+                await updateTodo({ id: todo.id, userid: 1, title, description, completed, reminder, date_due: dueDate })
+                setTodoHasChanges(false)
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 
@@ -102,7 +109,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         onBlur={() => setTitleEdit(false)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     ></input>
-                    : <h2 className={classNames("clickable", { invalid: !title })} onClick={() => setTitleEdit(true)}>{title ? title : 'Enter Title'}</h2>
+                    : <h2 className={classNames("clickable", { invalid: !title })} onClick={() => setTitleEdit(true)}>{title ? title : 'Title Required'}</h2>
                 }
                 {descriptionEdit
                     ? <textarea
@@ -129,17 +136,17 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 </div>
                 {todoHasChanges &&
                     <>
-                        <button onClick={() => handleUpdateTodo()}>Update</button>
+                        <button className={!canSave ? 'translucent' : undefined} onClick={() => handleUpdateTodo()} disabled={!canSave}>Update</button>
                         <button onClick={() => handleDiscardChanges()}>Discard</button>
                     </>
                 }
             </div>
-            <div className="todoItem__footer--setReminder">
+            <div className={classNames("todoItem__footer--setReminder", {invalid: !dueDateIsValid})}>
                 <div>
                     <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder} onChange={() => setReminder(prev => !prev)} />
                     <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
                 </div>
-                <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date} />
+                <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm" />
             </div>
             <div className="todoItem__footer--dateCreated">
                 <p>created</p>
