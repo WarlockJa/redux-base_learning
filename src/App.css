@@ -69,6 +69,10 @@
     border: 1px solid red;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .svg-positive {
     fill: var(--clr-positive);
 }
