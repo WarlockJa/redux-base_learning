@@ -55,6 +55,7 @@ const AddTodo = () => {
                 <input
                     id="addTodo__todoTitle"
                     className={title ? '' : 'invalid'}
+                    title="Task title"
                     type="text"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -63,20 +64,21 @@ const AddTodo = () => {
                 <textarea
                     className="addTodo__todoDescription"
                     id="addTodo__todoDescription"
+                    title='Task description'
                     rows={5}
                     maxLength={500}
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                 ></textarea>
-                <div className={classNames('addTodo__dueDate', { invalid: !dueDateIsValid })}>
+                <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames('addTodo__dueDate', { invalid: !dueDateIsValid })}>
                     <div className="addTodo__dueDate--reminderBlock">
                         <label htmlFor="addTodo__dueDate--reminderCheckBox">Set reminder</label>
                         <input checked={reminder} onChange={() => setReminder((prev) => !prev)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
                     </div>
                     <label>Select date</label>
-                    <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} />
+                    <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} format="dd-MM-y hh:mm" />
                 </div>
-                <button type="button" onClick={handleSubmit}>Add Todo</button>
+                <button className={!canSave ? 'translucent' : undefined} disabled={!canSave} title={!canSave ? 'Required fields are missing' : 'All good!'} type="button" onClick={handleSubmit}>Add Todo</button>
             </form>
         </section>
     )

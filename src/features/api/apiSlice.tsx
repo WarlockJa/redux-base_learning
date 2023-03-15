@@ -1,8 +1,9 @@
+import { CredentialResponse } from '@react-oauth/google'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { IPostTodo, ITodo, IUpdateTodo } from '../todos/todosSlice'
 
 const BASE_URL = 'http://localhost:5000/'
-const PGSQL_URL = import.meta.env.VITE_APP_RAILWAY_POSTGRES_URL
+// const PGSQL_URL = import.meta.env.VITE_APP_RAILWAY_POSTGRES_URL
 
 export const apiSlice = createApi({
     reducerPath: 'api',
@@ -42,8 +43,15 @@ export const apiSlice = createApi({
                 body: updatedTodo
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Todos', id: arg.id }]
+        }),
+        authUser: builder.mutation<void, CredentialResponse>({
+            query: authToken => ({
+                url: '/auth',
+                method: 'POST',
+                body: authToken
+            })
         })
     })
 })
 
-export const { useGetTodosQuery, useAddTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } = apiSlice
+export const { useGetTodosQuery, useAddTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation, useAuthUserMutation } = apiSlice

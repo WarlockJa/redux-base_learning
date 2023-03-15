@@ -56,11 +56,10 @@ const Multimedia = ({ multimedia }: { multimedia: IMultimediaNYTimes[] }) => {
             {showLarge &&
                 <div onClick={() => setShowLarge(false)} className="modalImage">
                     <MyImageWrapper src={multimedia[0].url} alt='large' loadingComponent={<Spinner embed={true} />} loadingBgImg={multimedia[2].url} />
-                    {/* <img className="buttonLike" src={multimedia[0].url} alt='large' /> */}
                 </div>
             }
             <div>
-                <p>{multimedia[2].caption} {multimedia[2].copyright}</p>
+                <p>{multimedia[2].caption}</p>
                 <p>{multimedia[2].copyright}</p>
             </div>
         </div>

@@ -2,7 +2,7 @@ import { ITodo } from "./todosSlice"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faCheck, faMinusCircle } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
-import { formatRelative } from "date-fns"
+import { format, formatRelative } from "date-fns"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorPlug from "../../util/ErrorPlug"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "../api/apiSlice"
@@ -109,17 +109,18 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         onBlur={() => setTitleEdit(false)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     ></input>
-                    : <h2 className={classNames("clickable", { invalid: !title })} onClick={() => setTitleEdit(true)}>{title ? title : 'Title Required'}</h2>
+                    : <h2 className={classNames("clickable", { invalid: !title })} title="Change title" onClick={() => setTitleEdit(true)}>{title ? title : 'Title Required'}</h2>
                 }
                 {descriptionEdit
                     ? <textarea
+                        className='todoItem__body--description'
                         autoFocus
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         onBlur={() => setDescriptionEdit(false)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     ></textarea>
-                    : <p className="clickable" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Todo Description'}</p>
+                    : <p className="clickable" title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Todo Description'}</p>
                 }
             </div>
             <div
@@ -130,31 +131,32 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     className="faIcon-container"
                 >
                     {completed
-                        ? <FontAwesomeIcon icon={faCheck as IconProp} />
-                        : <FontAwesomeIcon icon={faMinusCircle as IconProp} />
+                        ? <FontAwesomeIcon title="Mark undone :(" icon={faCheck as IconProp} />
+                        : <FontAwesomeIcon title="Mark done!" icon={faMinusCircle as IconProp} />
                     }
                 </div>
                 {todoHasChanges &&
                     <>
-                        <button className={!canSave ? 'translucent' : undefined} onClick={() => handleUpdateTodo()} disabled={!canSave}>Update</button>
-                        <button onClick={() => handleDiscardChanges()}>Discard</button>
+                        <button title="Update task" className={!canSave ? 'translucent' : undefined} onClick={() => handleUpdateTodo()} disabled={!canSave}>Update</button>
+                        <button title="Discard cahnges" onClick={() => handleDiscardChanges()}>Discard</button>
                     </>
                 }
             </div>
-            <div className={classNames("todoItem__footer--setReminder", {invalid: !dueDateIsValid})}>
+            <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames("todoItem__footer--setReminder", {invalid: !dueDateIsValid})}>
                 <div>
                     <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder} onChange={() => setReminder(prev => !prev)} />
                     <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
                 </div>
                 <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm" />
             </div>
-            <div className="todoItem__footer--dateCreated">
+            <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
                 <p>created</p>
                 <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p>
             </div>
             <div
                 className="todoItem__delete faIcon-container"
                 onClick={handleDeleteTodo}
+                title="Delete task"
             >
                 <FontAwesomeIcon icon={faTrash as IconProp} />
             </div>
