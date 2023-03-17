@@ -3,9 +3,9 @@ import './calendar.css';
 import { useState } from "react"
 import { useAppDispatch } from "../../app/hooks"
 import DateTimePicker from 'react-datetime-picker'
-import { useAddTodoMutation } from "../api/apiSlice"
 import { switchAddTodo } from './todosSlice';
 import classNames from 'classnames';
+import { useAddTodoMutation } from './todoApiSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')

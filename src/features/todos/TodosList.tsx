@@ -1,7 +1,6 @@
 import { ReactComponent as OpenAddTodoIcon } from '../../assets/plus-circle.svg'
 import { ReactComponent as CloseAddTodoIcon } from '../../assets/minus-circle.svg'
 import Spinner from "../../util/Spinner"
-import { useGetTodosQuery } from "../api/apiSlice"
 import AddTodo from "./AddTodo"
 import TodoItem from "./TodoItem"
 import { useLayoutEffect, useMemo, useRef, useState } from "react"
@@ -9,6 +8,7 @@ import ScrollToTopButton from '../../util/ScrollToTopButton'
 import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectAddTodoState, switchAddTodo } from './todosSlice'
+import { useGetTodosQuery } from './todoApiSlice'
 
 const TodosList = () => {
     // redux store for addTodo menu state

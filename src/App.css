@@ -14,6 +14,10 @@
     align-items: center;
 }
 
+.header > * {
+    border: 1px solid red;
+}
+
 .header__loginSection {
     width: 100%;
     display: flex;

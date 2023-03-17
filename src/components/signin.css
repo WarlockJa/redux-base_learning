@@ -1,0 +1,15 @@
+.signIn {
+    position: relative;
+}
+
+.signIn__dropMenu--wrapper {
+    position: absolute;
+    width: 15em;
+    right: 0;
+    z-index: -1;
+    transition: transform 400ms ease;
+}
+
+.dropMenuHidden {
+    transform: translateY(-20em);
+}

@@ -5,10 +5,10 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { format, formatRelative } from "date-fns"
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorPlug from "../../util/ErrorPlug"
-import { useDeleteTodoMutation, useUpdateTodoMutation } from "../api/apiSlice"
 import classNames from "classnames"
 import { useEffect, useState } from "react"
 import DateTimePicker from "react-datetime-picker"
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
