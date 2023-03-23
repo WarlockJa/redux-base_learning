@@ -1,0 +1,6 @@
+.lineBreak {
+    height: 0.1em;
+    width: 80%;
+    margin: 0 auto;
+    background-color: var(--clr-font-main);
+}

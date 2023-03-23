@@ -1,0 +1,19 @@
+.myImageWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.myImageWrapper > img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.myImageWrapper__blurCover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+}

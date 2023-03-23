@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store";
 
 export interface ITodo {
@@ -30,11 +30,15 @@ export interface IPostTodo {
     reminder: boolean;
 }
 
-interface ITodoMenu {
+interface ITodosState {
+    todos: ITodo[];
     addTodoMenuState: boolean;
 }
 
-const initialState: ITodoMenu = { addTodoMenuState: false }
+const initialState: ITodosState = {
+    todos: [],
+    addTodoMenuState: false
+}
 
 const todosSlice = createSlice({
     name: 'todos',
@@ -42,14 +46,19 @@ const todosSlice = createSlice({
     reducers: {
         switchAddTodo: (state) => {
             state.addTodoMenuState = !state.addTodoMenuState
+        },
+        storeTodos: (state, action: PayloadAction<ITodo[]>) => {
+            state.todos = action.payload
         }
     }
 })
 
 export const {
-    switchAddTodo
+    switchAddTodo,
+    storeTodos
 } = todosSlice.actions
 
 export default todosSlice.reducer
 
 export const selectAddTodoState = (state: RootState) => state.todos.addTodoMenuState
+export const selectAllTodos = (state: RootState) => state.todos.todos

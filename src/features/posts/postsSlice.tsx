@@ -34,7 +34,7 @@ interface ICategoryNYTimes {
     posts: IPostNYTimes[];
 }
 
-interface IState {
+interface IPostsState {
     data: ICategoryNYTimes[];
     currentCategory: NYTimesSectionsType | undefined;
     status: 'idle' | 'loading' | 'succeeded' | 'failed' | 'init';
@@ -45,7 +45,7 @@ const postsAdapter = createEntityAdapter<IPostNYTimes>({
     sortComparer: (a, b) => b.published_date.localeCompare(a.published_date)
 })
 
-const initialState: IState = {
+const initialState: IPostsState = {
     data: [],
     currentCategory: undefined,
     status: 'init',

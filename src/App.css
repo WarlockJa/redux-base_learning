@@ -8,14 +8,9 @@
     left: 0;
     right: 0;
     top: 0;
-    height: 3rem;
     background-color: var(--clr-header-bg);
     display: flex;
     align-items: center;
-}
-
-.header > * {
-    border: 1px solid red;
 }
 
 .header__loginSection {

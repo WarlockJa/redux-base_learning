@@ -44,7 +44,7 @@ const baseQueryWithReauth = async(args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions)
 
     if(result?.error?.originalStatus === 403) {
-        const dispatch = useAppDispatch()
+        // const dispatch = useAppDispatch()
         console.log('sending refresh token')
         // sending refresh token to get new access token
         const refreshResult = await baseQuery('/refresh', api, extraOptions)
@@ -52,11 +52,11 @@ const baseQueryWithReauth = async(args, api, extraOptions) => {
         if (refreshResult?.data) {
             const email = api.getState().auth.email
             // store new token
-            dispatch(setCredentials({ ...refreshResult.data, email }))
+            api.dispatch(setCredentials({ ...refreshResult.data, email }))
             // retry the oirignal query with new access token
             result = await baseQuery(args, api, extraOptions)
         } else {
-            dispatch(logOut())
+            api.dispatch(logOut())
         }
     }
 
@@ -64,7 +64,7 @@ const baseQueryWithReauth = async(args, api, extraOptions) => {
 }
 
 export const apiSlice = createApi({
-    reducerPath: 'api',
+    // reducerPath: 'api',
     // baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     baseQuery: baseQueryWithReauth,
     tagTypes: ['Todos'],

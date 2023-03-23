@@ -1,3 +1,4 @@
+import './myimagewrapper.css'
 import { useEffect, useState } from "react";
 
 export interface IMyImageWrapper {

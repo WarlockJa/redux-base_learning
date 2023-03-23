@@ -3,6 +3,8 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import Spinner from "../util/Spinner"
 import { useLoginMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
+import { useAppSelector } from "../app/hooks"
+import { selectCurrentToken } from "../features/auth/authSlice"
 
 const MyLoginButton = ({ callback }: { callback: () => void}) => {
     return <button onClick={() => callback()}>Sign in with Google</button>
@@ -10,6 +12,7 @@ const MyLoginButton = ({ callback }: { callback: () => void}) => {
 
 const Header = () => {
     const [login, { data, isLoading, isSuccess, isError, error }] = useLoginMutation()
+    const token = useAppSelector(selectCurrentToken)
 
     let authContent = (
         // <MyLoginButton callback={useGoogleLogin({ onSuccess: tokenResponse => login(tokenResponse)})} />
@@ -44,7 +47,7 @@ const Header = () => {
             <nav>
                 <NavLink to='/'>Home</NavLink>
                 <NavLink to='posts'>News</NavLink>
-                <NavLink to='todos'>Todos</NavLink>
+                {token && <NavLink to='todos'>Todos</NavLink>}
             </nav>
             <div className="header__loginSection">
                 <div>

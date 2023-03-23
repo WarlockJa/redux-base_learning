@@ -7,6 +7,8 @@ import Counter from "./features/counter/Counter"
 import PostsList from './features/posts/PostsList'
 import TodosList from './features/todos/TodosList'
 import SinglePostPage from './features/posts/SinglePostPage'
+import ProtectedRoute from './components/ProtectedRoute'
+import Register from './components/Register'
 
 function App() {
   const RoutesElement = useRoutes([
@@ -41,8 +43,12 @@ function App() {
           ]
         },
         {
+          path: '/register',
+          element: <Register />
+        },
+        {
           path: '/todos',
-          element: <TodosList />
+          element: <ProtectedRoute renavigate='/'><TodosList /></ProtectedRoute>
         },
         {
           path: '/*',
