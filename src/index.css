@@ -107,10 +107,13 @@ button:focus,
 button:focus-visible,
 input:focus,
 input:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 1px auto -webkit-focus-ring-color;
+}button:active {
+  opacity: 0.8;
 }
 
-@media (prefers-color-scheme: dark) {
+
+@media (prefers-color-scheme: light) {
   :root {
     --clr-font-main: #213547;
     --clr-bg-main: #ffffff;

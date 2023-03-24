@@ -22,6 +22,8 @@ const SignIn = () => {
     const [password, setPassword] = useState('')
     // RTK Query method for authorization
     const [login, { data, isLoading, isSuccess, isError, error }] = useLoginMutation()
+    // appeasing TS gods
+    const tsError = error as { data: { message: string;} }
     // redux store methods to store user data
     const dispatch = useAppDispatch()
     const storedEmail = useAppSelector(selectCurrentEmail)
@@ -33,10 +35,12 @@ const SignIn = () => {
     }
 
     // reattaching focus to the sign in menu on error cover close
-    const formRef = useRef(null)
+    const formPassRef = useRef<HTMLInputElement>(null)
+    const formEmailRef = useRef<HTMLInputElement>(null)
     const handleErrorClick = () => {
         setSignInCoverVisible(false)
-        formRef.current?.focus()
+        tsError?.data.message === 'Password incorrect' ? formPassRef.current && formPassRef.current.focus() : formEmailRef.current && formEmailRef.current.focus()
+        // formRef.current?.focus()
     }
 
     // sign in form data submission
@@ -50,13 +54,14 @@ const SignIn = () => {
         setPassword('')
     }
 
+    // closing sign in menu on overlay click and hiding sign in cover
+    const handleOverlayClick = () => {
+        setHidden(true)
+        setSignInCoverVisible(false)
+    }
+
     // content for sign in and options menu
     let content
-    // if(isLoading) {
-    //     content = <div className='signIn__loading'><Spinner embed={false} width='2em' height='2em' /></div>
-    // } else if (isError) {
-    //     content = <pre>{JSON.stringify(error)}</pre>
-    // } else 
     if (isSuccess) {
         content = <p>{storedEmail}</p>
     } else {
@@ -64,18 +69,19 @@ const SignIn = () => {
             <>
                 <button
                     className='signIn--button'
-                    onClick={() => setHidden(prev => !prev)}
-                    onBlur={() => setHidden(true)}
+                    onClick={() => setHidden(false)}
+                    // onBlur={() => handleSignInMenuButtonFocusLost()}
                 ><span>Sign In <FontAwesomeIcon
                                     style={{ backgroundColor: 'transparent' }}
                                     icon={hidden ? faArrowAltCircleDown as IconProp : faArrowAltCircleUp as IconProp}/></span>
                 </button>
-                <div className={classNames("signIn__dropMenu--wrapper", { dropMenuHidden: hidden, translucent: isLoading })}>
-                    <form ref={formRef} onFocus={() => setHidden(false)} onBlur={() => setHidden(true)} className="signIn__form">
+                <div className={classNames("signIn__dropMenu--wrapper", { dropMenuHidden: hidden, sendToBackground: hidden })}>
+                    <form className="signIn__form">
                         {isLoading && <div className="signin__form--cover"><Spinner embed={false}/></div>}
-                        {isError && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{error?.data.message}</div>}
+                        {isError && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{tsError?.data.message}</div>}
                         <label htmlFor="signIn__form--email">email</label>
                         <input
+                            ref={formEmailRef}
                             id="signIn__form--email"
                             type="email"
                             value={email}
@@ -85,6 +91,7 @@ const SignIn = () => {
                         />
                         <label htmlFor="signIn__form--password">password</label>
                         <input
+                            ref={formPassRef}
                             id="signIn__form--password"
                             type="password"
                             value={password}
@@ -99,6 +106,7 @@ const SignIn = () => {
                         <button onClick={() => handleRegisterClick()}>Register</button>
                     </form>
                 </div>
+                {!hidden && <div className="signIn--overlay" onClick={() => handleOverlayClick()}></div>}
             </>
         )
     }
