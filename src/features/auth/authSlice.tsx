@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import Cookies from 'js-cookie'
 
 interface IAuth {
     email: string | null;
@@ -19,10 +20,12 @@ const authSlice = createSlice({
             const { email, accessToken } = action.payload
             state.email = email
             state.token = accessToken
+            Cookies.set('dp-user', email, { expires: 7 })
         },
         logOut: (state) => {
             state.email = null
             state.token = null
+            Cookies.remove('dp-user')
         }
     }
 })

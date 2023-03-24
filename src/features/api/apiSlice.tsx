@@ -1,8 +1,6 @@
-import { CredentialResponse } from '@react-oauth/google'
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IPostTodo, ITodo, IUpdateTodo } from '../todos/todosSlice'
+import { BaseQueryFn, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../auth/authSlice'
-import { useAppDispatch } from '../../app/hooks'
+import { RootState } from '../../app/store'
 
 const BASE_URL = 'http://localhost:5000/'
 // const PGSQL_URL = import.meta.env.VITE_APP_RAILWAY_POSTGRES_URL
@@ -26,12 +24,30 @@ interface IGoogleAuthResponse {
     }
 }
 
+interface IApiErrorResponse {
+    error: {
+        originalStatus: number;
+    }
+}
+
+// checks response error type to ensure it came from the API
+function isApiError(error: unknown): error is IApiErrorResponse {
+    return (
+        typeof error === "object" &&
+        error != null &&
+        "error" in error &&
+        typeof (error as any).error === "object" &&
+        "originalStatus" in (error as any).error &&
+        typeof (error as any).error.originalStatus === "number"
+    )
+}
+
 // attaching access token to every request
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.token
+        const token = (getState() as RootState).auth.token
         if (token) {
             headers.set("authorization", `Bearer ${token}`)
         }
@@ -40,23 +56,23 @@ const baseQuery = fetchBaseQuery({
 })
 
 // wrapping baseQuery into reauth for when access token expires
-const baseQueryWithReauth = async(args, api, extraOptions) => {
+const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions)
 
-    if(result?.error?.originalStatus === 403) {
-        // const dispatch = useAppDispatch()
-        console.log('sending refresh token')
-        // sending refresh token to get new access token
-        const refreshResult = await baseQuery('/refresh', api, extraOptions)
-        console.log(refreshResult)
-        if (refreshResult?.data) {
-            const email = api.getState().auth.email
-            // store new token
-            api.dispatch(setCredentials({ ...refreshResult.data, email }))
-            // retry the oirignal query with new access token
-            result = await baseQuery(args, api, extraOptions)
-        } else {
-            api.dispatch(logOut())
+    // checking error type ensuring it came from the API
+    if(isApiError(result)) {
+        if(result.error.originalStatus === 403) {
+            // sending refresh token to get new access token
+            const refreshResult = await baseQuery('/refresh', api, extraOptions)
+            if (refreshResult?.data) {
+                const email = (api.getState() as RootState).auth.email
+                // store new token
+                api.dispatch(setCredentials({ ...refreshResult.data, email }))
+                // retry the oirignal query with new access token
+                result = await baseQuery(args, api, extraOptions)
+            } else {
+                api.dispatch(logOut())
+            }
         }
     }
 
@@ -64,23 +80,7 @@ const baseQueryWithReauth = async(args, api, extraOptions) => {
 }
 
 export const apiSlice = createApi({
-    // reducerPath: 'api',
-    // baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
     baseQuery: baseQueryWithReauth,
     tagTypes: ['Todos'],
-    endpoints: builder => ({
-        
-        // authUser: builder.mutation<IGoogleAuthResponse, CredentialResponse>({
-        //     query: authToken => ({
-        //         url: '/auth',
-        //         method: 'POST',
-        //         body: authToken
-        //     })
-        // })
-    })
+    endpoints: builder => ({})
 })
-
-// export const {
-//     ,
-//     useAuthUserMutation
-// } = apiSlice
