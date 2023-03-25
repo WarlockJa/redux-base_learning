@@ -9,6 +9,10 @@ import classNames from "classnames"
 import { useEffect, useState } from "react"
 import DateTimePicker from "react-datetime-picker"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
+import datetimeSQLtoDate from "../../util/datetimeSQLtoDate"
+import dateToSqlDatetime from "../../util/dateToSQLdatetime"
+import { useAppSelector } from "../../app/hooks"
+import { selectCurrentEmail } from "../auth/authSlice"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -33,10 +37,15 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [title, setTitle] = useState(todo.title)
     const [description, setDescription] = useState(todo.description)
     const [reminder, setReminder] = useState(todo.reminder)
-    const [dueDate, setDueDate] = useState(todo.date_due)
+    const [dueDate, setDueDate] = useState(new Date(todo.date_due))
+    // console.log(new Date(todo.date_due))
+    // console.log(new Date())
+
     // flags for text fields edits
     const [titleEdit, setTitleEdit] = useState(false)
     const [descriptionEdit, setDescriptionEdit] = useState(false)
+
+    const useremail = useAppSelector(selectCurrentEmail)
 
     // deleting todo
     const handleDeleteTodo = async () => {
@@ -56,7 +65,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const handleUpdateTodo = async () => {
         if(canSave) {
             try {
-                await updateTodo({ id: todo.id, userid: 1, title, description, completed, reminder, date_due: dueDate })
+                if(useremail) await updateTodo({ id: todo.id, useremail: useremail, title, description, completed, reminder, date_due: dateToSqlDatetime(dueDate) })
                 setTodoHasChanges(false)
             } catch (error) {
                 console.log(error)
@@ -70,7 +79,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
         setTitle(todo.title)
         setDescription(todo.description)
         setReminder(todo.reminder)
-        setDueDate(todo.date_due)
+        setDueDate(new Date(todo.date_due))
     }
     
     // tracking changed status for todo
@@ -79,7 +88,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
             ? todo.title === title
                 ? todo.description === description
                     ? todo.reminder === reminder
-                        ? todo.date_due === dueDate
+                        ? new Date(todo.date_due) === dueDate
                             ? setTodoHasChanges(false)
                             : setTodoHasChanges(true)
                         : setTodoHasChanges(true)
@@ -147,7 +156,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder} onChange={() => setReminder(prev => !prev)} />
                     <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
                 </div>
-                <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm" />
+                <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm" />
             </div>
             <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
                 <p>created</p>

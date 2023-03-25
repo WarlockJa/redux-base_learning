@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 
 export interface ITodo {
     id: number;
-    userid: number;
+    useremail: string;
     title: string;
     completed: boolean;
     description: string;
@@ -14,19 +14,19 @@ export interface ITodo {
 
 export interface IUpdateTodo {
     id: number;
-    userid: number;
+    useremail: string;
     title: string;
     completed: boolean;
     description: string;
-    date_due: Date;
+    date_due: string;       // string due to conversion of the Date into SQL datetime
     reminder: boolean;
 }
 
 export interface IPostTodo {
-    userid: number;
+    useremail: string;
     title: string;
     description: string;
-    date_due: Date;
+    date_due: string;
     reminder: boolean;
 }
 

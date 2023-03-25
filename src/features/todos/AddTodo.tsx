@@ -1,11 +1,13 @@
 import './datetimepicker.css';
 import './calendar.css';
 import { useState } from "react"
-import { useAppDispatch } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import DateTimePicker from 'react-datetime-picker'
 import { switchAddTodo } from './todosSlice';
 import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
+import dateToSqlDatetime from '../../util/dateToSQLdatetime';
+import { selectCurrentEmail } from '../auth/authSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')
@@ -16,6 +18,7 @@ const AddTodo = () => {
     // redux store state for the addTodo menu
     // const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
+    const useremail = useAppSelector(selectCurrentEmail)
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 
@@ -28,7 +31,7 @@ const AddTodo = () => {
     const handleSubmit = async () => {
         if(canSave) {
             try {
-                await addTodo({ userid: 1, title, description, reminder, date_due: dueDate }).unwrap()
+                if(useremail) await addTodo({ useremail: useremail, title, description, reminder, date_due: dateToSqlDatetime(dueDate) }).unwrap()
                 setTitle('')
                 setDescription('')
                 setDueDate(new Date())
