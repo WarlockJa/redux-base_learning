@@ -9,15 +9,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials }
             })
         }),
-        refreshToken: builder.mutation({
+        reauth: builder.mutation({
             query: () => ({
-                url: '/refresh',
-                method: 'GET'
-            })
-        }),
-        getIdToken: builder.mutation({
-            query: () => ({
-                url: '/user',
+                url: '/auth',
                 method: 'GET'
             })
         })
@@ -26,6 +20,5 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useLoginMutation,
-    useGetIdTokenMutation,
-    useRefreshTokenMutation
+    useReauthMutation
 } = authApiSlice

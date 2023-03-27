@@ -1,40 +1,31 @@
 import { NavLink } from "react-router-dom"
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import Spinner from "../util/Spinner"
-import { useGetIdTokenMutation, useLoginMutation, useRefreshTokenMutation } from "../features/auth/authApiSlice"
+import { useReauthMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { selectCurrentEmail, selectCurrentToken, setCredentials } from "../features/auth/authSlice"
 import { useEffect } from "react"
-import Cookies from "js-cookie"
 
 const MyLoginButton = ({ callback }: { callback: () => void}) => {
     return <button onClick={() => callback()}>Sign in with Google</button>
 }
 
 const Header = () => {
-    const [getIdToken, { data, isLoading, isSuccess, isError, error }] = useGetIdTokenMutation()
-    const [refreshToken, { isLoading: refreshTokenLoading, isSuccess: refreshTokenSuccess}] = useRefreshTokenMutation()
+    const [reauth, { isLoading, isSuccess }] = useReauthMutation()
     const token = useAppSelector(selectCurrentToken)
     const storedEmail = useAppSelector(selectCurrentEmail)
 
     const dispatch = useAppDispatch()
 
-    // relogin user with stored user data and refresh token
+    // relogin user upon page reaload with stored refresh token
     useEffect(() => {
-        const handleUserRelog = async () => {
-            const storedUserData = Cookies.get('dp-user')
-
-            if(storedUserData) {
-                const accessToken = await refreshToken({}).unwrap();
-                dispatch(setCredentials({ accessToken: accessToken }))
-                const result = await getIdToken({}).unwrap()
-                const idToken = result.idToken
-                dispatch(setCredentials({ email: idToken.email, accessToken: accessToken }))
-            }
+        const handleUserReauth = async () => {
+            const reauthData = await reauth({}).unwrap()
+            dispatch(setCredentials({ accessToken: reauthData.accessToken, ...reauthData.idToken }))
         }
         
-        handleUserRelog()
+        handleUserReauth()
 
         return () => {}
 
@@ -59,7 +50,7 @@ const Header = () => {
     //     // />
     // )
     let authContent
-    if(isLoading || refreshTokenLoading) {
+    if(isLoading) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
     } else if(isSuccess) {
         authContent = <p>{storedEmail}</p>
