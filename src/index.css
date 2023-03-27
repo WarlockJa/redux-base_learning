@@ -55,7 +55,7 @@ ul {
   padding: 0 1px;
 }
 
-li, form, article {
+li, form, article, .formLike {
   margin: 1em 0;
   padding: 1em;
   border: 1px solid var(--clr-font-main);

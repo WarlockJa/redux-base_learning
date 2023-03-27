@@ -39,9 +39,9 @@
 .signIn__dropMenu--wrapper {
     position: absolute;
     width: 15em;
-    z-index: 2;
     right: 0;
     transition: transform 400ms ease;
+    z-index: -1;
 }
 
 .dropMenuHidden {
@@ -55,8 +55,9 @@
     right: 0;
     bottom: 0;
     background-color: transparent;
+    z-index: -2;
 }
 
-.sendToBackground {
-    z-index: -1;
+.userMenu {
+    margin-top: 3em;
 }

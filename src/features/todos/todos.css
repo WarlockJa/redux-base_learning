@@ -41,9 +41,6 @@
 }
 
 .todoItem__footer {
-    /* grid-row: 2 / 3;
-    grid-column: 1 / 2; */
-
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-interface IAuth {
+export interface IAuth {
     accessToken: string | null;
+    idToken: IUser | null
+}
+
+interface IUser {
     email: string | null;
     email_confirmed: boolean;
     locale: 'en-US';
@@ -12,13 +16,15 @@ interface IAuth {
 }
 
 const initialState: IAuth = {
-    email: null,
-    email_confirmed: false,
-    locale: 'en-US',
-    name: null,
-    surname: null,
-    picture: null,
-    accessToken: null
+    accessToken: null,
+    idToken: {
+        email: null,
+        email_confirmed: false,
+        locale: 'en-US',
+        name: null,
+        surname: null,
+        picture: null,
+    }
 }
 
 const authSlice = createSlice({
@@ -26,22 +32,12 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setCredentials: (state, action) => {
-            const { email, emaila_confirmed, locale, name, surname, picture, accessToken } = action.payload
-            state.email = email
-            state.email_confirmed = emaila_confirmed
-            state.locale = locale
-            state.name = name
-            state.surname = surname
-            state.picture = picture
+            const { accessToken, idToken } = action.payload
+            state.idToken = idToken
             state.accessToken = accessToken
         },
         logOut: (state) => {
-            state.email = null
-            state.email_confirmed = false
-            state.locale = 'en-US'
-            state.name = null
-            state.surname = null
-            state.picture = null
+            state.idToken = null
             state.accessToken = null
         }
     }
@@ -51,5 +47,6 @@ export const { setCredentials, logOut } = authSlice.actions
 
 export default authSlice.reducer
 
-export const selectCurrentEmail = (state: RootState) => state.auth.email
+export const selectCurrentEmail = (state: RootState) => state.auth.idToken?.email
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
+export const selectUserData = (state: RootState) => state.auth.idToken

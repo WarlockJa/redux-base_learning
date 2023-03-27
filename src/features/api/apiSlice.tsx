@@ -65,9 +65,10 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
             // sending refresh token to get new access token
             const refreshResult = await baseQuery('/refresh', api, extraOptions)
             if (refreshResult?.data) {
-                const email = (api.getState() as RootState).auth.email
+                const idToken = (api.getState() as RootState).auth.idToken
+                console.log('Refresh request')
                 // store new token
-                api.dispatch(setCredentials({ ...refreshResult.data, email }))
+                api.dispatch(setCredentials({ ...refreshResult.data, idToken }))
                 // retry the oirignal query with new access token
                 result = await baseQuery(args, api, extraOptions)
             } else {
@@ -81,6 +82,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Todos'],
+    tagTypes: ['Todos', 'Auth'],
     endpoints: builder => ({})
 })

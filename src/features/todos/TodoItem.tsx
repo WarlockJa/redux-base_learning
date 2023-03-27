@@ -38,8 +38,6 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [description, setDescription] = useState(todo.description)
     const [reminder, setReminder] = useState(todo.reminder)
     const [dueDate, setDueDate] = useState(new Date(todo.date_due))
-    // console.log(new Date(todo.date_due))
-    // console.log(new Date())
 
     // flags for text fields edits
     const [titleEdit, setTitleEdit] = useState(false)
@@ -88,7 +86,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
             ? todo.title === title
                 ? todo.description === description
                     ? todo.reminder === reminder
-                        ? new Date(todo.date_due) === dueDate
+                        ? new Date(todo.date_due).getTime() === dueDate.getTime()
                             ? setTodoHasChanges(false)
                             : setTodoHasChanges(true)
                         : setTodoHasChanges(true)

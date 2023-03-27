@@ -1,7 +1,7 @@
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import ScrollToTopButton from "../../util/ScrollToTopButton"
+import ScrollToTopButton, { ScrollToTop } from "../../util/ScrollToTopButton"
 import Spinner from "../../util/Spinner"
 import PostExcerpt from "./PostExcerpt"
 import { changeCurrentCategory, changeStatusToIdle, fetchPosts, selectAllPosts } from "./postsSlice"
@@ -13,6 +13,11 @@ const PostsList = () => {
     const posts = useAppSelector(selectAllPosts)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    // scrolling to the top on route change
+    useLayoutEffect (() => {
+        ScrollToTop()
+    },[])
 
     // remembering active news category and switching to it on route change
     useEffect (() => {

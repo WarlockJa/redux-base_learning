@@ -4,7 +4,7 @@ import Spinner from "../../util/Spinner"
 import AddTodo from "./AddTodo"
 import TodoItem from "./TodoItem"
 import { useLayoutEffect, useMemo, useRef, useState } from "react"
-import ScrollToTopButton from '../../util/ScrollToTopButton'
+import ScrollToTopButton, { ScrollToTop } from '../../util/ScrollToTopButton'
 import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectAddTodoState, switchAddTodo } from './todosSlice'
@@ -18,6 +18,11 @@ const TodosList = () => {
     // addTodoMenu ref
     const addTodoRef = useRef<HTMLDivElement>(null)
     const [todoMenuHeight, setTodoMenuHeight] = useState(0)
+
+    // scrolling to the top on route change
+    useLayoutEffect (() => {
+        ScrollToTop()
+    },[])
 
     useLayoutEffect(() => {
         addTodoMenuState
@@ -47,10 +52,10 @@ const TodosList = () => {
     let containerClassname
     if(isLoading) {
         content = <>
-            <Spinner embed={false} height='12em' width="100%"/>
-            <Spinner embed={false} height='12em' width="100%"/>
-            <Spinner embed={false} height='12em' width="100%"/>
-            <Spinner embed={false} height='12em' width="100%"/>
+            <Spinner embed={false} height='16em' width="100%"/>
+            <Spinner embed={false} height='16em' width="100%"/>
+            <Spinner embed={false} height='16em' width="100%"/>
+            <Spinner embed={false} height='16em' width="100%"/>
         </>
     } else if (isError) {
         content = <pre>{JSON.stringify(error)}</pre>

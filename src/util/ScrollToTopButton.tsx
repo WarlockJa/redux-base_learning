@@ -3,6 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowCircleUp } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 
+export const ScrollToTop = () => {
+    window.scrollTo({ top: 0 })
+}
+
 const ScrollToTopButton = () => {
     // scroll to top button visibility state
     const [showScrollToTopButton, setShowScrollToTopButton] = useState(false)

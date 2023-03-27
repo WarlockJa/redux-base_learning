@@ -1,20 +1,36 @@
 import { NavLink } from "react-router-dom"
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import Spinner from "../util/Spinner"
-import { useReauthMutation } from "../features/auth/authApiSlice"
+import { useLoginMutation, useLogoutMutation, useReauthMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { selectCurrentEmail, selectCurrentToken, setCredentials } from "../features/auth/authSlice"
+import { selectCurrentToken, setCredentials } from "../features/auth/authSlice"
 import { useEffect } from "react"
+import AuthorizedUserMenu from "./AuthorizedUserMenu"
+import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
+import { BaseQueryFn, MutationDefinition } from "@reduxjs/toolkit/dist/query"
 
 const MyLoginButton = ({ callback }: { callback: () => void}) => {
     return <button onClick={() => callback()}>Sign in with Google</button>
 }
 
+export interface IRTKQuery {
+    login?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
+    logout?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
+    isLoading: boolean;
+    isError?: boolean;
+    error?: unknown;
+}
+
 const Header = () => {
-    const [reauth, { isLoading, isSuccess }] = useReauthMutation()
+    // logout api call
+    const [logout, { isLoading: isLoadingLogout }] = useLogoutMutation()
+    // autologin with existing refreshtoken on page reload
+    const [reauth, { isLoading: isLoadingReauth, isSuccess: isSuccessReauth }] = useReauthMutation()
+    // const { data, isLoading: isLoadingReauth, isSuccess: isSuccessReauth } = useReauthQuery()
+    // login api call
+    const [login, { isLoading: isLoadingLogin, isSuccess: isSuccessLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
     const token = useAppSelector(selectCurrentToken)
-    const storedEmail = useAppSelector(selectCurrentEmail)
 
     const dispatch = useAppDispatch()
 
@@ -22,7 +38,8 @@ const Header = () => {
     useEffect(() => {
         const handleUserReauth = async () => {
             const reauthData = await reauth({}).unwrap()
-            dispatch(setCredentials({ accessToken: reauthData.accessToken, ...reauthData.idToken }))
+            dispatch(setCredentials({ accessToken: reauthData.accessToken, idToken: { ...reauthData.idToken } }))
+            // dispatch(setCredentials({ accessToken: data.accessToken, idToken: { ...data.idToken } }))
         }
         
         handleUserReauth()
@@ -49,13 +66,14 @@ const Header = () => {
     //     //     }}
     //     // />
     // )
+
     let authContent
-    if(isLoading) {
+    if(isLoadingLogout || isLoadingReauth) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
-    } else if(isSuccess) {
-        authContent = <p>{storedEmail}</p>
+    } else if(isSuccessReauth || isSuccessLogin) {
+        authContent = <AuthorizedUserMenu logout={logout} isLoading={isLoadingLogout}/>
     } else {
-        authContent = <SignIn />
+        authContent = <SignIn login={login} isLoading={isLoadingLogin} isError={isErrorLogin} error={errorLogin} />
     }
     // if (isError) {
     //     authContent = <pre>{JSON.stringify(error)}</pre>
@@ -73,9 +91,7 @@ const Header = () => {
                 {token && <NavLink to='todos'>Todos</NavLink>}
             </nav>
             <div className="header__loginSection">
-                <div>
-                    {authContent}
-                </div>
+                {authContent}
             </div>
         </section>
     )
