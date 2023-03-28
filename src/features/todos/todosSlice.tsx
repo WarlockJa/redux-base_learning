@@ -31,12 +31,10 @@ export interface IPostTodo {
 }
 
 interface ITodosState {
-    todos: ITodo[];
     addTodoMenuState: boolean;
 }
 
 const initialState: ITodosState = {
-    todos: [],
     addTodoMenuState: false
 }
 
@@ -47,18 +45,13 @@ const todosSlice = createSlice({
         switchAddTodo: (state) => {
             state.addTodoMenuState = !state.addTodoMenuState
         },
-        storeTodos: (state, action: PayloadAction<ITodo[]>) => {
-            state.todos = action.payload
-        }
     }
 })
 
 export const {
     switchAddTodo,
-    storeTodos
 } = todosSlice.actions
 
 export default todosSlice.reducer
 
 export const selectAddTodoState = (state: RootState) => state.todos.addTodoMenuState
-export const selectAllTodos = (state: RootState) => state.todos.todos

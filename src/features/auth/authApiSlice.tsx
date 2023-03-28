@@ -7,7 +7,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: '/auth',
                 method: 'GET'
             }),
-            invalidatesTags: ['Auth']
         }),
         // reauth: builder.query({
         //     query: () => '/auth',
@@ -19,14 +18,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: { ...credentials }
             }),
-            invalidatesTags: ['Auth']
         }),
         logout: builder.mutation({
             query: () => ({
                 url: '/auth',
                 method: 'PUT'
             }),
-            invalidatesTags: ['Auth']
         })
     })
 })

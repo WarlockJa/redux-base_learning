@@ -1,7 +1,8 @@
 import classNames from "classnames"
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { selectUserData } from "../features/auth/authSlice"
+import { apiSlice } from "../features/api/apiSlice"
+import { logOut, selectUserData } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
 import { IRTKQuery } from "./Header"
 
@@ -17,10 +18,14 @@ const AuthorizedUserMenu = ({ logout, isLoading }: IRTKQuery) => {
         setHidden(true)
     }
 
-    // removing refresh token and reloading the page to clear out user data
     const handleLogout = async () => {
+        // removing refresh token from the DB and issuing expired httpOnly cookie to the client from the backend
         logout && await logout(null).unwrap()
-        location.reload()
+        // clearing out user store data
+        dispatch(logOut())
+        // resetting apiSlice todos data
+        dispatch(apiSlice.util.resetApiState())
+        // location.reload()
     }
     return isLoading ? <Spinner embed={false} width="5em" height="2em" />
     :(

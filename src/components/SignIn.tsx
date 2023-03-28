@@ -1,4 +1,5 @@
 import './signin.css'
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useRef, useState } from "react"
@@ -75,6 +76,25 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
         setHidden(true)
         setSignInCoverVisible(false)
     }
+
+    // let authContent = (
+    //     // <MyLoginButton callback={useGoogleLogin({ onSuccess: tokenResponse => login(tokenResponse)})} />
+    //     <SignIn />
+    //     // <GoogleLogin
+    //     //     onSuccess={credentialResponse => {
+    //     //         login(credentialResponse)
+    //     //     }}
+
+    //     //     theme='filled_blue'
+    //     //     shape='pill'
+    //     //     text='signin'
+    //     //     useOneTap
+
+    //     //     onError={() => {
+    //     //         console.log('Login failed')
+    //     //     }}
+    //     // />
+    // )
 
     // content for sign in and options menu
     const content = (

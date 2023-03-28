@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom"
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import Spinner from "../util/Spinner"
 import { useLoginMutation, useLogoutMutation, useReauthMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
@@ -27,7 +26,6 @@ const Header = () => {
     const [logout, { isLoading: isLoadingLogout }] = useLogoutMutation()
     // autologin with existing refreshtoken on page reload
     const [reauth, { isLoading: isLoadingReauth, isSuccess: isSuccessReauth }] = useReauthMutation()
-    // const { data, isLoading: isLoadingReauth, isSuccess: isSuccessReauth } = useReauthQuery()
     // login api call
     const [login, { isLoading: isLoadingLogin, isSuccess: isSuccessLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
     const token = useAppSelector(selectCurrentToken)
@@ -48,40 +46,19 @@ const Header = () => {
 
     },[])
 
-    // let authContent = (
-    //     // <MyLoginButton callback={useGoogleLogin({ onSuccess: tokenResponse => login(tokenResponse)})} />
-    //     <SignIn />
-    //     // <GoogleLogin
-    //     //     onSuccess={credentialResponse => {
-    //     //         login(credentialResponse)
-    //     //     }}
-
-    //     //     theme='filled_blue'
-    //     //     shape='pill'
-    //     //     text='signin'
-    //     //     useOneTap
-
-    //     //     onError={() => {
-    //     //         console.log('Login failed')
-    //     //     }}
-    //     // />
-    // )
+    
 
     let authContent
+    // header menu spinner on loggin out and auto relog
     if(isLoadingLogout || isLoadingReauth) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
+    // user menu on successful login
     } else if(isSuccessReauth || isSuccessLogin) {
         authContent = <AuthorizedUserMenu logout={logout} isLoading={isLoadingLogout}/>
+    // sign in menu in other cases
     } else {
         authContent = <SignIn login={login} isLoading={isLoadingLogin} isError={isErrorLogin} error={errorLogin} />
     }
-    // if (isError) {
-    //     authContent = <pre>{JSON.stringify(error)}</pre>
-    // } else if (isSuccess) {
-    //     console.log(data?.content)
-    //     if (data) authContent = <p>{data?.content.name}</p>
-    //     // if (data) authContent = <img src={data?.content.picture} />
-    // }
 
     return (
         <section className="header">
