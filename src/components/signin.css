@@ -1,4 +1,4 @@
-.signIn {
+form {
     position: relative;
 }
 
@@ -60,4 +60,17 @@
 
 .userMenu {
     margin-top: 3em;
+}
+
+.signIn__form--registerLink {
+    margin: 0;
+}
+
+.signin__form--registerButton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    margin: 0.5em 0;
 }

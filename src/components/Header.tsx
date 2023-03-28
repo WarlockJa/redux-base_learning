@@ -6,20 +6,6 @@ import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { selectCurrentToken, setCredentials } from "../features/auth/authSlice"
 import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
-import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks"
-import { BaseQueryFn, MutationDefinition } from "@reduxjs/toolkit/dist/query"
-
-const MyLoginButton = ({ callback }: { callback: () => void}) => {
-    return <button onClick={() => callback()}>Sign in with Google</button>
-}
-
-export interface IRTKQuery {
-    login?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
-    logout?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
-    isLoading: boolean;
-    isError?: boolean;
-    error?: unknown;
-}
 
 const Header = () => {
     // logout api call
@@ -37,7 +23,6 @@ const Header = () => {
         const handleUserReauth = async () => {
             const reauthData = await reauth({}).unwrap()
             dispatch(setCredentials({ accessToken: reauthData.accessToken, idToken: { ...reauthData.idToken } }))
-            // dispatch(setCredentials({ accessToken: data.accessToken, idToken: { ...data.idToken } }))
         }
         
         handleUserReauth()
@@ -46,14 +31,13 @@ const Header = () => {
 
     },[])
 
-    
-
     let authContent
     // header menu spinner on loggin out and auto relog
     if(isLoadingLogout || isLoadingReauth) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
     // user menu on successful login
-    } else if(isSuccessReauth || isSuccessLogin) {
+    // } else if(isSuccessReauth || isSuccessLogin) {
+    } else if(token) {
         authContent = <AuthorizedUserMenu logout={logout} isLoading={isLoadingLogout}/>
     // sign in menu in other cases
     } else {

@@ -9,6 +9,7 @@ import TodosList from './features/todos/TodosList'
 import SinglePostPage from './features/posts/SinglePostPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import Register from './components/Register'
+import UnprotectedRouteOnly from './components/UnprotectedRouteOnly'
 
 function App() {
   const RoutesElement = useRoutes([
@@ -44,7 +45,7 @@ function App() {
         },
         {
           path: '/register',
-          element: <Register />
+          element: <UnprotectedRouteOnly renavigate='/'><Register /></UnprotectedRouteOnly>
         },
         {
           path: '/todos',

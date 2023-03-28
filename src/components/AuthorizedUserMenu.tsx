@@ -1,10 +1,9 @@
 import classNames from "classnames"
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { apiSlice } from "../features/api/apiSlice"
+import { apiSlice, IRTKQuery } from "../features/api/apiSlice"
 import { logOut, selectUserData } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
-import { IRTKQuery } from "./Header"
 
 const AuthorizedUserMenu = ({ logout, isLoading }: IRTKQuery) => {
     // user data from the store

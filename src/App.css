@@ -93,6 +93,10 @@
     cursor: default;
 }
 
+.noBackground {
+    background: transparent;
+}
+
 @keyframes rotate-logo {
     50% {
         transform: rotateZ(180deg) scale(1.1);

@@ -7,11 +7,15 @@ import { useAppDispatch } from "../app/hooks"
 import { IAuth, setCredentials } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
 import classNames from 'classnames'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import LineBreak from '../util/LineBreak'
 import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/fontawesome-free-solid'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { IRTKQuery } from './Header'
+import { IRTKQuery, isApiAuthError } from '../features/api/apiSlice'
+
+const MyLoginButton = ({ callback }: { callback: () => void}) => {
+    return <button onClick={() => callback()}>Sign in with Google</button>
+}
 
 const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
     // flag for hiding sign in and options menus
@@ -33,30 +37,13 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
         navigate('/register')
     }
 
-    interface ILoginApiError {
-        data: {
-            message: string;
-        }
-    }
-    // confirming that login error came from the API by verifying its type
-    function isApiError(error: unknown): error is ILoginApiError {
-        return (
-            typeof error === "object" &&
-            error != null &&
-            "data" in error &&
-            typeof (error as any).data === "object" &&
-            "message" in (error as any).data &&
-            typeof (error as any).data.message === "string"
-        )
-    }
-
     // reattaching focus to the sign in menu on error cover close
     const formPassRef = useRef<HTMLInputElement>(null)
     const formEmailRef = useRef<HTMLInputElement>(null)
     const handleErrorClick = () => {
         setSignInCoverVisible(false)
         // verifying that error is from the API by checking its type. If so focusing appropriate fields based on error message
-        isApiError(error) && error.data.message === 'Password incorrect'
+        isApiAuthError(error) && error.data.message === 'Password incorrect'
             ? formPassRef.current && formPassRef.current.focus()
             : formEmailRef.current && formEmailRef.current.focus()
     }
@@ -107,10 +94,10 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
                                 style={{ backgroundColor: 'transparent' }}
                                 icon={hidden ? faArrowAltCircleDown as IconProp : faArrowAltCircleUp as IconProp}/></span>
             </button>
-            <div className={classNames("signIn__dropMenu--wrapper", { dropMenuHidden: hidden, sendToBackground: hidden })}>
+            <div className={classNames("signIn__dropMenu--wrapper noBackground", { dropMenuHidden: hidden, sendToBackground: hidden })}>
                 <form className="signIn__form">
                     {isLoading && <div className="signin__form--cover"><Spinner embed={false}/></div>}
-                    {isError && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{isApiError(error) ? error.data.message : JSON.stringify(error)}</div>}
+                    {isError && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{isApiAuthError(error) ? error.data.message : JSON.stringify(error)}</div>}
                     <label htmlFor="signIn__form--email">email</label>
                     <input
                         ref={formEmailRef}
@@ -133,9 +120,9 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
                     />
                     <button disabled={isLoading}>Sign in</button>
                     <LineBreak />
-                    <button><span style={{ backgroundColor: "transparent" }}><FontAwesomeIcon style={{ backgroundColor: "transparent" }} icon={faGoogle}/> sign in</span></button>
+                    <button type='button'><span style={{ backgroundColor: "transparent" }}><FontAwesomeIcon style={{ backgroundColor: "transparent" }} icon={faGoogle}/> sign in</span></button>
                     <LineBreak />
-                    <button onClick={() => handleRegisterClick()}>Register</button>
+                    <Link className='signIn__form--registerLink' to='/register'><button onClick={() => setHidden(true)} className='signin__form--registerButton' type='button'>Register</button></Link>
                 </form>
             </div>
             {!hidden && <div className="signIn--overlay" onClick={() => handleOverlayClick()}></div>}
