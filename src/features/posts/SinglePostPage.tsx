@@ -52,7 +52,6 @@ const Multimedia = ({ multimedia }: { multimedia: IMultimediaNYTimes[] }) => {
     return (
         <div className="postMultimedia">
             <MyImageWrapper className="buttonLike" onClick={() => setShowLarge(true)} src={multimedia[2].url} alt='icon' loadingComponent={<Spinner embed={true} />}/>
-            {/* <img className="buttonLike" onClick={() => setShowLarge(true)} src={multimedia[2].url} alt="icon" /> */}
             {showLarge &&
                 <div onClick={() => setShowLarge(false)} className="modalImage">
                     <MyImageWrapper src={multimedia[0].url} alt='large' loadingComponent={<Spinner embed={true} />} loadingBgImg={multimedia[2].url} />

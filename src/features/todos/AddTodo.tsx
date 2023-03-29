@@ -36,11 +36,10 @@ const AddTodo = () => {
                 setDescription('')
                 setDueDate(new Date())
                 setReminder(false)
-                dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
             } catch (error) {
-                dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
                 console.log(error)
             }
+            dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
         }
     }
     
