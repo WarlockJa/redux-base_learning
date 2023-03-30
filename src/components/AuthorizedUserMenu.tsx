@@ -1,11 +1,14 @@
 import classNames from "classnames"
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { apiSlice, IRTKQuery } from "../features/api/apiSlice"
+import { apiSlice } from "../features/api/apiSlice"
+import { useLogoutMutation } from "../features/auth/authApiSlice"
 import { logOut, selectUserData } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
 
-const AuthorizedUserMenu = ({ logout, isLoading }: IRTKQuery) => {
+const AuthorizedUserMenu = () => {
+    // logout api call
+    const [logout, { isLoading }] = useLogoutMutation()
     // user data from the store
     const idToken = useAppSelector(selectUserData)
     // menu hidden state

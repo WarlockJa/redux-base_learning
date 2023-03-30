@@ -1,5 +1,5 @@
 import './signin.css'
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import { useGoogleLogin } from "@react-oauth/google"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useRef, useState } from "react"
@@ -7,17 +7,13 @@ import { useAppDispatch } from "../app/hooks"
 import { IAuth, setCredentials } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
 import classNames from 'classnames'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import LineBreak from '../util/LineBreak'
 import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/fontawesome-free-solid'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { IRTKQuery, isApiAuthError } from '../features/api/apiSlice'
 
-const MyLoginButton = ({ callback }: { callback: () => void}) => {
-    return <button onClick={() => callback()}>Sign in with Google</button>
-}
-
-const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
+const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // flag for hiding sign in and options menus
     const [hidden, setHidden] = useState(true)
     // flag for showing/hiding sign in and options menu messages
@@ -25,17 +21,8 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
     // sign in authorization data
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // RTK Query method for authorization
-    // const [login, { isLoading, isSuccess, isError, error }] = useLoginMutation()
     // redux store methods to store user data
     const dispatch = useAppDispatch()
-    // react router
-    const navigate = useNavigate()
-    // routing to registration form
-    const handleRegisterClick = () => {
-        setHidden(true)
-        navigate('/register')
-    }
 
     // reattaching focus to the sign in menu on error cover close
     const formPassRef = useRef<HTMLInputElement>(null)
@@ -43,7 +30,7 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
     const handleErrorClick = () => {
         setSignInCoverVisible(false)
         // verifying that error is from the API by checking its type. If so focusing appropriate fields based on error message
-        isApiAuthError(error) && error.data.message === 'Password incorrect'
+        isApiAuthError(login.error) && login.error.data.message === 'Password incorrect'
             ? formPassRef.current && formPassRef.current.focus()
             : formEmailRef.current && formEmailRef.current.focus()
     }
@@ -52,7 +39,7 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
     const handleSubmit = async (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault()
         setSignInCoverVisible(true)
-        const signInData: IAuth = login && await login({ email, password }).unwrap()
+        const signInData: IAuth = login.login && await login.login({ email, password }).unwrap()
         dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
         setEmail('')
         setPassword('')
@@ -64,24 +51,13 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
         setSignInCoverVisible(false)
     }
 
-    // let authContent = (
-    //     // <MyLoginButton callback={useGoogleLogin({ onSuccess: tokenResponse => login(tokenResponse)})} />
-    //     <SignIn />
-    //     // <GoogleLogin
-    //     //     onSuccess={credentialResponse => {
-    //     //         login(credentialResponse)
-    //     //     }}
-
-    //     //     theme='filled_blue'
-    //     //     shape='pill'
-    //     //     text='signin'
-    //     //     useOneTap
-
-    //     //     onError={() => {
-    //     //         console.log('Login failed')
-    //     //     }}
-    //     // />
-    // )
+    const loginGoogle = useGoogleLogin({
+        // onSuccess: tokenResponse => console.log(tokenResponse),
+        onSuccess: async tokenResponse => {
+            const signInData = gLogin.gLogin && await gLogin.gLogin(tokenResponse) as { data: IAuth }
+            dispatch(setCredentials({ accessToken: signInData?.data.accessToken, idToken: signInData?.data.idToken }))
+        },
+    });
 
     // content for sign in and options menu
     const content = (
@@ -96,8 +72,12 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
             </button>
             <div className={classNames("signIn__dropMenu--wrapper noBackground", { dropMenuHidden: hidden, sendToBackground: hidden })}>
                 <form className="signIn__form">
-                    {isLoading && <div className="signin__form--cover"><Spinner embed={false}/></div>}
-                    {isError && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{isApiAuthError(error) ? error.data.message : JSON.stringify(error)}</div>}
+                    {(login.isLoading || gLogin.isLoading) && <div className="signin__form--cover"><Spinner embed={false}/></div>}
+                    {(login.isError || gLogin.isError) && signInCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{
+                        login.isError
+                            ? isApiAuthError(login.error) ? login.error.data.message : JSON.stringify(login.error)
+                            : isApiAuthError(gLogin.error) ? gLogin.error.data.message : JSON.stringify(gLogin.error)}
+                        </div>}
                     <label htmlFor="signIn__form--email">email</label>
                     <input
                         ref={formEmailRef}
@@ -118,9 +98,9 @@ const SignIn = ({ login, isLoading, isError, error }: IRTKQuery) => {
                         maxLength={50}
                         required
                     />
-                    <button disabled={isLoading}>Sign in</button>
+                    <button disabled={login.isLoading || gLogin.isLoading}>Sign in</button>
                     <LineBreak />
-                    <button type='button'><span style={{ backgroundColor: "transparent" }}><FontAwesomeIcon style={{ backgroundColor: "transparent" }} icon={faGoogle}/> sign in</span></button>
+                    <button onClick={() => loginGoogle()} type='button'><span style={{ backgroundColor: "transparent" }}><FontAwesomeIcon style={{ backgroundColor: "transparent" }} icon={faGoogle}/> sign in</span></button>
                     <LineBreak />
                     <Link className='signIn__form--registerLink' to='/register'><button onClick={() => setHidden(true)} className='signin__form--registerButton' type='button'>Register</button></Link>
                 </form>

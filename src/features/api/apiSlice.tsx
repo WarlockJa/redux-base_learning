@@ -8,7 +8,7 @@ const BASE_URL = 'http://localhost:5000/'
 
 export interface IRTKQuery {
     login?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
-    logout?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
+    gLogin?: MutationTrigger<MutationDefinition<any, BaseQueryFn<any, unknown, unknown, {}, {}>, "Todos" | "Auth", any, "api">>
     isLoading: boolean;
     isError?: boolean;
     error?: unknown;

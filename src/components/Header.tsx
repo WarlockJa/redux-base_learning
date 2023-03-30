@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom"
 import Spinner from "../util/Spinner"
-import { useLoginMutation, useLogoutMutation, useReauthMutation } from "../features/auth/authApiSlice"
+import { useGLoginMutation, useLoginMutation, useReauthMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { selectCurrentToken, setCredentials } from "../features/auth/authSlice"
@@ -8,12 +8,12 @@ import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
 
 const Header = () => {
-    // logout api call
-    const [logout, { isLoading: isLoadingLogout }] = useLogoutMutation()
     // autologin with existing refreshtoken on page reload
     const [reauth, { isLoading: isLoadingReauth, isSuccess: isSuccessReauth }] = useReauthMutation()
     // login api call
     const [login, { isLoading: isLoadingLogin, isSuccess: isSuccessLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
+    // google api login call
+    const [gLogin, { isLoading: isLoadingGLogin, isSuccess: isSuccessGLogin, isError: isErrorGLogin, error: errorGLogin }] = useGLoginMutation()
     const token = useAppSelector(selectCurrentToken)
 
     const dispatch = useAppDispatch()
@@ -33,15 +33,17 @@ const Header = () => {
 
     let authContent
     // header menu spinner on loggin out and auto relog
-    if(isLoadingLogout || isLoadingReauth) {
+    if(isLoadingReauth) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
     // user menu on successful login
-    // } else if(isSuccessReauth || isSuccessLogin) {
     } else if(token) {
-        authContent = <AuthorizedUserMenu logout={logout} isLoading={isLoadingLogout}/>
+        authContent = <AuthorizedUserMenu />
     // sign in menu in other cases
     } else {
-        authContent = <SignIn login={login} isLoading={isLoadingLogin} isError={isErrorLogin} error={errorLogin} />
+        authContent = <SignIn
+            login={{ login, isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }}
+            gLogin={{ gLogin, isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }}
+        />
     }
 
     return (
