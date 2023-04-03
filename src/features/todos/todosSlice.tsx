@@ -5,21 +5,21 @@ export interface ITodo {
     id: number;
     useremail: string;
     title: string;
-    completed: boolean;
+    completed: number;
     description: string;
     date_created: string;
     date_due: Date;
-    reminder: boolean;
+    reminder: number;
 }
 
 export interface IUpdateTodo {
     id: number;
     useremail: string;
     title: string;
-    completed: boolean;
+    completed: number;
     description: string;
     date_due: string;       // string due to conversion of the Date into SQL datetime
-    reminder: boolean;
+    reminder: number;
 }
 
 export interface IPostTodo {
@@ -27,7 +27,7 @@ export interface IPostTodo {
     title: string;
     description: string;
     date_due: string;
-    reminder: boolean;
+    reminder: number;
 }
 
 interface ITodosState {

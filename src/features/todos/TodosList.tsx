@@ -58,9 +58,10 @@ const TodosList = () => {
             <Spinner embed={false} height='16em' width="100%"/>
         </>
     } else if (isError) {
-        content = <pre>{JSON.stringify(error)}</pre>
+        content = <p>There was an error fetching data</p>
+        // content = <pre>{JSON.stringify(error, null, 2)}</pre>
     } else if (isSuccess) {
-        if(sortedTodos) {
+        if(sortedTodos && sortedTodos.length > 0) {
             const renderedTodos = sortedTodos.map(todo => 
                 <TodoItem key={todo.id} todo={todo} />
             )
@@ -70,6 +71,8 @@ const TodosList = () => {
             })
 
             content = renderedTodos
+        } else {
+            content = <p>Everything is done! Good job!</p>
         }
     }
 
@@ -80,7 +83,7 @@ const TodosList = () => {
 
     return (
         <section className="todos">
-            <h2>Todos <span>
+            <h2>Todos <span title='Open/close add todo menu'>
                     {addTodoMenuState
                         ? <CloseAddTodoIcon onClick={() => handleAddTodoIconClick()} className='todos__button--addTodo svg-negative' />
                         : <OpenAddTodoIcon onClick={() => handleAddTodoIconClick()} className='todos__button--addTodo svg-positive' />

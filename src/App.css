@@ -97,6 +97,18 @@
     background: transparent;
 }
 
+.smallTextButton {
+    color: #2e5981;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    line-height: 0;
+    cursor: pointer;
+}
+.smallTextButton:hover,
+.smallTextButton:active {
+    color: #456a8d;
+}
+
 @keyframes rotate-logo {
     50% {
         transform: rotateZ(180deg) scale(1.1);

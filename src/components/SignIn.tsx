@@ -51,8 +51,8 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
         setSignInCoverVisible(false)
     }
 
+    // sign in with google
     const loginGoogle = useGoogleLogin({
-        // onSuccess: tokenResponse => console.log(tokenResponse),
         onSuccess: async tokenResponse => {
             const signInData = gLogin.gLogin && await gLogin.gLogin(tokenResponse) as { data: IAuth }
             dispatch(setCredentials({ accessToken: signInData?.data.accessToken, idToken: signInData?.data.idToken }))
@@ -65,7 +65,6 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
             <button
                 className='signIn--button'
                 onClick={() => setHidden(prev => !prev)}
-                // onBlur={() => handleSignInMenuButtonFocusLost()}
             ><span>Sign In <FontAwesomeIcon
                                 style={{ backgroundColor: 'transparent' }}
                                 icon={hidden ? faArrowAltCircleDown as IconProp : faArrowAltCircleUp as IconProp}/></span>

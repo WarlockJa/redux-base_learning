@@ -7,18 +7,19 @@ import { switchAddTodo } from './todosSlice';
 import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
 import dateToSqlDatetime from '../../util/dateToSQLdatetime';
-import { selectCurrentEmail } from '../auth/authSlice';
+import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../auth/authSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [dueDate, setDueDate] = useState(new Date)
-    const [reminder, setReminder] = useState(false)
+    const [reminder, setReminder] = useState(0)
 
     // redux store state for the addTodo menu
     // const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
     const useremail = useAppSelector(selectCurrentEmail)
+    const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 
@@ -35,7 +36,7 @@ const AddTodo = () => {
                 setTitle('')
                 setDescription('')
                 setDueDate(new Date())
-                setReminder(false)
+                setReminder(0)
             } catch (error) {
                 console.log(error)
             }
@@ -72,14 +73,17 @@ const AddTodo = () => {
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                 ></textarea>
-                <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames('addTodo__dueDate', { invalid: !dueDateIsValid })}>
-                    <div className="addTodo__dueDate--reminderBlock">
-                        <label htmlFor="addTodo__dueDate--reminderCheckBox">Set reminder</label>
-                        <input checked={reminder} onChange={() => setReminder((prev) => !prev)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
+                {useremailConfirmed
+                    ? <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames('addTodo__dueDate', { invalid: !dueDateIsValid })}>
+                        <div className="addTodo__dueDate--reminderBlock">
+                            <label htmlFor="addTodo__dueDate--reminderCheckBox">Set reminder</label>
+                            <input checked={reminder === 1 ? true : false} onChange={() => setReminder((prev) => prev === 1 ? 0 : 1)} type="checkbox" id="addTodo__dueDate--reminderCheckBox" />
+                        </div>
+                        <label>Select date</label>
+                        <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} format="dd-MM-y hh:mm" />
                     </div>
-                    <label>Select date</label>
-                    <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} format="dd-MM-y hh:mm" />
-                </div>
+                    : <div>Confirm email to enable reminders</div>
+                }
                 <button className={!canSave ? 'translucent' : undefined} disabled={!canSave} title={!canSave ? 'Required fields are missing' : 'All good!'} type="button" onClick={handleSubmit}>Add Todo</button>
             </form>
         </section>

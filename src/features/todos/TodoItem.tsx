@@ -11,7 +11,7 @@ import DateTimePicker from "react-datetime-picker"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
 import dateToSqlDatetime from "../../util/dateToSQLdatetime"
 import { useAppSelector } from "../../app/hooks"
-import { selectCurrentEmail } from "../auth/authSlice"
+import { selectCurrentEmail, selectCurrentEmailConfirmed } from "../auth/authSlice"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -43,6 +43,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [descriptionEdit, setDescriptionEdit] = useState(false)
 
     const useremail = useAppSelector(selectCurrentEmail)
+    const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
 
     // deleting todo
     const handleDeleteTodo = async () => {
@@ -133,7 +134,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 className="todoItem__completedState"
             >
                 <div
-                    onClick={() => setCompleted(prev => !prev)}
+                    onClick={() => setCompleted(prev => prev === 1 ? 0 : 1)}
                     className="faIcon-container"
                 >
                     {completed
@@ -148,13 +149,16 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     </>
                 }
             </div>
-            <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames("todoItem__footer--setReminder", {invalid: !dueDateIsValid})}>
-                <div>
-                    <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder} onChange={() => setReminder(prev => !prev)} />
-                    <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
+            {useremailConfirmed
+                ? <div title={!dueDateIsValid ? `Chosen date must be after ${new Date}` : "Set reminder"} className={classNames("todoItem__footer--setReminder", {invalid: !dueDateIsValid})}>
+                    <div>
+                        <input type="checkbox" id={`todoItem__footer--reminder${todo.id}`} checked={reminder === 1 ? true : false} onChange={() => setReminder(prev => prev === 1 ? 0 : 1)} />
+                        <label htmlFor={`todoItem__footer--reminder${todo.id}`}>Set reminder</label>
+                    </div>
+                    <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm a" />
                 </div>
-                <DateTimePicker disabled={!reminder} value={dueDate} onChange={setDueDate} disableClock minDate={new Date} format="dd-MM-y hh:mm" />
-            </div>
+                : <div>Confirm email to enable reminders</div>
+            }
             <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
                 <p>created</p>
                 <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p>

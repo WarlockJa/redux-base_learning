@@ -2,13 +2,16 @@ import classNames from "classnames"
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { apiSlice } from "../features/api/apiSlice"
-import { useLogoutMutation } from "../features/auth/authApiSlice"
+import { useLogoutMutation, useSendConfirmEmailMutation } from "../features/auth/authApiSlice"
 import { logOut, selectUserData } from "../features/auth/authSlice"
 import Spinner from "../util/Spinner"
+import { Fragment } from "react"
 
 const AuthorizedUserMenu = () => {
     // logout api call
     const [logout, { isLoading }] = useLogoutMutation()
+    // email verification api call
+    const [sendConfirmEmail] = useSendConfirmEmailMutation()
     // user data from the store
     const idToken = useAppSelector(selectUserData)
     // menu hidden state
@@ -29,12 +32,19 @@ const AuthorizedUserMenu = () => {
         dispatch(apiSlice.util.resetApiState())
         // location.reload()
     }
+
+    // resend verification email
+    const handleEmailResend = () => {
+        dispatch(sendConfirmEmail)
+    }
+
     return isLoading ? <Spinner embed={false} width="5em" height="2em" />
     :(
         <>
             <button onClick={() => setHidden(prev => !prev)}>{idToken?.name}</button>
             <div className={classNames("signIn__dropMenu--wrapper formLike userMenu", { dropMenuHidden: hidden })}>
                 <p style={{ color: idToken?.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken?.email}</p>
+                {!idToken?.email_confirmed && <div className="smallTextButton" onClick={() => handleEmailResend()}>re-send verification email</div>}
                 <p>{idToken?.name}</p>
                 <p>{idToken?.surname}</p>
                 <button onClick={() => handleLogout()}>Logout</button>

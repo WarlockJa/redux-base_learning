@@ -48,5 +48,6 @@ export const { setCredentials, logOut } = authSlice.actions
 export default authSlice.reducer
 
 export const selectCurrentEmail = (state: RootState) => state.auth.idToken?.email
+export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idToken?.email_confirmed
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
 export const selectUserData = (state: RootState) => state.auth.idToken
