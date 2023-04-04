@@ -1,0 +1,20 @@
+.preferencesItem {
+    transition: transform 300ms ease;
+    height: 0;
+}
+
+.preferencesItem--header {
+    cursor: pointer;
+}
+
+.preferencesItem--formWrapper {
+    transition: transform 200ms ease;
+    transform-origin: left top;
+    transform: rotateX(90deg);
+}
+
+.preferencesItem--formWrapper[visible='1'] {
+    transition: transform 500ms ease;
+    transform: rotateX(0deg);
+    max-height: 0em;
+}

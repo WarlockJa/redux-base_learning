@@ -2,8 +2,10 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   color-scheme: light dark;
+  --sz-header-height: 2.5rem;
   --clr-font-main: rgba(255, 255, 255, 0.87);
   --clr-bg-main: #242424;
+  --clr-bg-hoverMain: #363636;
   --clr-button-bg: #414141;
   --clr-header-bg: #242424;
   --clr-async-animation: rgb(120,90,188, 0.5);
@@ -62,7 +64,8 @@ li, form, article, .formLike {
   border-radius: 15px;
 }
 
-form > * {
+form > *,
+.formLike > * {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -84,7 +87,7 @@ label {
 }
 
 textarea {
-  resize: vertical;
+  resize: none;
 }
 
 button {
@@ -125,6 +128,7 @@ input:focus-visible {
   :root {
     --clr-font-main: #213547;
     --clr-bg-main: #ffffff;
+    --clr-bg-hoverMain: #AAAAAA;
     --clr-button-bg: rgb(225, 225, 225);
     --clr-header-bg: #ffffff;
     --clr-spinner: #232323;

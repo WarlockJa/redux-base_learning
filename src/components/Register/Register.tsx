@@ -1,12 +1,11 @@
-import './signin.css'
+import '../Header/headerMenu.css'
 import { FormEvent, useState } from "react"
-import { useLoginMutation, useRegisterMutation, useSendConfirmEmailMutation } from "../features/auth/authApiSlice"
-import Spinner from "../util/Spinner"
-import { apiSlice, isApiRegisterError } from "../features/api/apiSlice"
-import { useNavigate } from "react-router-dom"
+import { useLoginMutation, useRegisterMutation, useSendConfirmEmailMutation } from "../../features/auth/authApiSlice"
+import Spinner from "../../util/Spinner"
+import { apiSlice, isApiRegisterError } from "../../features/api/apiSlice"
 import classNames from 'classnames'
-import { IAuth, setCredentials } from '../features/auth/authSlice'
-import { useAppDispatch } from '../app/hooks'
+import { IAuth, setCredentials } from '../../features/auth/authSlice'
+import { useAppDispatch } from '../../app/hooks'
 
 const returnErrorMessage = (error: unknown) => {
     if(isApiRegisterError(error)) {
@@ -22,7 +21,6 @@ const returnErrorMessage = (error: unknown) => {
 }
 
 const Register = () => {
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     // register form fields and cover states
     const [email, setEmail] = useState('')
@@ -68,9 +66,9 @@ const Register = () => {
         <section className="register">
             <h1>Register</h1>
             <form onSubmit={(e) => handleSubmit(e)}>
-                {(isLoading || isLoadingLogin) && <div className="signin__form--cover"><Spinner embed={false}/></div>}
-                {isError && registerCoverVisible && <div onClick={() => handleErrorClick()} className="signin__form--cover">{returnErrorMessage(error)}</div>}
-                {emailVerificationCoverVisible && <div onClick={() => handleVerificationCoverClick()} className="signin__form--cover">Verification email was sent to your address</div>}
+                {(isLoading || isLoadingLogin) && <div className="headerMenu__form--cover"><Spinner embed={false}/></div>}
+                {isError && registerCoverVisible && <div onClick={() => handleErrorClick()} className="headerMenu__form--cover">{returnErrorMessage(error)}</div>}
+                {emailVerificationCoverVisible && <div onClick={() => handleVerificationCoverClick()} className="headerMenu__form--cover">Verification email was sent to your address</div>}
                 <label htmlFor="register__email">E-Mail</label>
                 <input
                     id="register__email"

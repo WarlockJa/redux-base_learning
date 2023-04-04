@@ -15,8 +15,6 @@
 .postFooter {
     display: flex;
     flex-direction: column;
-
-    line-height: 0;
 }
 
 .postFooter > p {
@@ -40,9 +38,9 @@
 .modalImage {
     position: fixed;
     left: 0;
-    top: 0;
+    top: var(--sz-header-height);
     width: 100%;
-    height: 100%;
+    height: calc(100% - var(--sz-header-height));
     background-color: var(--clr-bg-modal);
 
     display: flex;

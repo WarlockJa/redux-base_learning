@@ -1,0 +1,18 @@
+.header {
+    position: sticky;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: var(--clr-header-bg);
+    display: flex;
+    align-items: center;
+    height: var(--sz-header-height);
+    z-index: 2;
+}
+
+.header__loginSection {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}

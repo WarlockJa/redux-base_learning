@@ -1,24 +1,25 @@
+import './header.css'
 import { NavLink } from "react-router-dom"
-import Spinner from "../util/Spinner"
-import { useGLoginMutation, useLoginMutation, useReauthMutation } from "../features/auth/authApiSlice"
 import SignIn from "./SignIn"
-import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { selectCurrentToken, setCredentials } from "../features/auth/authSlice"
 import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
+import { useGLoginMutation, useLoginMutation, useReauthMutation } from '../../features/auth/authApiSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { selectCurrentToken, setCredentials } from '../../features/auth/authSlice'
+import Spinner from '../../util/Spinner'
 
 const Header = () => {
     // autologin with existing refreshtoken on page reload
-    const [reauth, { isLoading: isLoadingReauth, isSuccess: isSuccessReauth }] = useReauthMutation()
+    const [reauth, { isLoading: isLoadingReauth }] = useReauthMutation()
     // login api call
-    const [login, { isLoading: isLoadingLogin, isSuccess: isSuccessLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
+    const [login, { isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
     // google api login call
-    const [gLogin, { isLoading: isLoadingGLogin, isSuccess: isSuccessGLogin, isError: isErrorGLogin, error: errorGLogin }] = useGLoginMutation()
+    const [gLogin, { isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }] = useGLoginMutation()
     const token = useAppSelector(selectCurrentToken)
 
     const dispatch = useAppDispatch()
 
-    // relogin user upon page reaload with stored refresh token
+    // relogin user upon page reaload with stored httpOnly refresh token cookie
     useEffect(() => {
         const handleUserReauth = async () => {
             const reauthData = await reauth({}).unwrap()

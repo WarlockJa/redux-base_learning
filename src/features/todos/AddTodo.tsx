@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
 import dateToSqlDatetime from '../../util/dateToSQLdatetime';
 import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../auth/authSlice';
+import { useSendConfirmEmailMutation } from '../auth/authApiSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')
@@ -20,6 +21,7 @@ const AddTodo = () => {
     const dispatch = useAppDispatch()
     const useremail = useAppSelector(selectCurrentEmail)
     const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
+    const [sendConfirmEmail] = useSendConfirmEmailMutation()
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 
@@ -82,7 +84,7 @@ const AddTodo = () => {
                         <label>Select date</label>
                         <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} format="dd-MM-y hh:mm" />
                     </div>
-                    : <div>Confirm email to enable reminders</div>
+                    : <div>Confirm email to enable reminders<p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p></div>
                 }
                 <button className={!canSave ? 'translucent' : undefined} disabled={!canSave} title={!canSave ? 'Required fields are missing' : 'All good!'} type="button" onClick={handleSubmit}>Add Todo</button>
             </form>

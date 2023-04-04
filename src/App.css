@@ -3,23 +3,6 @@
     margin: 0 auto;
 }
 
-.header {
-    position: sticky;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-color: var(--clr-header-bg);
-    display: flex;
-    align-items: center;
-    z-index: 2;
-}
-
-.header__loginSection {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-}
-
 .counter {
     display: flex;
     flex-direction: column;
@@ -97,15 +80,14 @@
     background: transparent;
 }
 
-.smallTextButton {
+.textButton {
     color: #2e5981;
     text-decoration: underline;
-    font-size: 0.8rem;
     line-height: 0;
     cursor: pointer;
 }
-.smallTextButton:hover,
-.smallTextButton:active {
+.textButton:hover,
+.textButton:active {
     color: #456a8d;
 }
 

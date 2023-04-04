@@ -2,14 +2,15 @@ import './App.css'
 import './features/posts/posts.css'
 import './features/todos/todos.css'
 import { Navigate, useRoutes } from "react-router-dom"
-import Layout from "./components/Layout"
+import Layout from "./components/Routing/Layout"
 import Counter from "./features/counter/Counter"
 import PostsList from './features/posts/PostsList'
 import TodosList from './features/todos/TodosList'
 import SinglePostPage from './features/posts/SinglePostPage'
-import ProtectedRoute from './components/ProtectedRoute'
-import Register from './components/Register'
-import UnprotectedRouteOnly from './components/UnprotectedRouteOnly'
+import Register from './components/Register/Register'
+import Preferences from './components/Preferences/Preferences'
+import UnprotectedRouteOnly from './components/Routing/UnprotectedRouteOnly'
+import ProtectedRoute from './components/Routing/ProtectedRoute'
 
 function App() {
   const RoutesElement = useRoutes([
@@ -50,6 +51,10 @@ function App() {
         {
           path: '/todos',
           element: <ProtectedRoute renavigate='/'><TodosList /></ProtectedRoute>
+        },
+        {
+          path: '/preferences',
+          element: <ProtectedRoute renavigate='/'><Preferences /></ProtectedRoute>
         },
         {
           path: '/*',

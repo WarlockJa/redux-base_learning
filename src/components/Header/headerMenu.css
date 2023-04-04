@@ -2,7 +2,7 @@ form {
     position: relative;
 }
 
-.signin__form--cover {
+.headerMenu__form--cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -15,12 +15,12 @@ form {
     backdrop-filter: blur(2px);
 }
 
-.signIn__loading {
+.headerMenu__loading {
     width: 2em;
     height: 2em;
 }
 
-.signIn--button {
+.headerMenu--button {
     border: 1px solid var(--clr-font-main);
     border-radius: 2px;
     padding: 0.5em;
@@ -29,14 +29,14 @@ form {
     background: transparent;
 }
 
-.signIn--button:hover,
-.signIn--button:focus,
-.signIn--button:focus-visible {
+.headerMenu--button:hover,
+.headerMenu--button:focus,
+.headerMenu--button:focus-visible {
     box-shadow: -2px 2px 2px var(--clr-font-main);
     outline: 0px auto transparent;
 }
 
-.signIn__dropMenu--wrapper {
+.headerMenu__dropMenu--wrapper {
     position: absolute;
     width: 15em;
     right: 0;
@@ -44,11 +44,38 @@ form {
     z-index: -1;
 }
 
+.headerMenu__dropMenu--menuItem {
+    min-height: 2.6rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--clr-font-main);
+    padding: 0.5em;
+    opacity: 0.9;
+    
+    transition: border-radius 400ms ease, background 300ms ease;
+}
+.headerMenu__dropMenu--menuItem:hover,
+.headerMenu__dropMenu--menuItem:focus {
+    opacity: 1;
+    color: var(--clr-font-main);
+    background-color: var(--clr-bg-hoverMain);
+    border-radius: 8px;
+}
+
+.headerMenu__dropMenu--logoutButton {
+    width: unset;
+    float: right;
+    background: transparent;
+    text-align: right;
+}
+
 .dropMenuHidden {
     transform: translateY(-25em);
 }
 
-.signIn--overlay {
+.headerMenu--overlay {
     position: fixed;
     left: 0;
     top: 0;
@@ -62,11 +89,11 @@ form {
     margin-top: 3em;
 }
 
-.signIn__form--registerLink {
+.headerMenu__form--registerLink {
     margin: 0;
 }
 
-.signin__form--registerButton {
+.headerMenu__form--registerButton {
     display: flex;
     flex-direction: column;
     align-items: center;
