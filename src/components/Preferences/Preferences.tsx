@@ -44,37 +44,10 @@ const Preferences = () => {
         verticalOffset: userPreferences.currentHeight
     })
 
-    // test menu 
-    const testMenuForm = <form>
-        <p>{idToken?.name}</p>
-    </form>
-
-    const testPreferences = collapsingMenu({
-        defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
-        headerContent: 'Widget Preferences',
-        headerTitle: 'Open/close widget preferences menu',
-        formContent: widgetPreferencesForm,
-        verticalOffset: userPreferences.currentHeight + widgetPreferences.currentHeight
-    })
-    // test menu2
-    const testMenuForm2 = <form>
-        <p>{idToken?.name}</p>
-    </form>
-
-    const testPreferences2 = collapsingMenu({
-        defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
-        headerContent: 'Widget Preferences',
-        headerTitle: 'Open/close widget preferences menu',
-        formContent: widgetPreferencesForm,
-        verticalOffset: userPreferences.currentHeight + widgetPreferences.currentHeight + testPreferences.currentHeight
-    })
-
     return (
         <section>
             {userPreferences.menuItem}
             {widgetPreferences.menuItem}
-            {testPreferences.menuItem}
-            {testPreferences2.menuItem}
         </section>
     )
 }
