@@ -3,6 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { useSendConfirmEmailMutation } from "../../features/auth/authApiSlice"
 import { selectUserData } from "../../features/auth/authSlice"
 import collapsingMenu from './collapsingMenu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { faCheck } from '@fortawesome/fontawesome-free-solid'
+import Icons from '../../assets/Icons'
+import { useEffect, useState } from 'react'
 
 const Preferences = () => {
     // user data from the store
@@ -11,18 +16,146 @@ const Preferences = () => {
     const [sendConfirmEmail] = useSendConfirmEmailMutation()
     // default settings for the menu
     const DEFAULT_HEADER_OFFSET = 32
+    // user prefrences menu states
+    const [userDataChanged, setUserDataChanged] = useState(false)
+    // user name states
+    const [userName, setUserName] = useState(idToken?.name ? idToken?.name : '')
+    const [userNameEdit, setUserNameEdit] = useState(false)
+    const [userNameIfCancelEdit, setUserNameIfCancelEdit] = useState('')
+    // user surname states
+    const [userSurname, setUserSurname] = useState(idToken?.surname ? idToken?.surname : '')
+    const [userSurnameEdit, setUserSurnameEdit] = useState(false)
+    const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState('')
+    // user email states
+    const [userEmail, setUserEmail] = useState(idToken?.email)
+    const [userEmailEdit, setUserEmailEdit] = useState(false)
+    // user password states
+    const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
+
+    // detecting is changes were made in user preferences menu
+    useEffect(() => {
+        idToken?.name === userName
+            ? idToken.surname === userSurname
+                ? idToken.email === userEmail
+                    ? setUserDataChanged(false)
+                    : setUserDataChanged(true)
+                : setUserDataChanged(true)
+            : setUserDataChanged(true)
+    },[userName, userSurname, userEmail])
+
+    // exiting user name editing mode on Enter or Esc clicked
+    const handleUserNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+          setUserNameEdit(false)
+        } else if (event.key === 'Escape') {
+            setUserNameEdit(false)
+            setUserName(userNameIfCancelEdit)
+        }
+    }
+
+    // exiting user surname editing mode on Enter or Esc clicked
+    const handleUserSurnameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+          setUserSurnameEdit(false)
+        } else if (event.key === 'Escape') {
+            setUserSurnameEdit(false)
+            setUserSurname(userSurnameIfCancelEdit)
+        }
+    }
+
+    // edit user name click handler
+    const handleUserNameEditClick = () => {
+        setUserNameEdit(true)
+        setUserNameIfCancelEdit(userName)
+    }
+
+    // edit user surname click handler
+    const handleUserSurnameEditClick = () => {
+        setUserSurnameEdit(true)
+        setUserSurnameIfCancelEdit(userName)
+    }
 
     // Cascading collapsing menus. Eachs section returns JSX element and its current height in px
-    // Sum of previous elements heights is used to calculate offset for each menu item
-    // user preferences menu section
-    const userPreferencesForm = <form>
-        <p>{idToken?.name}</p>
-        <p>{idToken?.surname}</p>
-        <p style={{ color: idToken?.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken?.email}</p>
+    // Sum of previous elements heights is used to calculate offset for each subsequent menu item
+    // generating user preferences form
+    const userPreferencesForm = <form className='preferencesItem__userForm'>
+        <div className='preferencesItem__userForm--editBlock'>
+            {idToken?.picture
+                ? <div>
+                    <img className='preferencesItem__userForm--avatar' src={idToken?.picture} alt="" />
+                </div>
+                : <div>
+                    <Icons.Person className='preferencesItem__userForm--avatar'/>
+                </div>
+            }
+            {userDataChanged && <button>Update</button>}
+        </div>
+        {userNameEdit
+            ? <input
+                type="text"
+                autoFocus
+                // className={classNames('todoItem__body--title', { invalid: !title })}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                onBlur={() => setUserNameEdit(false)}
+                onKeyDown={(e) => handleUserNameKeyDown(e)}
+                maxLength={254}
+            ></input>
+            : <div className='preferencesItem__userForm--editBlock'>
+                <p className='preferencesItem__userForm--p'>{userName}</p>
+                <button type='button' className='preferencesItem__userForm--editButton' onClick={() => handleUserNameEditClick()} title='Edit'>· · ·</button>
+            </div>
+        }
+        {userSurnameEdit
+            ? <input
+                type="text"
+                autoFocus
+                // className={classNames('todoItem__body--title', { invalid: !title })}
+                value={userSurname}
+                onChange={(e) => setUserSurname(e.target.value)}
+                onBlur={() => setUserSurnameEdit(false)}
+                onKeyDown={(e) => handleUserSurnameKeyDown(e)}
+                maxLength={254}
+            ></input>
+            : userSurname
+                ? <div className='preferencesItem__userForm--editBlock'>
+                    <p className='preferencesItem__userForm--p'>{userSurname}</p>
+                    <button type='button' className='preferencesItem__userForm--editButton' onClick={() => handleUserSurnameEditClick()} title='Edit'>· · ·</button>
+                </div>
+                : <div className='preferencesItem__userForm--editBlock'>
+                    <p className='preferencesItem__userForm--p emptyField'>Surname</p>
+                    <button type='button' className='preferencesItem__userForm--editButton' onClick={() => handleUserSurnameEditClick()} title='Edit'>· · ·</button>
+                </div>
+        }
+        <div className='preferencesItem__userForm--email'>
+            <p className='preferencesItem__userForm--p' style={{ color: idToken?.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken?.email}</p>
+            {idToken?.email_confirmed
+                ? <FontAwesomeIcon title="Email verified" icon={faCheck as IconProp} />
+                : <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>
+            }
+        </div>  
         {!idToken?.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>}
-        <p></p>
+        {userNameEdit
+            ? <input
+                type="text"
+                autoFocus
+                // className={classNames('todoItem__body--title', { invalid: !title })}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                onBlur={() => setUserNameEdit(false)}
+                onKeyDown={(e) => handleUserNameKeyDown(e)}
+                maxLength={254}
+            ></input>
+            : <div className='preferencesItem__userForm--editBlock'>
+                <p className='preferencesItem__userForm--p'>{userName}</p>
+                <button type='button' className='preferencesItem__userForm--editButton' onClick={() => handleUserNameEditClick()} title='Edit'>· · ·</button>
+            </div>
+        }
+        <div>Preferred theme</div>
+        <div>Preferred locale</div>
     </form>
 
+    // wrapping user preferences form in a collapsing menu function
     const userPreferences = collapsingMenu({
         defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
         headerContent: 'User Preferences',
@@ -31,11 +164,12 @@ const Preferences = () => {
         verticalOffset: 0
     })
 
-    // widget preferences menu section
+    // generating widgets preferences menu form
     const widgetPreferencesForm = <form>
         <p>{idToken?.name}</p>
     </form>
 
+    // wrapping widgets form in a collapsing menu function
     const widgetPreferences = collapsingMenu({
         defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
         headerContent: 'Widget Preferences',

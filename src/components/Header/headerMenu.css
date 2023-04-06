@@ -2,6 +2,10 @@ form {
     position: relative;
 }
 
+.headerMenu__form > * {
+    margin: 0.5em 0;
+}
+
 .headerMenu__form--cover {
     position: absolute;
     top: 0;

@@ -1,14 +1,3 @@
-.todos__button--addTodo {
-    background: transparent;
-    stroke: none;
-    width: 1.2rem;
-    height: 1.2rem;
-}
-
-.todos__button--addTodo:hover {
-    filter: drop-shadow(0 0 0.3rem var(--clr-font-main));
-}
-
 /* todos list */
 .todoItem {
     display: grid;
@@ -85,6 +74,10 @@
 }
 
 /* add todo */
+.addTodo__form > * {
+    margin: 0.5em 0;
+}
+
 .todos__addTodo--wrapper {
     transition: transform 400ms ease;
     transform-origin: left top;

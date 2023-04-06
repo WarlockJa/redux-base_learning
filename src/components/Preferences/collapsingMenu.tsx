@@ -1,6 +1,5 @@
 import './preferences.css'
-import { ReactComponent as OpenAddTodoIcon } from '../../assets/plus-circle.svg'
-import { ReactComponent as CloseAddTodoIcon } from '../../assets/minus-circle.svg'
+import Icons from '../../assets/Icons'
 import { useLayoutEffect, useRef, useState } from "react"
 
 interface ICollapsingMenuProps {
@@ -28,8 +27,8 @@ const collapsingMenu = ({ defaultHeaderOffset, headerTitle, headerContent, formC
         <div className="preferencesItem" style={{ transform: `translateY(${verticalOffset}px)`}}>
             <h3 className='preferencesItem--header' onClick={() => setCollapsingMenuItemState(prev => !prev)}>{headerContent} <span title={headerTitle}>
                     {collapsingMenuItemState
-                        ? <CloseAddTodoIcon className='todos__button--addTodo svg-negative' />
-                        : <OpenAddTodoIcon className='todos__button--addTodo svg-positive' />
+                        ? <Icons.CloseAddTodo className='collapsingMenuButton svg-negative' />
+                        : <Icons.OpenAddTodo className='collapsingMenuButton svg-positive' />
                     }
                 </span>
             </h3>

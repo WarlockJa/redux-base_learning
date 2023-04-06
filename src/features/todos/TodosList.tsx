@@ -1,5 +1,4 @@
-import { ReactComponent as OpenAddTodoIcon } from '../../assets/plus-circle.svg'
-import { ReactComponent as CloseAddTodoIcon } from '../../assets/minus-circle.svg'
+import Icons from "../../assets/Icons"
 import Spinner from "../../util/Spinner"
 import AddTodo from "./AddTodo"
 import TodoItem from "./TodoItem"
@@ -85,8 +84,8 @@ const TodosList = () => {
         <section className="todos">
             <h2>Todos <span title='Open/close add todo menu'>
                     {addTodoMenuState
-                        ? <CloseAddTodoIcon onClick={() => handleAddTodoIconClick()} className='todos__button--addTodo svg-negative' />
-                        : <OpenAddTodoIcon onClick={() => handleAddTodoIconClick()} className='todos__button--addTodo svg-positive' />
+                        ? <Icons.CloseAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-negative' />
+                        : <Icons.OpenAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-positive' />
                     }
                 </span>
             </h2>

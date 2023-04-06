@@ -54,7 +54,7 @@ const AddTodo = () => {
 
     return (
         <section className="addTodo">
-            <form>
+            <form className='addTodo__form'>
                 <h3>Add Todo</h3>
                 <label htmlFor="addTodo__todoTitle">Todo Title</label>
                 <input

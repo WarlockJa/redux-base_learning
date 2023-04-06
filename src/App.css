@@ -91,6 +91,18 @@
     color: #456a8d;
 }
 
+.collapsingMenuButton {
+    background: transparent;
+    stroke: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    transition: filter 150ms ease;
+}
+
+.collapsingMenuButton:hover {
+    filter: drop-shadow(0 0 0.3rem var(--clr-font-main));
+}
+
 @keyframes rotate-logo {
     50% {
         transform: rotateZ(180deg) scale(1.1);

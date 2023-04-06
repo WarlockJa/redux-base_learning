@@ -3,7 +3,7 @@ import { RootState } from "../../app/store";
 
 export interface IAuth {
     accessToken: string | null;
-    idToken: IUser | null
+    idToken: IUser | null;
 }
 
 interface IUser {
@@ -13,6 +13,8 @@ interface IUser {
     name: string | null;
     surname: string | null;
     picture: string | null;
+    authislocal: boolean | null;
+    preferredtheme: string | null;
 }
 
 const initialState: IAuth = {
@@ -24,6 +26,8 @@ const initialState: IAuth = {
         name: null,
         surname: null,
         picture: null,
+        authislocal: null,
+        preferredtheme: null
     }
 }
 

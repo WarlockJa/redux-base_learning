@@ -14,25 +14,6 @@ export interface IRTKQuery {
     error?: unknown;
 }
 
-interface IGoogleAuthResponse {
-    content: {
-        aud: string;
-        azp: string;
-        email: string;              // e-mail
-        email_verified: boolean;    // e-mail verified status
-        exp: Date;
-        familiy_name: string;       // surname
-        given_name: string;         // first name
-        iat: Date;
-        iss: string;
-        jti: string;
-        name: string;               // full name
-        nbf: Date;
-        picture: string;            // Google avatar URL
-        sub: string;
-    }
-}
-
 interface IApiErrorResponse {
     error: {
         originalStatus: number;
