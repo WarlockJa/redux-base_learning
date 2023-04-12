@@ -1,19 +1,20 @@
 body {
   --sz-header-height: 2.5rem;
+  --clr-async-animation: rgb(120,90,188, 0.5);
+  --clr-link: #646cff;
+  --clr-link-disabled: #535bf255;
+  --clr-bg-modal: #0004;
+  --clr-positive: rgb(63, 122, 63);
+  --clr-negative: rgb(158, 34, 59);
+  
   --clr-font-main: rgba(255, 255, 255, 0.87);
   --clr-bg-main: #242424;
   --clr-bg-hoverMain: #363636;
-  --clr-button-bg: #414141;
   --clr-header-bg: #242424;
-  --clr-async-animation: rgb(120,90,188, 0.5);
-  --clr-link: #646cff;
-  --clr-link-hover: #535bf2;
-  --clr-link-disabled: #535bf255;
-  --clr-bg-modal: #0004;
   --clr-spinner: white;
-  --clr-positive: rgb(63, 122, 63);
-  --clr-negative: rgb(158, 34, 59);
   --clr-font-disabled: #666;
+  --clr-link-hover: #535bf2;
+  --clr-button-bg: #414141;
 }
 
 .dark-theme {
@@ -151,5 +152,16 @@ input:focus-visible {
 
     --clr-link-hover: #747bff;
     --clr-button-bg: #f9f9f9;
+  }
+
+  .dark-theme {
+    --clr-font-main: rgba(255, 255, 255, 0.87);
+    --clr-bg-main: #242424;
+    --clr-bg-hoverMain: #363636;
+    --clr-header-bg: #242424;
+    --clr-spinner: white;
+    --clr-font-disabled: #666;
+    --clr-link-hover: #535bf2;
+    --clr-button-bg: #414141;
   }
 }
