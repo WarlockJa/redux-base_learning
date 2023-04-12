@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks";
-import { selectCurrentToken } from "../../features/auth/authSlice";
+import { selectCurrentToken } from "../../features/api/auth/authSlice";
 
 interface IProtectedRouteProps {
     children: JSX.Element;

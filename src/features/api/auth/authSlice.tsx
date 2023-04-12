@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
+import { RootState } from "../../../app/store";
+import useSystemColorSchemeIsDark from "../../../util/useSystemColorSchemeIsDark";
 
 export interface IAuth {
     accessToken: string | null;
@@ -14,7 +15,7 @@ interface IUser {
     surname: string | null;
     picture: string | null;
     authislocal: boolean | null;
-    preferredtheme: string | null;
+    preferredtheme: boolean;
 }
 
 const initialState: IAuth = {
@@ -27,7 +28,7 @@ const initialState: IAuth = {
         surname: null,
         picture: null,
         authislocal: null,
-        preferredtheme: null
+        preferredtheme: useSystemColorSchemeIsDark()
     }
 }
 
@@ -40,6 +41,10 @@ const authSlice = createSlice({
             state.idToken = idToken
             state.accessToken = accessToken
         },
+        setIdToken: (state, action) => {
+            const { idToken } = action.payload
+            state.idToken = idToken
+        },
         logOut: (state) => {
             state.idToken = null
             state.accessToken = null
@@ -47,7 +52,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { setCredentials, logOut } = authSlice.actions
+export const { setCredentials, setIdToken, logOut } = authSlice.actions
 
 export default authSlice.reducer
 

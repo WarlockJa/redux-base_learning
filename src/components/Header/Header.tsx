@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom"
 import SignIn from "./SignIn"
 import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
-import { useGLoginMutation, useLoginMutation, useReauthMutation } from '../../features/auth/authApiSlice'
+import { useGLoginMutation, useLoginMutation, useReauthMutation } from '../../features/api/auth/authApiSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectCurrentToken, setCredentials } from '../../features/auth/authSlice'
+import { selectCurrentToken, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 
 const Header = () => {

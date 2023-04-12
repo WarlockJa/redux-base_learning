@@ -1,5 +1,5 @@
 import { BaseQueryFn, createApi, fetchBaseQuery, MutationDefinition } from '@reduxjs/toolkit/query/react'
-import { setCredentials, logOut } from '../auth/authSlice'
+import { setCredentials, logOut } from './auth/authSlice'
 import { RootState } from '../../app/store'
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 
@@ -107,6 +107,6 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Todos'],
+    // tagTypes: ['Todos', 'User'],
     endpoints: builder => ({})
 })

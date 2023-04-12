@@ -57,15 +57,15 @@ form {
     color: var(--clr-font-main);
     padding: 0.5em;
     opacity: 0.9;
+    border-radius: 8px;
     
-    transition: border-radius 400ms ease, background 300ms ease;
+    transition: background 300ms ease;
 }
 .headerMenu__dropMenu--menuItem:hover,
 .headerMenu__dropMenu--menuItem:focus {
     opacity: 1;
     color: var(--clr-font-main);
     background-color: var(--clr-bg-hoverMain);
-    border-radius: 8px;
 }
 
 .headerMenu__dropMenu--logoutButton {

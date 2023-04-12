@@ -1,7 +1,4 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
-  color-scheme: light dark;
+body {
   --sz-header-height: 2.5rem;
   --clr-font-main: rgba(255, 255, 255, 0.87);
   --clr-bg-main: #242424;
@@ -17,6 +14,24 @@
   --clr-positive: rgb(63, 122, 63);
   --clr-negative: rgb(158, 34, 59);
   --clr-font-disabled: #666;
+}
+
+.dark-theme {
+  --clr-font-main: #213547;
+  --clr-bg-main: #ffffff;
+  --clr-bg-hoverMain: #AAAAAA;
+  --clr-button-bg: rgb(225, 225, 225);
+  --clr-header-bg: #ffffff;
+  --clr-spinner: #232323;
+  --clr-font-disabled: #6664;
+  --clr-link-hover: #747bff;
+  --clr-button-bg: #f9f9f9;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  color-scheme: light dark;
 
   --media-medium-size-threshold: 700px;
 
@@ -125,7 +140,7 @@ input:focus-visible {
 
 
 @media (prefers-color-scheme: light) {
-  :root {
+  body {
     --clr-font-main: #213547;
     --clr-bg-main: #ffffff;
     --clr-bg-hoverMain: #AAAAAA;
@@ -133,11 +148,8 @@ input:focus-visible {
     --clr-header-bg: #ffffff;
     --clr-spinner: #232323;
     --clr-font-disabled: #6664;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+
+    --clr-link-hover: #747bff;
+    --clr-button-bg: #f9f9f9;
   }
 }

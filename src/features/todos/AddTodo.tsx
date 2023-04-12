@@ -7,8 +7,8 @@ import { switchAddTodo } from './todosSlice';
 import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
 import dateToSqlDatetime from '../../util/dateToSQLdatetime';
-import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../auth/authSlice';
-import { useSendConfirmEmailMutation } from '../auth/authApiSlice';
+import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../api/auth/authSlice';
+import { useSendConfirmEmailMutation } from '../api/user/userApiSlice';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')

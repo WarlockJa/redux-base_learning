@@ -1,36 +1,47 @@
 import './preferences.css'
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { useSendConfirmEmailMutation } from "../../features/auth/authApiSlice"
-import { selectUserData } from "../../features/auth/authSlice"
+import { useDeleteUserMutation, useSendConfirmEmailMutation, useUpdateUserMutation } from "../../features/api/user/userApiSlice"
+import { logOut, selectUserData, setIdToken } from "../../features/api/auth/authSlice"
 import collapsingMenu from './collapsingMenu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { faCheck } from '@fortawesome/fontawesome-free-solid'
 import Icons from '../../assets/Icons'
 import { useEffect, useState } from 'react'
+import classNames from 'classnames'
+import { apiSlice } from '../../features/api/apiSlice'
 
 const Preferences = () => {
     // user data from the store
     const idToken = useAppSelector(selectUserData)
+    // TODO navigate to registration? It's not possible for it to be null here anyway
+    // if(!idToken) return
     const dispatch = useAppDispatch()
     const [sendConfirmEmail] = useSendConfirmEmailMutation()
+    const [updateUser, { isLoading, isSuccess, isError, error }] = useUpdateUserMutation()
+    const [deleteUser, { isLoading: isLoadingDeleteUser, isSuccess: isSuccessDeleteUser, isError: isErrorDeleteUser, error: errorDeleteUser }] = useDeleteUserMutation() // TODO add check for success
     // default settings for the menu
     const DEFAULT_HEADER_OFFSET = 32
     // user prefrences menu states
     const [userDataChanged, setUserDataChanged] = useState(false)
     // user name states
-    const [userName, setUserName] = useState(idToken?.name ? idToken?.name : '')
+    const [userName, setUserName] = useState<string>(idToken?.name ? idToken.name : '')
     const [userNameEdit, setUserNameEdit] = useState(false)
-    const [userNameIfCancelEdit, setUserNameIfCancelEdit] = useState('')
+    const [userNameIfCancelEdit, setUserNameIfCancelEdit] = useState<string>('')
     // user surname states
-    const [userSurname, setUserSurname] = useState(idToken?.surname ? idToken?.surname : '')
+    const [userSurname, setUserSurname] = useState<string|undefined|null>(idToken?.surname)
     const [userSurnameEdit, setUserSurnameEdit] = useState(false)
-    const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState('')
+    const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState<string|undefined|null>(idToken?.surname)
     // user email states
     const [userEmail, setUserEmail] = useState(idToken?.email)
     const [userEmailEdit, setUserEmailEdit] = useState(false)
     // user password states
     const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
+    // user theme states
+    const [userPreferredTheme, setUserPreferredTheme] = useState(idToken?.preferredtheme)
+    const [userPreferredThemeEdit, setUserPreferredThemeEdit] = useState(false)
+    const themesArray = [{ id: 's', name: 'System'}, { id: 'd', name: 'Dark'}, { id: 'l', name: 'Light'}]
+    // user locale states
 
     // detecting is changes were made in user preferences menu
     useEffect(() => {
@@ -46,7 +57,8 @@ const Preferences = () => {
     // exiting user name editing mode on Enter or Esc clicked
     const handleUserNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
         if (event.key === 'Enter') {
-          setUserNameEdit(false)
+            console.log(userName)
+            if(userName) setUserNameEdit(false)
         } else if (event.key === 'Escape') {
             setUserNameEdit(false)
             setUserName(userNameIfCancelEdit)
@@ -63,6 +75,14 @@ const Preferences = () => {
         }
     }
 
+    // confirming that name is not empty on userName input focus lost event. Restoring saved value if so
+    const handleUserNameBlur = () => {
+        if(userName === '') {
+            setUserName(userNameIfCancelEdit)
+        }
+        setUserNameEdit(false)
+    }
+
     // edit user name click handler
     const handleUserNameEditClick = () => {
         setUserNameEdit(true)
@@ -72,32 +92,71 @@ const Preferences = () => {
     // edit user surname click handler
     const handleUserSurnameEditClick = () => {
         setUserSurnameEdit(true)
-        setUserSurnameIfCancelEdit(userName)
+        setUserSurnameIfCancelEdit(userSurname)
+    }
+
+    // disabling default form submit event
+    const handleFormSubmit = (event: React.FormEvent<HTMLElement>) => {
+        event.preventDefault()
+    }
+
+    // updating user data
+    const handleUpdateUser = async () => {
+        // TODO update changed fields
+        const result = await updateUser({ name: userName, surname: userSurname }).unwrap()
+        const newIdToken = {
+            ...idToken,
+
+            // email: string | null;
+            // email_confirmed: boolean;
+            // locale: 'en-US';
+            name: userName,
+            surname: userSurname ? userSurname : ''
+            // picture: string | null;
+            // authislocal: boolean | null;
+            // preferredtheme: string | null;
+        }
+        if(result.status === 200) {
+            dispatch(setIdToken({ idToken: newIdToken }))
+            setUserDataChanged(false)
+        }
+    }
+
+    // handle delete user
+    const handleDeleteUser = async () => {
+        // TODO add confirmation screen
+        const result = await deleteUser({ email: idToken?.email }).unwrap()
+        if(result.status === 200 || result.status === 204) {
+            // clearing out user store data
+            dispatch(logOut())
+            // resetting apiSlice todos data
+            dispatch(apiSlice.util.resetApiState())
+        }
     }
 
     // Cascading collapsing menus. Eachs section returns JSX element and its current height in px
     // Sum of previous elements heights is used to calculate offset for each subsequent menu item
     // generating user preferences form
-    const userPreferencesForm = <form className='preferencesItem__userForm'>
+    const userPreferencesForm = <form onSubmit={e => handleFormSubmit(e)} className={classNames('preferencesItem__userForm', { translucent: isLoading })}>
         <div className='preferencesItem__userForm--editBlock'>
             {idToken?.picture
                 ? <div>
-                    <img className='preferencesItem__userForm--avatar' src={idToken?.picture} alt="" />
+                    <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="" />
                 </div>
                 : <div>
                     <Icons.Person className='preferencesItem__userForm--avatar'/>
                 </div>
             }
-            {userDataChanged && <button>Update</button>}
+            {userDataChanged && <button onClick={() => handleUpdateUser()}>Update</button>}
         </div>
         {userNameEdit
             ? <input
                 type="text"
                 autoFocus
-                // className={classNames('todoItem__body--title', { invalid: !title })}
+                className={classNames({ invalid: userName === '' })}
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
-                onBlur={() => setUserNameEdit(false)}
+                onBlur={() => handleUserNameBlur()}
                 onKeyDown={(e) => handleUserNameKeyDown(e)}
                 maxLength={254}
             ></input>
@@ -111,7 +170,7 @@ const Preferences = () => {
                 type="text"
                 autoFocus
                 // className={classNames('todoItem__body--title', { invalid: !title })}
-                value={userSurname}
+                value={userSurname ? userSurname : ''}
                 onChange={(e) => setUserSurname(e.target.value)}
                 onBlur={() => setUserSurnameEdit(false)}
                 onKeyDown={(e) => handleUserSurnameKeyDown(e)}
@@ -135,24 +194,18 @@ const Preferences = () => {
             }
         </div>  
         {!idToken?.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>}
-        {userNameEdit
-            ? <input
-                type="text"
-                autoFocus
-                // className={classNames('todoItem__body--title', { invalid: !title })}
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                onBlur={() => setUserNameEdit(false)}
-                onKeyDown={(e) => handleUserNameKeyDown(e)}
-                maxLength={254}
-            ></input>
-            : <div className='preferencesItem__userForm--editBlock'>
-                <p className='preferencesItem__userForm--p'>{userName}</p>
-                <button type='button' className='preferencesItem__userForm--editButton' onClick={() => handleUserNameEditClick()} title='Edit'>· · ·</button>
-            </div>
-        }
-        <div>Preferred theme</div>
+        <div className='preferencesItem__userForm--editBlock'>
+            <p className='preferencesItem__userForm--p'>Color scheme:</p>
+            {/* <p className='preferencesItem__userForm--p'>{idToken?.preferredtheme}</p> */}
+            {userPreferredThemeEdit
+                ? <select>
+                    {themesArray.map(item => <option key={'categories' + item.id}>{item.name}</option>)}
+                </select>
+                : <p className='preferencesItem__userForm--p'>{userPreferredTheme}</p>
+            }
+        </div>
         <div>Preferred locale</div>
+        <button className='preferencesItem__userForm--deleteButton' onClick={() => handleDeleteUser()}>Delete user</button>
     </form>
 
     // wrapping user preferences form in a collapsing menu function

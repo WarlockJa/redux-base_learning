@@ -1,4 +1,4 @@
-import { apiSlice } from "../api/apiSlice";
+import { apiSlice } from "../apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -15,12 +15,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials }
             }),
         }),
-        logout: builder.mutation({
-            query: () => ({
-                url: '/auth',
-                method: 'PUT'
-            }),
-        }),
+        
         register: builder.mutation({
             query: credentials => ({
                 url: '/register',
@@ -35,20 +30,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials }
             }),
         }),
-        sendConfirmEmail: builder.mutation({
-            query: () => ({
-                url: '/user',
-                method: 'POST'
-            }),
-        }),
+        
     })
 })
 
 export const {
     useLoginMutation,
     useReauthMutation,
-    useLogoutMutation,
     useRegisterMutation,
     useGLoginMutation,
-    useSendConfirmEmailMutation,
 } = authApiSlice

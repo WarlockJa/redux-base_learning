@@ -1,7 +1,9 @@
 import { apiSlice } from "../api/apiSlice";
 import { IPostTodo, ITodo, IUpdateTodo } from "./todosSlice";
 
-export const todoApiSlice = apiSlice.injectEndpoints({
+const apiSliceTodosTag = apiSlice.enhanceEndpoints({ addTagTypes: ['Todos'] })
+
+export const todoApiSlice = apiSliceTodosTag.injectEndpoints({
     endpoints: builder => ({
         getTodos: builder.query<ITodo[], void>({
             query: () => '/todos',

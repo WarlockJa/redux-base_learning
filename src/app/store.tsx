@@ -3,7 +3,7 @@ import { apiSlice } from "../features/api/apiSlice";
 import counterReducer from "../features/counter/counterSlice";
 import postsReducer from "../features/posts/postsSlice";
 import todosReducer from "../features/todos/todosSlice";
-import authReducer from "../features/auth/authSlice";
+import authReducer from "../features/api/auth/authSlice";
 
 export const store = configureStore({
     reducer: {

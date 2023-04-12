@@ -11,7 +11,7 @@ import DateTimePicker from "react-datetime-picker"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
 import dateToSqlDatetime from "../../util/dateToSQLdatetime"
 import { useAppSelector } from "../../app/hooks"
-import { selectCurrentEmail, selectCurrentEmailConfirmed } from "../auth/authSlice"
+import { selectCurrentEmail, selectCurrentEmailConfirmed } from "../api/auth/authSlice"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {

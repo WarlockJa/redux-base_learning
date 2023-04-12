@@ -9,9 +9,10 @@ import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/fontaweso
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { IRTKQuery, isApiAuthError } from '../../features/api/apiSlice'
 import { useAppDispatch } from '../../app/hooks'
-import { IAuth, setCredentials } from '../../features/auth/authSlice'
+import { IAuth, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import LineBreak from '../../util/LineBreak'
+import useSystemColorSchemeIsDark from '../../util/useSystemColorSchemeIsDark'
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // flag for hiding sign in and options menus
@@ -54,8 +55,8 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // sign in with google
     const loginGoogle = useGoogleLogin({
         onSuccess: async tokenResponse => {
-            const signInData = gLogin.gLogin && await gLogin.gLogin(tokenResponse) as { data: IAuth }
-            dispatch(setCredentials({ accessToken: signInData?.data.accessToken, idToken: signInData?.data.idToken }))
+            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: useSystemColorSchemeIsDark() }).unwrap()
+            dispatch(setCredentials({ accessToken: signInData?.accessToken, idToken: signInData?.idToken }))
         },
     });
 
