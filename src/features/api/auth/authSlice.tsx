@@ -4,10 +4,10 @@ import useSystemColorSchemeIsDark from "../../../util/useSystemColorSchemeIsDark
 
 export interface IAuth {
     accessToken: string | null;
-    idToken: IUser | null;
+    idToken: IUser;
 }
 
-interface IUser {
+export interface IUser {
     email: string | null;
     email_confirmed: boolean;
     locale: 'en-US';
@@ -15,7 +15,7 @@ interface IUser {
     surname: string | null;
     picture: string | null;
     authislocal: boolean | null;
-    preferredtheme: boolean;
+    darkmode: boolean;
 }
 
 const initialState: IAuth = {
@@ -28,7 +28,7 @@ const initialState: IAuth = {
         surname: null,
         picture: null,
         authislocal: null,
-        preferredtheme: useSystemColorSchemeIsDark()
+        darkmode: useSystemColorSchemeIsDark()
     }
 }
 
@@ -46,8 +46,8 @@ const authSlice = createSlice({
             state.idToken = idToken
         },
         logOut: (state) => {
-            state.idToken = null
             state.accessToken = null
+            state.idToken = initialState.idToken
         }
     }
 })
@@ -56,7 +56,7 @@ export const { setCredentials, setIdToken, logOut } = authSlice.actions
 
 export default authSlice.reducer
 
-export const selectCurrentEmail = (state: RootState) => state.auth.idToken?.email
-export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idToken?.email_confirmed
+export const selectCurrentEmail = (state: RootState) => state.auth.idToken.email
+export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idToken.email_confirmed
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
 export const selectUserData = (state: RootState) => state.auth.idToken

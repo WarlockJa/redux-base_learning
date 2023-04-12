@@ -1,7 +1,7 @@
 import './preferences.css'
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { useDeleteUserMutation, useSendConfirmEmailMutation, useUpdateUserMutation } from "../../features/api/user/userApiSlice"
-import { logOut, selectUserData, setIdToken } from "../../features/api/auth/authSlice"
+import { logOut, selectUserData, setCredentials, setIdToken } from "../../features/api/auth/authSlice"
 import collapsingMenu from './collapsingMenu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
@@ -10,6 +10,8 @@ import Icons from '../../assets/Icons'
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { apiSlice } from '../../features/api/apiSlice'
+import Toggle from 'react-toggle'
+import SwitchDarkMode from '../../util/SwitchDarkMode'
 
 const Preferences = () => {
     // user data from the store
@@ -38,8 +40,8 @@ const Preferences = () => {
     // user password states
     const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
     // user theme states
-    const [userPreferredTheme, setUserPreferredTheme] = useState(idToken?.preferredtheme)
-    const [userPreferredThemeEdit, setUserPreferredThemeEdit] = useState(false)
+    const [userDarkMode, setUserDarkMode] = useState(idToken?.darkmode)
+    const [userDarkModeEdit, setUserDarkModeEdit] = useState(false)
     const themesArray = [{ id: 's', name: 'System'}, { id: 'd', name: 'Dark'}, { id: 'l', name: 'Light'}]
     // user locale states
 
@@ -114,7 +116,7 @@ const Preferences = () => {
             surname: userSurname ? userSurname : ''
             // picture: string | null;
             // authislocal: boolean | null;
-            // preferredtheme: string | null;
+            // darkmode: string | null;
         }
         if(result.status === 200) {
             dispatch(setIdToken({ idToken: newIdToken }))
@@ -196,13 +198,7 @@ const Preferences = () => {
         {!idToken?.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>}
         <div className='preferencesItem__userForm--editBlock'>
             <p className='preferencesItem__userForm--p'>Color scheme:</p>
-            {/* <p className='preferencesItem__userForm--p'>{idToken?.preferredtheme}</p> */}
-            {userPreferredThemeEdit
-                ? <select>
-                    {themesArray.map(item => <option key={'categories' + item.id}>{item.name}</option>)}
-                </select>
-                : <p className='preferencesItem__userForm--p'>{userPreferredTheme}</p>
-            }
+            <SwitchDarkMode />
         </div>
         <div>Preferred locale</div>
         <button className='preferencesItem__userForm--deleteButton' onClick={() => handleDeleteUser()}>Delete user</button>

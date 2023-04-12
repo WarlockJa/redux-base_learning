@@ -11,7 +11,6 @@ import { faEdit } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import LineBreak from '../../util/LineBreak'
 import Toggle from 'react-toggle'
-import useSystemColorSchemeIsDark from '../../util/useSystemColorSchemeIsDark'
 import '../../util/react-toggle.css'
 import { useLogoutMutation } from '../../features/api/user/userApiSlice'
 
@@ -24,7 +23,7 @@ const AuthorizedUserMenu = () => {
     const [hidden, setHidden] = useState(true)
     const dispatch = useAppDispatch()
     // dark theme
-    const defaultDarkTheme = idToken ? idToken.preferredtheme : useSystemColorSchemeIsDark()
+    const defaultDarkTheme = idToken?.darkmode
     
     // closing sign in menu on overlay click and hiding sign in cover
     const handleOverlayClick = () => {
@@ -49,12 +48,6 @@ const AuthorizedUserMenu = () => {
             </button>
             <div className={classNames("headerMenu__dropMenu--wrapper formLike userMenu", { dropMenuHidden: hidden })}>
                 <Link className='headerMenu__dropMenu--menuItem' onClick={() => setHidden(true)} to='/preferences'>Preferences <FontAwesomeIcon icon={faEdit as IconProp}/></Link>
-                
-                <button onClick={() => document.body.classList.toggle('dark-theme')}>Theme</button>
-                <Toggle
-                    defaultChecked={defaultDarkTheme}
-                />
-
                 <LineBreak />
                 <button className='headerMenu__dropMenu--logoutButton' onClick={() => handleLogout()}>Logout</button>
             </div>

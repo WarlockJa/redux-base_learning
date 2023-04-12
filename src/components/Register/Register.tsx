@@ -4,10 +4,9 @@ import { useLoginMutation, useRegisterMutation } from "../../features/api/auth/a
 import Spinner from "../../util/Spinner"
 import { apiSlice, isApiRegisterError } from "../../features/api/apiSlice"
 import classNames from 'classnames'
-import { IAuth, setCredentials } from '../../features/api/auth/authSlice'
-import { useAppDispatch } from '../../app/hooks'
+import { IAuth, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { useSendConfirmEmailMutation } from '../../features/api/user/userApiSlice'
-import useSystemColorSchemeIsDark from '../../util/useSystemColorSchemeIsDark'
 
 const returnErrorMessage = (error: unknown) => {
     if(isApiRegisterError(error)) {
@@ -24,6 +23,7 @@ const returnErrorMessage = (error: unknown) => {
 
 const Register = () => {
     const dispatch = useAppDispatch()
+    const idToken = useAppSelector(selectUserData) 
     // register form fields and cover states
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -38,7 +38,7 @@ const Register = () => {
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setRegisterCoverVisible(true)
-        const result = await register({ email, name, password, darkmode: useSystemColorSchemeIsDark() }).unwrap()
+        const result = await register({ email, name, password, darkmode: idToken?.darkmode }).unwrap()
         if(!isApiRegisterError(result)) {
             // showing alert for email verification
             setEmailVerificationCoverVisible(true)

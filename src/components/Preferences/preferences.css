@@ -61,11 +61,11 @@
     justify-content: space-between;
 }
 
-.preferencesItem__userForm--preferredTheme {
+.preferencesItem__userForm--darkmode {
     display: flex;
     justify-content: space-between;
 }
 
-.preferencesItem__userForm--preferredTheme > * {
+.preferencesItem__userForm--darkmode > * {
     border: 1px solid green;
 }

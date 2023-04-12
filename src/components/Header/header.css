@@ -15,4 +15,10 @@
     height: 100%;
     display: flex;
     justify-content: flex-end;
+    gap: 0.8em;
+}
+
+.header__loginSection--themeSwitcher {
+    display: flex;
+    align-items: center;
 }

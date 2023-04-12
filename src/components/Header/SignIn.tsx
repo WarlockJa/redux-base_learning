@@ -8,11 +8,10 @@ import { Link } from 'react-router-dom'
 import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/fontawesome-free-solid'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { IRTKQuery, isApiAuthError } from '../../features/api/apiSlice'
-import { useAppDispatch } from '../../app/hooks'
-import { IAuth, setCredentials } from '../../features/api/auth/authSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { IAuth, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import LineBreak from '../../util/LineBreak'
-import useSystemColorSchemeIsDark from '../../util/useSystemColorSchemeIsDark'
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // flag for hiding sign in and options menus
@@ -24,7 +23,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     const [password, setPassword] = useState('')
     // redux store methods to store user data
     const dispatch = useAppDispatch()
-
+    const idToken = useAppSelector(selectUserData) 
     // reattaching focus to the sign in menu on error cover close
     const formPassRef = useRef<HTMLInputElement>(null)
     const formEmailRef = useRef<HTMLInputElement>(null)
@@ -55,7 +54,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // sign in with google
     const loginGoogle = useGoogleLogin({
         onSuccess: async tokenResponse => {
-            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: useSystemColorSchemeIsDark() }).unwrap()
+            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: idToken?.darkmode }).unwrap()
             dispatch(setCredentials({ accessToken: signInData?.accessToken, idToken: signInData?.idToken }))
         },
     });

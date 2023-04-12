@@ -5,8 +5,9 @@ import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
 import { useGLoginMutation, useLoginMutation, useReauthMutation } from '../../features/api/auth/authApiSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectCurrentToken, setCredentials } from '../../features/api/auth/authSlice'
+import { selectCurrentToken, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
+import SwitchDarkMode from '../../util/SwitchDarkMode'
 
 const Header = () => {
     // autologin with existing refreshtoken on page reload
@@ -15,7 +16,9 @@ const Header = () => {
     const [login, { isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }] = useLoginMutation()
     // google api login call
     const [gLogin, { isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }] = useGLoginMutation()
+    // store data
     const token = useAppSelector(selectCurrentToken)
+    const idToken = useAppSelector(selectUserData)
 
     const dispatch = useAppDispatch()
 
@@ -31,6 +34,13 @@ const Header = () => {
         return () => {}
 
     },[])
+
+    // toggle light/dark mode according to user prefrences
+    useEffect (() => {
+        if(idToken) {
+            idToken.darkmode ? document.body.classList.add('dark-theme') : document.body.classList.remove('dark-theme')
+        }
+    },[idToken?.darkmode])
 
     let authContent
     // header menu spinner on loggin out and auto relog
@@ -55,6 +65,9 @@ const Header = () => {
                 {token && <NavLink to='todos'>Todos</NavLink>}
             </nav>
             <div className="header__loginSection">
+                <div className='header__loginSection--themeSwitcher'>
+                    <SwitchDarkMode />
+                </div>
                 {authContent}
             </div>
         </section>
