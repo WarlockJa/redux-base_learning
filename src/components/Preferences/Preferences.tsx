@@ -1,7 +1,7 @@
 import './preferences.css'
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { useDeleteUserMutation, useSendConfirmEmailMutation, useUpdateUserMutation } from "../../features/api/user/userApiSlice"
-import { logOut, selectUserData, setCredentials, setIdToken } from "../../features/api/auth/authSlice"
+import { logOut, selectUserData, setIdToken } from "../../features/api/auth/authSlice"
 import collapsingMenu from './collapsingMenu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
@@ -10,14 +10,11 @@ import Icons from '../../assets/Icons'
 import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { apiSlice } from '../../features/api/apiSlice'
-import Toggle from 'react-toggle'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 
 const Preferences = () => {
     // user data from the store
     const idToken = useAppSelector(selectUserData)
-    // TODO navigate to registration? It's not possible for it to be null here anyway
-    // if(!idToken) return
     const dispatch = useAppDispatch()
     const [sendConfirmEmail] = useSendConfirmEmailMutation()
     const [updateUser, { isLoading, isSuccess, isError, error }] = useUpdateUserMutation()
@@ -27,27 +24,26 @@ const Preferences = () => {
     // user prefrences menu states
     const [userDataChanged, setUserDataChanged] = useState(false)
     // user name states
-    const [userName, setUserName] = useState<string>(idToken?.name ? idToken.name : '')
+    const [userName, setUserName] = useState<string>(idToken.name ? idToken.name : '')
     const [userNameEdit, setUserNameEdit] = useState(false)
     const [userNameIfCancelEdit, setUserNameIfCancelEdit] = useState<string>('')
     // user surname states
-    const [userSurname, setUserSurname] = useState<string|undefined|null>(idToken?.surname)
+    const [userSurname, setUserSurname] = useState<string|null>(idToken.surname)
     const [userSurnameEdit, setUserSurnameEdit] = useState(false)
-    const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState<string|undefined|null>(idToken?.surname)
+    const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState<string|null>(idToken.surname)
     // user email states
-    const [userEmail, setUserEmail] = useState(idToken?.email)
+    const [userEmail, setUserEmail] = useState(idToken.email)
     const [userEmailEdit, setUserEmailEdit] = useState(false)
     // user password states
     const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
-    // user theme states
-    const [userDarkMode, setUserDarkMode] = useState(idToken?.darkmode)
-    const [userDarkModeEdit, setUserDarkModeEdit] = useState(false)
-    const themesArray = [{ id: 's', name: 'System'}, { id: 'd', name: 'Dark'}, { id: 'l', name: 'Light'}]
     // user locale states
+    const [userLocale, setUserLocale] = useState(idToken.locale)
+    const [userLocaleEdit, setuserLocalEdit] = useState(false)
+    const [userLocalIfCancelEdit, setUserLocalIfCancelEdit] = useState(idToken.locale)
 
     // detecting is changes were made in user preferences menu
     useEffect(() => {
-        idToken?.name === userName
+        idToken.name === userName
             ? idToken.surname === userSurname
                 ? idToken.email === userEmail
                     ? setUserDataChanged(false)
@@ -127,7 +123,7 @@ const Preferences = () => {
     // handle delete user
     const handleDeleteUser = async () => {
         // TODO add confirmation screen
-        const result = await deleteUser({ email: idToken?.email }).unwrap()
+        const result = await deleteUser({ email: idToken.email }).unwrap()
         if(result.status === 200 || result.status === 204) {
             // clearing out user store data
             dispatch(logOut())
@@ -141,7 +137,7 @@ const Preferences = () => {
     // generating user preferences form
     const userPreferencesForm = <form onSubmit={e => handleFormSubmit(e)} className={classNames('preferencesItem__userForm', { translucent: isLoading })}>
         <div className='preferencesItem__userForm--editBlock'>
-            {idToken?.picture
+            {idToken.picture
                 ? <div>
                     <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="" />
                 </div>
@@ -189,18 +185,21 @@ const Preferences = () => {
                 </div>
         }
         <div className='preferencesItem__userForm--email'>
-            <p className='preferencesItem__userForm--p' style={{ color: idToken?.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken?.email}</p>
-            {idToken?.email_confirmed
+            <p className='preferencesItem__userForm--p' style={{ color: idToken.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken.email}</p>
+            {idToken.email_confirmed
                 ? <FontAwesomeIcon title="Email verified" icon={faCheck as IconProp} />
                 : <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>
             }
         </div>  
-        {!idToken?.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>}
+        {!idToken.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>}
         <div className='preferencesItem__userForm--editBlock'>
             <p className='preferencesItem__userForm--p'>Color scheme:</p>
             <SwitchDarkMode />
         </div>
-        <div>Preferred locale</div>
+        <div className='preferencesItem__userForm--editBlock'>
+            <p>Locale</p>
+            
+        </div>
         <button className='preferencesItem__userForm--deleteButton' onClick={() => handleDeleteUser()}>Delete user</button>
     </form>
 
@@ -215,7 +214,7 @@ const Preferences = () => {
 
     // generating widgets preferences menu form
     const widgetPreferencesForm = <form>
-        <p>{idToken?.name}</p>
+        <p>{idToken.name}</p>
     </form>
 
     // wrapping widgets form in a collapsing menu function

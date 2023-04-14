@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { selectCurrentToken, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
+import { useTranslation } from 'react-i18next'
+import LangugeSwitcher from '../../util/LangugeSwitcher'
 
 const Header = () => {
     // autologin with existing refreshtoken on page reload
@@ -19,6 +21,8 @@ const Header = () => {
     // store data
     const token = useAppSelector(selectCurrentToken)
     const idToken = useAppSelector(selectUserData)
+    // i18n translation hook
+    const { t } = useTranslation(['header'])
 
     const dispatch = useAppDispatch()
 
@@ -40,7 +44,7 @@ const Header = () => {
         if(idToken) {
             idToken.darkmode ? document.body.classList.add('dark-theme') : document.body.classList.remove('dark-theme')
         }
-    },[idToken?.darkmode])
+    },[idToken.darkmode])
 
     let authContent
     // header menu spinner on loggin out and auto relog
@@ -60,12 +64,13 @@ const Header = () => {
     return (
         <section className="header">
             <nav>
-                <NavLink to='/'>Home</NavLink>
-                <NavLink to='posts'>News</NavLink>
-                {token && <NavLink to='todos'>Todos</NavLink>}
+                <NavLink to='/'>{t('home')}</NavLink>
+                <NavLink to='posts'>{t('news')}</NavLink>
+                {token && <NavLink to='todos'>{t('todos')}</NavLink>}
             </nav>
             <div className="header__loginSection">
                 <div className='header__loginSection--themeSwitcher'>
+                    <LangugeSwitcher />
                     <SwitchDarkMode />
                 </div>
                 {authContent}
