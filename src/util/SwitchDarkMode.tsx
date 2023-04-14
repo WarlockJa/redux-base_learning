@@ -12,10 +12,10 @@ const SwitchDarkMode = () => {
     
     const handleUserDarkModeUpdate = async () => {
         // changing idtoken darkmode in store
-        dispatch(setIdToken({ idToken: { ...idToken, darkmode: !idToken?.darkmode } }))
+        dispatch(setIdToken({ idToken: { ...idToken, darkmode: !idToken.darkmode } }))
         // updating darkmode user data in DB if accessToken present(user logged in)
         if(accessToken) {
-            const result = await updateUser({ darkmode: !idToken?.darkmode }).unwrap()
+            const result = await updateUser({ darkmode: !idToken.darkmode }).unwrap()
             if(result.status !== 200) console.log(result)
         }
     }

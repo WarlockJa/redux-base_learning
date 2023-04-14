@@ -11,8 +11,12 @@ import { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { apiSlice } from '../../features/api/apiSlice'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
+import LanguageSwitcher from '../../util/LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 
 const Preferences = () => {
+    // i18next
+    const { t, i18n } = useTranslation()
     // user data from the store
     const idToken = useAppSelector(selectUserData)
     const dispatch = useAppDispatch()
@@ -127,6 +131,8 @@ const Preferences = () => {
         if(result.status === 200 || result.status === 204) {
             // clearing out user store data
             dispatch(logOut())
+            // changing locale to browser default
+            i18n.changeLanguage(navigator.language)
             // resetting apiSlice todos data
             dispatch(apiSlice.util.resetApiState())
         }
@@ -198,7 +204,9 @@ const Preferences = () => {
         </div>
         <div className='preferencesItem__userForm--editBlock'>
             <p>Locale</p>
-            
+            <LanguageSwitcher
+                fullDescription={true}
+            />
         </div>
         <button className='preferencesItem__userForm--deleteButton' onClick={() => handleDeleteUser()}>Delete user</button>
     </form>

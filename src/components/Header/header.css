@@ -18,7 +18,8 @@
     gap: 0.8em;
 }
 
-.header__loginSection--themeSwitcher {
+.header__loginSection--globalSettings {
     display: flex;
     align-items: center;
+    gap: 0.8rem;
 }

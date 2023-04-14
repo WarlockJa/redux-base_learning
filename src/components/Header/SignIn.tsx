@@ -12,8 +12,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { IAuth, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import LineBreak from '../../util/LineBreak'
+import { useTranslation } from 'react-i18next'
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
+    // i18next hook
+    const { t, i18n } = useTranslation()
     // flag for hiding sign in and options menus
     const [hidden, setHidden] = useState(true)
     // flag for showing/hiding sign in and options menu messages
@@ -41,6 +44,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
         setSignInCoverVisible(true)
         const signInData: IAuth = login.login && await login.login({ email, password }).unwrap()
         dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
+        i18n.changeLanguage(signInData.idToken.locale)
         setEmail('')
         setPassword('')
     }
@@ -54,8 +58,9 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // sign in with google
     const loginGoogle = useGoogleLogin({
         onSuccess: async tokenResponse => {
-            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: idToken?.darkmode }).unwrap()
-            dispatch(setCredentials({ accessToken: signInData?.accessToken, idToken: signInData?.idToken }))
+            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: idToken.darkmode }).unwrap()
+            dispatch(setCredentials({ accessToken: signInData?.accessToken, idToken: signInData.idToken }))
+            i18n.changeLanguage(signInData.idToken.locale)
         },
     });
 

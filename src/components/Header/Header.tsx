@@ -9,7 +9,7 @@ import { selectCurrentToken, selectUserData, setCredentials } from '../../featur
 import Spinner from '../../util/Spinner'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 import { useTranslation } from 'react-i18next'
-import LangugeSwitcher from '../../util/LangugeSwitcher'
+import LanguageSwitcher from '../../util/LanguageSwitcher'
 
 const Header = () => {
     // autologin with existing refreshtoken on page reload
@@ -22,7 +22,7 @@ const Header = () => {
     const token = useAppSelector(selectCurrentToken)
     const idToken = useAppSelector(selectUserData)
     // i18n translation hook
-    const { t } = useTranslation(['header'])
+    const { t, i18n } = useTranslation(['header'])
 
     const dispatch = useAppDispatch()
 
@@ -31,6 +31,7 @@ const Header = () => {
         const handleUserReauth = async () => {
             const reauthData = await reauth({}).unwrap()
             dispatch(setCredentials({ accessToken: reauthData.accessToken, idToken: { ...reauthData.idToken } }))
+            i18n.changeLanguage(reauthData.idToken.locale)
         }
         
         handleUserReauth()
@@ -55,10 +56,14 @@ const Header = () => {
         authContent = <AuthorizedUserMenu />
     // sign in menu in other cases
     } else {
-        authContent = <SignIn
-            login={{ login, isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }}
-            gLogin={{ gLogin, isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }}
-        />
+        authContent = 
+        <>
+            {/* <GlobalSettings /> */}
+            <SignIn
+                login={{ login, isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }}
+                gLogin={{ gLogin, isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }}
+            />
+        </>
     }
 
     return (
@@ -69,8 +74,10 @@ const Header = () => {
                 {token && <NavLink to='todos'>{t('todos')}</NavLink>}
             </nav>
             <div className="header__loginSection">
-                <div className='header__loginSection--themeSwitcher'>
-                    <LangugeSwitcher />
+                <div className='header__loginSection--globalSettings'>
+                    <LanguageSwitcher
+                        fullDescription={false}
+                    />
                     <SwitchDarkMode />
                 </div>
                 {authContent}

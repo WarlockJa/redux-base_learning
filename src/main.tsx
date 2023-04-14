@@ -11,15 +11,15 @@ import './i18n'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="459124454901-6qh96eeuqackonqpsqkp0shtnvbie0ua.apps.googleusercontent.com">
-      <Provider store={store}>
-        <React.Suspense fallback='Loading'>
+      <React.Suspense fallback='Loading'>
+        <Provider store={store}>
           <BrowserRouter>
             <Routes>
               <Route path='/*' element={<App />}/>
             </Routes>
           </BrowserRouter>
-        </React.Suspense>
-      </Provider>
+        </Provider>
+      </React.Suspense>
     </GoogleOAuthProvider>
   </React.StrictMode>,
 )

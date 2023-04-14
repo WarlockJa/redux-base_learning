@@ -10,11 +10,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import LineBreak from '../../util/LineBreak'
-import Toggle from 'react-toggle'
 import '../../util/react-toggle.css'
 import { useLogoutMutation } from '../../features/api/user/userApiSlice'
+import { useTranslation } from 'react-i18next'
 
 const AuthorizedUserMenu = () => {
+    // i18next
+    const { i18n } = useTranslation()
     // logout api call
     const [logout, { isLoading }] = useLogoutMutation()
     // user data from the store
@@ -22,8 +24,6 @@ const AuthorizedUserMenu = () => {
     // menu hidden state
     const [hidden, setHidden] = useState(true)
     const dispatch = useAppDispatch()
-    // dark theme
-    const defaultDarkTheme = idToken?.darkmode
     
     // closing sign in menu on overlay click and hiding sign in cover
     const handleOverlayClick = () => {
@@ -35,6 +35,8 @@ const AuthorizedUserMenu = () => {
         logout && await logout(null).unwrap()
         // clearing out user store data
         dispatch(logOut())
+        // changing locale to browser default
+        i18n.changeLanguage(navigator.language)
         // resetting apiSlice todos data
         dispatch(apiSlice.util.resetApiState())
     }
@@ -44,7 +46,7 @@ const AuthorizedUserMenu = () => {
         <>
             <button className="userMenu--button" onClick={() => setHidden(prev => !prev)}>
                 {/* {idToken?.picture && <img className="userMenu__button--avatar" src={idToken.picture} alt="user avatar" />} */}
-                {idToken?.name}
+                {idToken.name}
             </button>
             <div className={classNames("headerMenu__dropMenu--wrapper formLike userMenu", { dropMenuHidden: hidden })}>
                 <Link className='headerMenu__dropMenu--menuItem' onClick={() => setHidden(true)} to='/preferences'>Preferences <FontAwesomeIcon icon={faEdit as IconProp}/></Link>

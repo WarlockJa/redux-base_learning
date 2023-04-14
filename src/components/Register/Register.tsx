@@ -38,7 +38,7 @@ const Register = () => {
     const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setRegisterCoverVisible(true)
-        const result = await register({ email, name, password, darkmode: idToken?.darkmode }).unwrap()
+        const result = await register({ email, name, password, darkmode: idToken.darkmode }).unwrap()
         if(!isApiRegisterError(result)) {
             // showing alert for email verification
             setEmailVerificationCoverVisible(true)

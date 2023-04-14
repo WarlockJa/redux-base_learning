@@ -10,7 +10,7 @@ export interface IAuth {
 export interface IUser {
     email: string | null;
     email_confirmed: boolean;
-    locale: 'en-US';
+    locale: string;
     name: string | null;
     surname: string | null;
     picture: string | null;
@@ -23,7 +23,7 @@ const initialState: IAuth = {
     idToken: {
         email: null,
         email_confirmed: false,
-        locale: 'en-US',
+        locale: navigator.language,
         name: null,
         surname: null,
         picture: null,
