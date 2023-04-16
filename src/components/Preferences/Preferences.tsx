@@ -5,14 +5,15 @@ import { logOut, selectUserData, setIdToken } from "../../features/api/auth/auth
 import collapsingMenu from './collapsingMenu'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { faCheck } from '@fortawesome/fontawesome-free-solid'
+import { faCheck, faEdit } from '@fortawesome/fontawesome-free-solid'
 import Icons from '../../assets/Icons'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { apiSlice } from '../../features/api/apiSlice'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 import LanguageSwitcher from '../../util/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
+import imageCompression from 'browser-image-compression'
 
 const Preferences = () => {
     // i18next
@@ -40,10 +41,8 @@ const Preferences = () => {
     const [userEmailEdit, setUserEmailEdit] = useState(false)
     // user password states
     const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
-    // user locale states
-    const [userLocale, setUserLocale] = useState(idToken.locale)
-    const [userLocaleEdit, setuserLocalEdit] = useState(false)
-    const [userLocalIfCancelEdit, setUserLocalIfCancelEdit] = useState(idToken.locale)
+    // user image states
+    const [avatarHovered, setAvatarHovered] = useState(false)
 
     // detecting is changes were made in user preferences menu
     useEffect(() => {
@@ -138,19 +137,61 @@ const Preferences = () => {
         }
     }
 
+    // handle avatar change
+    const avatarRef = useRef<HTMLInputElement | null>(null)
+    const [avatarFile, setAvatarFile] = useState<File>()
+    const handleAvatarChange = () => {
+        avatarRef.current?.click()
+    }
+    const handleAvatarFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files) {
+            setAvatarFile(e.target.files[0])
+            console.log(e.target.files[0])
+            handleImageCompression(e.target.files[0])
+        }
+    }
+
+    const handleImageCompression = async (imageFile: File) => {
+        const options = {
+            maxSizeMB: 0.5,
+            maxWidthOrHeight: 1024
+        }
+
+        try {
+            const compressedFile = await imageCompression(imageFile, options);
+            console.log(compressedFile.size);
+            setAvatarFile(compressedFile)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // Cascading collapsing menus. Eachs section returns JSX element and its current height in px
     // Sum of previous elements heights is used to calculate offset for each subsequent menu item
     // generating user preferences form
     const userPreferencesForm = <form onSubmit={e => handleFormSubmit(e)} className={classNames('preferencesItem__userForm', { translucent: isLoading })}>
         <div className='preferencesItem__userForm--editBlock'>
             {idToken.picture
-                ? <div>
+                ? <div
+                    onMouseEnter={() => setAvatarHovered(true)}
+                    onMouseLeave={() => setAvatarHovered(false)}
+                    >
                     <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="" />
                 </div>
-                : <div>
+                : <div
+                    onMouseEnter={() => setAvatarHovered(true)}
+                    onMouseLeave={() => setAvatarHovered(false)}
+                    >
                     <Icons.Person className='preferencesItem__userForm--avatar'/>
+                    <input type="file" ref={avatarRef} className='undisplayed' onChange={(e) => handleAvatarFileChange(e)} />
                 </div>
             }
+            <div
+                className={classNames('preferencesItem__userForm__avatar--editIcon', { undisplayed: !avatarHovered })}
+                onMouseEnter={() => setAvatarHovered(true)}
+                onMouseLeave={() => setAvatarHovered(false)}
+                onClick={() => handleAvatarChange()}
+            ><FontAwesomeIcon title="Change avatar" icon={faEdit as IconProp} /></div>
             {userDataChanged && <button onClick={() => handleUpdateUser()}>Update</button>}
         </div>
         {userNameEdit

@@ -2,7 +2,6 @@ import { BaseQueryFn, createApi, fetchBaseQuery, MutationDefinition } from '@red
 import { setCredentials, logOut } from './auth/authSlice'
 import { RootState } from '../../app/store'
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
-import { useTranslation } from 'react-i18next'
 
 const BASE_URL = 'http://localhost:5000/'
 // const PGSQL_URL = import.meta.env.VITE_APP_RAILWAY_POSTGRES_URL

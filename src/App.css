@@ -76,6 +76,10 @@
     cursor: default;
 }
 
+.undisplayed {
+    display: none;
+}
+
 .noBackground {
     background: transparent;
 }

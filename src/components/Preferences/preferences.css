@@ -69,3 +69,8 @@
 .preferencesItem__userForm--darkmode > * {
     border: 1px solid green;
 }
+
+.preferencesItem__userForm__avatar--editIcon {
+    position: absolute;
+    cursor: pointer;
+}
