@@ -14,6 +14,7 @@ import SwitchDarkMode from '../../util/SwitchDarkMode'
 import LanguageSwitcher from '../../util/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
 import imageCompression from 'browser-image-compression'
+import AvatarCropping from './AvatarCropping'
 
 const Preferences = () => {
     // i18next
@@ -143,29 +144,31 @@ const Preferences = () => {
     const handleAvatarChange = () => {
         avatarRef.current?.click()
     }
+
     const handleAvatarFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if(e.target.files) {
             setAvatarFile(e.target.files[0])
-            console.log(e.target.files[0])
-            handleImageCompression(e.target.files[0])
+            // console.log(e.target.files[0])
+            // handleImageCompression(e.target.files[0])
         }
     }
 
-    const handleImageCompression = async (imageFile: File) => {
-        const options = {
-            maxSizeMB: 0.5,
-            maxWidthOrHeight: 1024
-        }
+    // const handleImageCompression = async (imageFile: File) => {
+    //     const options = {
+    //         maxSizeMB: 0.2,
+    //         maxWidthOrHeight: 180
+    //     }
 
-        try {
-            const compressedFile = await imageCompression(imageFile, options);
-            console.log(compressedFile.size);
-            setAvatarFile(compressedFile)
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+    //     try {
+    //         const compressedFile = await imageCompression(imageFile, options);
+    //         console.log(compressedFile.size);
+    //         // dispatch(setIdToken({ ...idToken, picture: compressedFile }))
+    //         setAvatarFile(compressedFile)
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+    
     // Cascading collapsing menus. Eachs section returns JSX element and its current height in px
     // Sum of previous elements heights is used to calculate offset for each subsequent menu item
     // generating user preferences form
@@ -176,14 +179,14 @@ const Preferences = () => {
                     onMouseEnter={() => setAvatarHovered(true)}
                     onMouseLeave={() => setAvatarHovered(false)}
                     >
-                    <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="" />
+                    <img className='preferencesItem__userForm--avatar' src={URL.createObjectURL(idToken.picture)} alt="" />
                 </div>
                 : <div
                     onMouseEnter={() => setAvatarHovered(true)}
                     onMouseLeave={() => setAvatarHovered(false)}
                     >
                     <Icons.Person className='preferencesItem__userForm--avatar'/>
-                    <input type="file" ref={avatarRef} className='undisplayed' onChange={(e) => handleAvatarFileChange(e)} />
+                    <input type='file' accept="image/*" ref={avatarRef} className='undisplayed' onChange={(e) => handleAvatarFileChange(e)} />
                 </div>
             }
             <div
@@ -277,6 +280,11 @@ const Preferences = () => {
 
     return (
         <section>
+            {avatarFile && <AvatarCropping
+                imageFile={avatarFile}
+                cancelEdit={() => setAvatarFile(undefined)}
+                acceptEdit={(avatar: File) => dispatch(setIdToken({ idToken: { ...idToken, picture: avatar } }))}
+            />}
             {userPreferences.menuItem}
             {widgetPreferences.menuItem}
         </section>

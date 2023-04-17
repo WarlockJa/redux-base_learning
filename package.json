@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-i18next": "^12.2.0",
+    "react-image-crop": "^10.0.9",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-toggle": "^4.1.3",

@@ -13,7 +13,7 @@ export interface IUser {
     locale: string;
     name: string | null;
     surname: string | null;
-    picture: string | null;
+    picture: File | null;
     authislocal: boolean | null;
     darkmode: boolean;
 }
