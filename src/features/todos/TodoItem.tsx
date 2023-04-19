@@ -1,3 +1,4 @@
+import './todos.css'
 import { ITodo } from "./todosSlice"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faCheck, faMinusCircle } from "@fortawesome/fontawesome-free-solid"
@@ -33,7 +34,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
 
     // tracking todo changes
     const [todoHasChanges, setTodoHasChanges] = useState(false)
-    const [completed, setCompleted] = useState(todo.completed)
+    // const [completed, setCompleted] = useState(todo.completed)
     const [title, setTitle] = useState(todo.title)
     const [description, setDescription] = useState(todo.description)
     const [reminder, setReminder] = useState(todo.reminder)
@@ -65,7 +66,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const handleUpdateTodo = async () => {
         if(canSave) {
             try {
-                if(useremail) await updateTodo({ id: todo.id, useremail: useremail, title, description, completed, reminder, date_due: dateToSqlDatetime(dueDate) })
+                if(useremail) await updateTodo({ id: todo.id, title, description, reminder, date_due: dateToSqlDatetime(dueDate) })
                 setTodoHasChanges(false)
             } catch (error) {
                 console.log(error)
@@ -75,17 +76,23 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
 
     // discarding changes
     const handleDiscardChanges = () => {
-        setCompleted(todo.completed)
+        // setCompleted(todo.completed)
         setTitle(todo.title)
         setDescription(todo.description)
         setReminder(todo.reminder)
         setDueDate(new Date(todo.date_due))
     }
+
+    // handle todo complete click
+    const handleTodoCompletedClick = async () => {
+        const result = await updateTodo({ id: todo.id, completed: todo.completed === 1 ? 0 : 1 }).unwrap()
+        if (result.status !== 200) console.log(result)
+    }
     
     // tracking changed status for todo
     useEffect (() => {
-        todo.completed === completed
-            ? todo.title === title
+        // todo.completed === completed ?
+            todo.title === title
                 ? todo.description === description
                     ? todo.reminder === reminder
                         ? new Date(todo.date_due).getTime() === dueDate.getTime()
@@ -94,8 +101,8 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         : setTodoHasChanges(true)
                     : setTodoHasChanges(true)
                 : setTodoHasChanges(true)
-            : setTodoHasChanges(true)
-    },[completed, dueDate, reminder, title, description])
+            // : setTodoHasChanges(true)
+    },[dueDate, reminder, title, description]) // completed
 
     // exiting editing mode on Enter clicked
     const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement> | React.KeyboardEvent<HTMLInputElement>): void => {
@@ -106,7 +113,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     };
 
     return (
-        <li className={classNames('todoItem', { translucent: isLoading || isUpdating })}>
+        <li className={classNames('todoItem', { translucent: isLoading || isUpdating, completed: todo.completed })}>
             <div className="todoItem__body">
                 {titleEdit
                     ? <input
@@ -129,16 +136,17 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         onBlur={() => setDescriptionEdit(false)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     ></textarea>
-                    : <p className="clickable" title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Todo Description'}</p>
+                    : <p className={description ? '' : 'todoItem__body--placeholder'} title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Add Task Description'}</p>
                 }
             </div>
             <div className="todoItem__completedState">
                 <div
-                    onClick={() => setCompleted(prev => prev === 1 ? 0 : 1)}
+                    // onClick={() => setCompleted(prev => prev === 1 ? 0 : 1)}
+                    onClick={() => handleTodoCompletedClick()}
                     className="faIcon-container"
                 >
-                    {completed
-                        ? <FontAwesomeIcon title="Mark undone :(" icon={faCheck as IconProp} />
+                    {todo.completed
+                        ? <FontAwesomeIcon className="completed-fontColor" title="Mark undone :(" icon={faCheck as IconProp} />
                         : <FontAwesomeIcon title="Mark done!" icon={faMinusCircle as IconProp} />
                     }
                 </div>

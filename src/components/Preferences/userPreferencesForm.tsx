@@ -22,7 +22,7 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     const [updateUser, { isLoading, isSuccess, isError, error }] = useUpdateUserMutation()
     const [deleteUser, { isLoading: isLoadingDeleteUser, isSuccess: isSuccessDeleteUser, isError: isErrorDeleteUser, error: errorDeleteUser }] = useDeleteUserMutation() // TODO add check for success
     // user prefrences menu states
-    const [userDataChanged, setUserDataChanged] = useState(false)
+    // const [userDataChanged, setUserDataChanged] = useState(false)
     // user name states
     const [userName, setUserName] = useState<string>(idToken.name ? idToken.name : '')
     const [userNameEdit, setUserNameEdit] = useState(false)
@@ -40,21 +40,31 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     const [avatarHovered, setAvatarHovered] = useState(false)
 
     // detecting is changes were made in user preferences menu
-    useEffect(() => {
-        idToken.name === userName
-            ? idToken.surname === userSurname
-                ? idToken.email === userEmail
-                    ? setUserDataChanged(false)
-                    : setUserDataChanged(true)
-                : setUserDataChanged(true)
-            : setUserDataChanged(true)
-    },[userName, userSurname, userEmail])
+    // useEffect(() => {
+    //     idToken.name === userName
+    //         ? idToken.surname === userSurname
+    //             ? idToken.email === userEmail
+    //                 ? setUserDataChanged(false)
+    //                 : setUserDataChanged(true)
+    //             : setUserDataChanged(true)
+    //         : setUserDataChanged(true)
+    // },[userName, userSurname, userEmail])
 
     // exiting user name editing mode on Enter or Esc clicked
-    const handleUserNameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    const handleUserNameKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
         if (event.key === 'Enter') {
-            console.log(userName)
-            if(userName) setUserNameEdit(false)
+            if(userName) {
+                setUserNameEdit(false)
+                const result = await updateUser({ name: userName }).unwrap()
+                const newIdToken = {
+                    ...idToken,
+                    name: userName
+                }
+                if(result.status === 200) {
+                    dispatch(setIdToken({ idToken: newIdToken }))
+                } else { console.log(result) }
+            }
+
         } else if (event.key === 'Escape') {
             setUserNameEdit(false)
             setUserName(userNameIfCancelEdit)
@@ -62,9 +72,17 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     }
 
     // exiting user surname editing mode on Enter or Esc clicked
-    const handleUserSurnameKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    const handleUserSurnameKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
         if (event.key === 'Enter') {
-          setUserSurnameEdit(false)
+            setUserSurnameEdit(false)
+            const result = await updateUser({ surname: userSurname }).unwrap()
+            const newIdToken = {
+                ...idToken,
+                surname: userSurname
+            }
+            if(result.status === 200) {
+                dispatch(setIdToken({ idToken: newIdToken }))
+            } else { console.log(result) }
         } else if (event.key === 'Escape') {
             setUserSurnameEdit(false)
             setUserSurname(userSurnameIfCancelEdit)
@@ -97,26 +115,26 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     }
 
     // updating user data
-    const handleUpdateUser = async () => {
-        // TODO update changed fields
-        const result = await updateUser({ name: userName, surname: userSurname }).unwrap()
-        const newIdToken = {
-            ...idToken,
+    // const handleUpdateUser = async () => {
+    //     // TODO update changed fields
+    //     const result = await updateUser({ name: userName, surname: userSurname }).unwrap()
+    //     const newIdToken = {
+    //         ...idToken,
 
-            // email: string | null;
-            // email_confirmed: boolean;
-            // locale: 'en-US';
-            name: userName,
-            surname: userSurname ? userSurname : ''
-            // picture: string | null;
-            // authislocal: boolean | null;
-            // darkmode: string | null;
-        }
-        if(result.status === 200) {
-            dispatch(setIdToken({ idToken: newIdToken }))
-            setUserDataChanged(false)
-        }
-    }
+    //         // email: string | null;
+    //         // email_confirmed: boolean;
+    //         // locale: 'en-US';
+    //         name: userName,
+    //         surname: userSurname ? userSurname : ''
+    //         // picture: string | null;
+    //         // authislocal: boolean | null;
+    //         // darkmode: string | null;
+    //     }
+    //     if(result.status === 200) {
+    //         dispatch(setIdToken({ idToken: newIdToken }))
+    //         setUserDataChanged(false)
+    //     }
+    // }
 
     // handle delete user
     const handleDeleteUser = async () => {
@@ -171,7 +189,7 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     onMouseLeave={() => setAvatarHovered(false)}
                     onClick={() => handleAvatarChange()}
                 ><FontAwesomeIcon title="Change avatar" icon={faEdit as IconProp} /></div>
-                {userDataChanged && <button onClick={() => handleUpdateUser()}>Update</button>}
+                {/* {userDataChanged && <button onClick={() => handleUpdateUser()}>Update</button>} */}
             </div>
             {userNameEdit
                 ? <input

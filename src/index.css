@@ -46,12 +46,12 @@ body {
 
 * {
   box-sizing: border-box;
-  color: var(--clr-font-main);
-  background-color: var(--clr-bg-main);
   transition: background 400ms ease, color 400ms ease;
 }
 
 body {
+  color: var(--clr-font-main);
+  background-color: var(--clr-bg-main);
   margin: 0;
 }
 

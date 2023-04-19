@@ -59,6 +59,14 @@
     border-radius: 8px;
 }
 
+.completed {
+    border: 1px solid green;
+}
+
+.completed-fontColor {
+    color: rgb(37, 177, 37);
+}
+
 .clickable {
     cursor: pointer;
 }

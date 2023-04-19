@@ -15,6 +15,11 @@
     width: 90%;
 }
 
+.todoItem__body--placeholder {
+    cursor: pointer;
+    opacity: 0.4;
+}
+
 .todoItem__body--description {
     text-align: left;
     width: 90%;

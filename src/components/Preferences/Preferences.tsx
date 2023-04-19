@@ -19,13 +19,21 @@ const Preferences = () => {
     // avatar state, holds avatar Blob data for the AvatarCropping component
     // setAvatarFile passed to userPreferencesForm for code splitting purposes
     const [avatarFile, setAvatarFile] = useState<File>()
+    // loading flag for avatar cropping
+    // const [avatarIsCropping, setAvatarIsCropping] = useState(false)
 
-    let blobToURL: string;
     const handleUpdateAvatar = async (avatar: string) => {
+        // setAvatarIsCropping(true)
         dispatch(setIdToken({ idToken: { ...idToken, picture: avatar } }))
         // updating user avatar in DB if accessToken present(user logged in)
         const result = await updateUser({ picture: avatar }).unwrap()
         result.status !== 200 ? console.log(result) : setAvatarFile(undefined)
+        // if(result.status !== 200) {
+        //     console.log(result)
+        // } else {
+        //     setAvatarFile(undefined)
+        //     setAvatarIsCropping(false)
+        // }
     }
 
     // Cascading collapsing menus. Eachs section returns JSX element and its current height in px

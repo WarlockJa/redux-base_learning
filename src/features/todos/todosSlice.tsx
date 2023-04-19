@@ -14,12 +14,11 @@ export interface ITodo {
 
 export interface IUpdateTodo {
     id: number;
-    useremail: string;
-    title: string;
-    completed: number;
-    description: string;
-    date_due: string;       // string due to conversion of the Date into SQL datetime
-    reminder: number;
+    title?: string;
+    completed?: number;
+    description?: string;
+    date_due?: string;       // string due to conversion of the Date into SQL datetime
+    reminder?: number;
 }
 
 export interface IPostTodo {

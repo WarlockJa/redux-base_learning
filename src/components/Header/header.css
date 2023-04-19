@@ -16,6 +16,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 0.8em;
+    background-color: var(--clr-bg-main);
 }
 
 .header__loginSection--globalSettings {

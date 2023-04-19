@@ -31,7 +31,7 @@ export const todoApiSlice = apiSliceTodosTag.injectEndpoints({
             }),
             invalidatesTags: ['Todos']
         }),
-        updateTodo: builder.mutation<void, IUpdateTodo>({
+        updateTodo: builder.mutation<{ message: string; status: number; }, IUpdateTodo>({
             query: updatedTodo => ({
                 url: '/todos',
                 method: 'PUT',

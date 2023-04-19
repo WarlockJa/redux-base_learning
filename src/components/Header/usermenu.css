@@ -1,3 +1,8 @@
+.userMenu {
+    margin-top: 3em;
+    background-color: var(--clr-bg-main);
+}
+
 .userMenu__button--image {
     position: fixed;
 }

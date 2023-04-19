@@ -14,6 +14,7 @@
     padding-top: min(50%, 5em);
 
     overflow: hidden;
+    z-index: 999;
 
     border-radius: 50%;
     animation: spinner-breath 10s infinite linear;
@@ -21,6 +22,7 @@
 
 .spinner > * {
     position: absolute;
+    background-color: var(--clr-bg-main);
 }
 
 .spinner__block-cover {

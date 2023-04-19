@@ -2,6 +2,10 @@ form {
     position: relative;
 }
 
+.headerMenu__form {
+    background-color: var(--clr-bg-main);
+}
+
 .headerMenu__form > * {
     margin: 0.5em 0;
 }
@@ -76,7 +80,7 @@ form {
 }
 
 .dropMenuHidden {
-    transform: translateY(-25em);
+    transform: translateY(-27em);
 }
 
 .headerMenu--overlay {
@@ -87,10 +91,6 @@ form {
     bottom: 0;
     background-color: transparent;
     z-index: -2;
-}
-
-.userMenu {
-    margin-top: 3em;
 }
 
 .headerMenu__form--registerLink {

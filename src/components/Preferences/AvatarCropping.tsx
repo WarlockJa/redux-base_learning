@@ -3,6 +3,7 @@ import './avatarcropping.css'
 import ReactCrop, { Crop, centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css'
 import imageCompression from 'browser-image-compression';
+import Spinner from '../../util/Spinner';
 
 // compressing image blob
 const handleImageCompression = async (imageFile: Blob): Promise<string | undefined> => {
@@ -116,6 +117,8 @@ const AvatarCropping = ({ imageFile, cancelEdit, acceptEdit }: { imageFile: File
     const cropRef = useRef<any>(null)
     // flag for the initial crop window
     const [loadFlag, setLoadFlag] = useState(true)
+    // loading flag for avatar cropping process
+    const [avatarIsCropping, setAvatarIsCropping] = useState(false)
 
     // checking if URL for blob object already exist and clear it if so
     if(imageToHttpBlob) URL.revokeObjectURL(imageToHttpBlob)
@@ -125,6 +128,7 @@ const AvatarCropping = ({ imageFile, cancelEdit, acceptEdit }: { imageFile: File
     const handleKeyDown = async (event: KeyboardEvent) => {
         if (event.key === 'Enter') {
             if (crop && cropRef.current) {
+                setAvatarIsCropping(true)
                 // acceptEdit(crop)
                 const croppedImg = await getCroppedImg(cropRef.current.mediaRef.current.firstChild, crop, 'croppedimage.jpg');
                 // console.dir(cropRef.current.mediaRef.current.firstChild)
@@ -133,6 +137,8 @@ const AvatarCropping = ({ imageFile, cancelEdit, acceptEdit }: { imageFile: File
                 if(compressedImage) {
                     // acceptEdit(URL.createObjectURL(compressedImage))
                     acceptEdit(compressedImage)
+                } else {
+                    setAvatarIsCropping(false)
                 }
             }
         } else if (event.key === 'Escape') {
@@ -176,6 +182,7 @@ const AvatarCropping = ({ imageFile, cancelEdit, acceptEdit }: { imageFile: File
 
     return (
         <section className="avatarCropping">
+            {avatarIsCropping && <Spinner embed={true} />}
             <div
                 className='avatarCropping__reactCrop'
             >
@@ -184,6 +191,7 @@ const AvatarCropping = ({ imageFile, cancelEdit, acceptEdit }: { imageFile: File
                     crop={crop}
                     onChange={c => setCrop(c)}
                     aspect={1}
+                    disabled={avatarIsCropping}
                     keepSelection
                 >
                     <img
