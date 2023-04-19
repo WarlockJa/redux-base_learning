@@ -28,6 +28,7 @@ const AddTodo = () => {
     // add todo improper data saveguards
     const dueDateIsValid = !reminder || new Date < dueDate
 
+    // check if alright to save
     const canSave = [title, dueDateIsValid].every(Boolean) && !isLoading
 
     // adding todo

@@ -12,6 +12,7 @@ import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
 import dateToSqlDatetime from "../../util/dateToSQLdatetime"
 import { useAppSelector } from "../../app/hooks"
 import { selectCurrentEmail, selectCurrentEmailConfirmed } from "../api/auth/authSlice"
+import dateSQLtoLocalTZ from "../../util/dateSQLtoLocalTZ"
 
 
 const TodoItem = ({ todo }: { todo: ITodo }) => {
@@ -37,6 +38,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [description, setDescription] = useState(todo.description)
     const [reminder, setReminder] = useState(todo.reminder)
     const [dueDate, setDueDate] = useState(new Date(todo.date_due))
+    const [createdDate, setCreatedDate] = useState(dateSQLtoLocalTZ(new Date(todo.date_created)))
 
     // flags for text fields edits
     const [titleEdit, setTitleEdit] = useState(false)
@@ -130,9 +132,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     : <p className="clickable" title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Todo Description'}</p>
                 }
             </div>
-            <div
-                className="todoItem__completedState"
-            >
+            <div className="todoItem__completedState">
                 <div
                     onClick={() => setCompleted(prev => prev === 1 ? 0 : 1)}
                     className="faIcon-container"
@@ -159,9 +159,11 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 </div>
                 : <div>Confirm email to enable reminders</div>
             }
-            <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
+            {/* <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated"> */}
+            <div title={`Created at ${format(createdDate, 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
                 <p>created</p>
-                <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p>
+                {/* <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p> */}
+                <p>{formatRelative(createdDate, new Date())}</p>
             </div>
             <div
                 className="todoItem__delete faIcon-container"
