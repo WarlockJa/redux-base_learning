@@ -2,6 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
 import useSystemColorSchemeIsDark from "../../../util/useSystemColorSchemeIsDark";
 
+// Auth data from DB
+export interface IDBAuth {
+    accessToken: string | null;
+    idToken: {
+        email: string | null;
+        email_confirmed: boolean;
+        locale: string;
+        name: string | null;
+        surname: string | null;
+        picture: Blob | null;
+        authislocal: boolean | null;
+        darkmode: boolean;
+    }
+}
+
+// Auth data inside the App
 export interface IAuth {
     accessToken: string | null;
     idToken: IUser;
@@ -13,7 +29,7 @@ export interface IUser {
     locale: string;
     name: string | null;
     surname: string | null;
-    picture: File | null;
+    picture: string | null;
     authislocal: boolean | null;
     darkmode: boolean;
 }

@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import AuthorizedUserMenu from "./AuthorizedUserMenu"
 import { useGLoginMutation, useLoginMutation, useReauthMutation } from '../../features/api/auth/authApiSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectCurrentToken, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
+import { IDBAuth, selectCurrentToken, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 import { useTranslation } from 'react-i18next'
@@ -29,7 +29,7 @@ const Header = () => {
     // relogin user upon page reaload with stored httpOnly refresh token cookie
     useEffect(() => {
         const handleUserReauth = async () => {
-            const reauthData = await reauth({}).unwrap()
+            const reauthData: IDBAuth = await reauth({}).unwrap()
             dispatch(setCredentials({ accessToken: reauthData.accessToken, idToken: { ...reauthData.idToken } }))
             i18n.changeLanguage(reauthData.idToken.locale)
         }

@@ -10,6 +10,6 @@ i18next
     .use(LanguageDetector)
     .use(I18NextHttpBackend)
     .init({
-        debug: true,
+        // debug: true,
         fallbackLng: 'en'
     })
