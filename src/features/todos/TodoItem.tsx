@@ -91,7 +91,6 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     
     // tracking changed status for todo
     useEffect (() => {
-        // todo.completed === completed ?
             todo.title === title
                 ? todo.description === description
                     ? todo.reminder === reminder
@@ -101,7 +100,6 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         : setTodoHasChanges(true)
                     : setTodoHasChanges(true)
                 : setTodoHasChanges(true)
-            // : setTodoHasChanges(true)
     },[dueDate, reminder, title, description]) // completed
 
     // exiting editing mode on Enter clicked
