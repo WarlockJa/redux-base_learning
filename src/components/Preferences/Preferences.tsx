@@ -40,7 +40,7 @@ const Preferences = () => {
     const [showDeleteUserWarning, setShowDeleteUserWarning] = useState(false)
     // handle delete user
     const handleDeleteUser = async () => {
-        const result = await deleteUser({ email: idToken.email }).unwrap()
+        const result = await deleteUser({}).unwrap()
         if(result.status === 200 || result.status === 204) {
             // clearing out user store data
             dispatch(logOut())
