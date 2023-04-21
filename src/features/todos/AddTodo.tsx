@@ -3,12 +3,12 @@ import './calendar.css';
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import DateTimePicker from 'react-datetime-picker'
-import { switchAddTodo } from './todosSlice';
+import { switchAddTodoMenuState } from './todosSlice';
 import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
 import dateToSqlDatetime from '../../util/dateToSQLdatetime';
 import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../api/auth/authSlice';
-import { useSendConfirmEmailMutation } from '../api/user/userApiSlice';
+import ResendEmail from '../../util/ResendEmail';
 
 const AddTodo = () => {
     const [title, setTitle] = useState('')
@@ -21,9 +21,10 @@ const AddTodo = () => {
     const dispatch = useAppDispatch()
     const useremail = useAppSelector(selectCurrentEmail)
     const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
-    const [sendConfirmEmail] = useSendConfirmEmailMutation()
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
+
+    
 
     // add todo improper data saveguards
     const dueDateIsValid = !reminder || new Date < dueDate
@@ -43,7 +44,7 @@ const AddTodo = () => {
             } catch (error) {
                 console.log(error)
             }
-            dispatch(switchAddTodo()) // closing addTodo menu by changing redux state
+            dispatch(switchAddTodoMenuState()) // closing addTodo menu by changing redux state
         }
     }
     
@@ -56,8 +57,8 @@ const AddTodo = () => {
     return (
         <section className="addTodo">
             <form className='addTodo__form'>
-                <h3>Add Todo</h3>
-                <label htmlFor="addTodo__todoTitle">Todo Title</label>
+                <h3>Add Task</h3>
+                <label htmlFor="addTodo__todoTitle">Task Title</label>
                 <input
                     id="addTodo__todoTitle"
                     className={title ? '' : 'invalid'}
@@ -66,7 +67,7 @@ const AddTodo = () => {
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                 />
-                <label htmlFor="addTodo__todoDescription">Todo Description</label>
+                <label htmlFor="addTodo__todoDescription">Task Description</label>
                 <textarea
                     className="addTodo__todoDescription"
                     id="addTodo__todoDescription"
@@ -85,9 +86,9 @@ const AddTodo = () => {
                         <label>Select date</label>
                         <DateTimePicker disabled={!reminder} value={new Date(dueDate)} onChange={setDueDate} disableClock minDate={new Date()} format="dd-MM-y hh:mm" />
                     </div>
-                    : <div>Confirm email to enable reminders<p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p></div>
+                    : <div>Confirm email to enable reminders<ResendEmail /></div>
                 }
-                <button className={!canSave ? 'translucent' : undefined} disabled={!canSave} title={!canSave ? 'Required fields are missing' : 'All good!'} type="button" onClick={handleSubmit}>Add Todo</button>
+                <button className={!canSave ? 'translucent' : undefined} disabled={!canSave} title={!canSave ? 'Required fields are missing' : 'All good!'} type="button" onClick={handleSubmit}>Add Task</button>
             </form>
         </section>
     )

@@ -1,5 +1,5 @@
 import { BaseQueryFn, createApi, fetchBaseQuery, MutationDefinition } from '@reduxjs/toolkit/query/react'
-import { setCredentials, logOut } from './auth/authSlice'
+import { setCredentials, logOut, AccessTokenType } from './auth/authSlice'
 import { RootState } from '../../app/store'
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
 
@@ -29,6 +29,12 @@ interface IAuthApiError {
 interface IAuthRegisterError {
     originalStatus: number;
     data: string;
+}
+
+interface IRefreshTokenResult {
+    data?: {
+        accessToken: AccessTokenType;
+    }
 }
 
 // checks response error type to ensure it came from the API
@@ -88,7 +94,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     if(isApiRefreshError(result)) {
         if(result.error.originalStatus === 403) {
             // sending refresh token to get new access token
-            const refreshResult = await baseQuery('/refresh', api, extraOptions)
+            const refreshResult = await baseQuery('/refresh', api, extraOptions) as IRefreshTokenResult
             if (refreshResult?.data) {
                 const idToken = (api.getState() as RootState).auth.idToken
                 console.log('Refresh request')

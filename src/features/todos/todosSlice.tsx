@@ -31,26 +31,33 @@ export interface IPostTodo {
 
 interface ITodosState {
     addTodoMenuState: boolean;
+    filterCompletedTodos: boolean;
 }
 
 const initialState: ITodosState = {
-    addTodoMenuState: false
+    addTodoMenuState: false,
+    filterCompletedTodos: false
 }
 
 const todosSlice = createSlice({
     name: 'todos',
     initialState: initialState,
     reducers: {
-        switchAddTodo: (state) => {
+        switchAddTodoMenuState: (state) => {
             state.addTodoMenuState = !state.addTodoMenuState
         },
+        switchFilterCompletedTodos: (state) => {
+            state.filterCompletedTodos = !state.filterCompletedTodos
+        }
     }
 })
 
 export const {
-    switchAddTodo,
+    switchAddTodoMenuState,
+    switchFilterCompletedTodos
 } = todosSlice.actions
 
 export default todosSlice.reducer
 
 export const selectAddTodoState = (state: RootState) => state.todos.addTodoMenuState
+export const selectFilterCompletedTodos = (state: RootState) => state.todos.filterCompletedTodos

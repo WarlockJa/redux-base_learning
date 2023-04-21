@@ -92,7 +92,8 @@
     background: transparent;
 }
 
-.textButton {
+.textButton,
+.textButtonPressed {
     color: #2e5981;
     text-decoration: underline;
     line-height: 0;
@@ -101,6 +102,9 @@
 .textButton:hover,
 .textButton:active {
     color: #456a8d;
+}
+.textButtonPressed {
+    cursor: default;
 }
 
 .collapsingMenuButton {

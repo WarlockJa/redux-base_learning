@@ -1,28 +1,24 @@
 import classNames from 'classnames'
 import { useDeleteUserMutation, useSendConfirmEmailMutation, useUpdateUserMutation } from '../../features/api/user/userApiSlice'
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { logOut, selectUserData, setIdToken } from '../../features/api/auth/authSlice'
-import { apiSlice } from '../../features/api/apiSlice'
+import { selectUserData, setIdToken } from '../../features/api/auth/authSlice'
 import Icons from '../../assets/Icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { faCheck, faEdit } from '@fortawesome/fontawesome-free-solid'
+import { faCheck, faEdit, faTrashAlt } from '@fortawesome/fontawesome-free-solid'
 import LanguageSwitcher from '../../util/LanguageSwitcher'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
+import ResendEmail from '../../util/ResendEmail'
 
-const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undefined>>) => {
+const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undefined>>, setShowDeleteUserWarning: Dispatch<SetStateAction<boolean>>) => {
     // i18next
     const { t, i18n } = useTranslation()
     // user data from the store
     const idToken = useAppSelector(selectUserData)
     const dispatch = useAppDispatch()
-    const [sendConfirmEmail] = useSendConfirmEmailMutation()
     const [updateUser, { isLoading, isSuccess, isError, error }] = useUpdateUserMutation()
-    const [deleteUser, { isLoading: isLoadingDeleteUser, isSuccess: isSuccessDeleteUser, isError: isErrorDeleteUser, error: errorDeleteUser }] = useDeleteUserMutation() // TODO add check for success
-    // user prefrences menu states
-    // const [userDataChanged, setUserDataChanged] = useState(false)
     // user name states
     const [userName, setUserName] = useState<string>(idToken.name ? idToken.name : '')
     const [userNameEdit, setUserNameEdit] = useState(false)
@@ -38,17 +34,6 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     const [userPasswordChangeFormState, setUserPasswordChangeFormState] = useState(false)
     // user image states
     const [avatarHovered, setAvatarHovered] = useState(false)
-
-    // detecting is changes were made in user preferences menu
-    // useEffect(() => {
-    //     idToken.name === userName
-    //         ? idToken.surname === userSurname
-    //             ? idToken.email === userEmail
-    //                 ? setUserDataChanged(false)
-    //                 : setUserDataChanged(true)
-    //             : setUserDataChanged(true)
-    //         : setUserDataChanged(true)
-    // },[userName, userSurname, userEmail])
 
     // exiting user name editing mode on Enter or Esc clicked
     const handleUserNameKeyDown = async (event: React.KeyboardEvent<HTMLInputElement>): Promise<void> => {
@@ -114,42 +99,6 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
         event.preventDefault()
     }
 
-    // updating user data
-    // const handleUpdateUser = async () => {
-    //     // TODO update changed fields
-    //     const result = await updateUser({ name: userName, surname: userSurname }).unwrap()
-    //     const newIdToken = {
-    //         ...idToken,
-
-    //         // email: string | null;
-    //         // email_confirmed: boolean;
-    //         // locale: 'en-US';
-    //         name: userName,
-    //         surname: userSurname ? userSurname : ''
-    //         // picture: string | null;
-    //         // authislocal: boolean | null;
-    //         // darkmode: string | null;
-    //     }
-    //     if(result.status === 200) {
-    //         dispatch(setIdToken({ idToken: newIdToken }))
-    //         setUserDataChanged(false)
-    //     }
-    // }
-
-    // handle delete user
-    const handleDeleteUser = async () => {
-        // TODO add confirmation screen
-        const result = await deleteUser({ email: idToken.email }).unwrap()
-        if(result.status === 200 || result.status === 204) {
-            // clearing out user store data
-            dispatch(logOut())
-            // changing locale to browser default
-            i18n.changeLanguage(navigator.language)
-            // resetting apiSlice todos data
-            dispatch(apiSlice.util.resetApiState())
-        }
-    }
-
     // handle avatar change
     const avatarRef = useRef<HTMLInputElement | null>(null)
     // invoking input type file method to let user choose image file
@@ -189,7 +138,6 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     onMouseLeave={() => setAvatarHovered(false)}
                     onClick={() => handleAvatarChange()}
                 ><FontAwesomeIcon title="Change avatar" icon={faEdit as IconProp} /></div>
-                {/* {userDataChanged && <button onClick={() => handleUpdateUser()}>Update</button>} */}
             </div>
             {userNameEdit
                 ? <input
@@ -211,7 +159,6 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                 ? <input
                     type="text"
                     autoFocus
-                    // className={classNames('todoItem__body--title', { invalid: !title })}
                     value={userSurname ? userSurname : ''}
                     onChange={(e) => setUserSurname(e.target.value)}
                     onBlur={() => setUserSurnameEdit(false)}
@@ -232,10 +179,9 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                 <p className='preferencesItem__userForm--p' style={{ color: idToken.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken.email}</p>
                 {idToken.email_confirmed
                     ? <FontAwesomeIcon title="Email verified" icon={faCheck as IconProp} />
-                    : <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>
+                    : <ResendEmail />
                 }
             </div>  
-            {/* {!idToken.email_confirmed && <p className="textButton" onClick={() => dispatch(sendConfirmEmail)}>re-send verification email</p>} */}
             <div className='preferencesItem__userForm--editBlock'>
                 <p className='preferencesItem__userForm--p'>Color scheme:</p>
                 <SwitchDarkMode />
@@ -246,7 +192,11 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     fullDescription={true}
                 />
             </div>
-            <button className='preferencesItem__userForm--deleteButton' onClick={() => handleDeleteUser()}>Delete user</button>
+            <div title='Delete account' aria-label='delete account' className='preferencesItem__userForm--userDeleteBlock'>
+                <button className='preferencesItem__userForm--deleteButton' onClick={() => setShowDeleteUserWarning(true)}>
+                    <FontAwesomeIcon icon={faTrashAlt as IconProp} />
+                </button>
+            </div>
         </form>
     )
 }

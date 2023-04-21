@@ -6,17 +6,22 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react"
 import ScrollToTopButton, { ScrollToTop } from '../../util/ScrollToTopButton'
 import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectAddTodoState, switchAddTodo } from './todosSlice'
+import { selectAddTodoState, selectFilterCompletedTodos, switchAddTodoMenuState, switchFilterCompletedTodos } from './todosSlice'
 import { useGetTodosQuery } from './todoApiSlice'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck } from "@fortawesome/fontawesome-free-solid"
+import { IconProp } from "@fortawesome/fontawesome-svg-core"
 
 const TodosList = () => {
-    // redux store for addTodo menu state
+    // redux store for addTodo menu state and filterCompletedTodos
     const addTodoMenuState = useAppSelector(selectAddTodoState)
+    const filterCompletedTodos = useAppSelector(selectFilterCompletedTodos)
     const dispatch = useAppDispatch()
-
     // addTodoMenu ref
     const addTodoRef = useRef<HTMLDivElement>(null)
     const [todoMenuHeight, setTodoMenuHeight] = useState(0)
+    // Incomplete Todos found
+    const [isCompleteTodoInList, setIsCompleteTodoInList] = useState(false)
 
     // scrolling to the top on route change
     useLayoutEffect (() => {
@@ -60,35 +65,66 @@ const TodosList = () => {
         content = <p>There was an error fetching data</p>
         // content = <pre>{JSON.stringify(error, null, 2)}</pre>
     } else if (isSuccess) {
-        if(sortedTodos && sortedTodos.length > 0) {
-            const renderedTodos = sortedTodos.map(todo => 
+        if(sortedTodos){
+            const renderedTodos = filterCompletedTodos
+            ? sortedTodos.filter(item => item.completed === 0).map(todo =>
                 <TodoItem key={todo.id} todo={todo} />
             )
-            // adding 'translucent' class name to the already present data on a new POST request for css
+            : sortedTodos.map(todo => 
+                <TodoItem key={todo.id} todo={todo} />
+            )
+            // adding 'translucent' class name to the already present data on a new POST request
             containerClassname = classnames('todos__contentContainer', {
                 translucent: isFetching,
+                todosContentContainerEmpty: renderedTodos.length === 0
             })
 
-            content = renderedTodos
-        } else {
-            content = <p>Everything is done! Good job!</p>
+            sortedTodos.find(item => item.completed)
+                ? !isCompleteTodoInList && setIsCompleteTodoInList(true)
+                : isCompleteTodoInList && setIsCompleteTodoInList(false)
+                
+            content = renderedTodos.length === 0 ? <p>Everything is done! Good job!</p> : renderedTodos
         }
     }
 
     // closing addTodo menu on successful POST
     const handleAddTodoIconClick = () => {
-        dispatch(switchAddTodo())
+        dispatch(switchAddTodoMenuState())
     }
 
     return (
         <section className="todos">
-            <h2>Todos <span title='Open/close add todo menu'>
-                    {addTodoMenuState
-                        ? <Icons.CloseAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-negative' />
-                        : <Icons.OpenAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-positive' />
-                    }
-                </span>
-            </h2>
+            <div className="todos__header">
+                <h2>Tasks <span title='Open/close add todo menu'>
+                        {addTodoMenuState
+                            ? <Icons.CloseAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-negative' />
+                            : <Icons.OpenAddTodo onClick={() => handleAddTodoIconClick()} className='collapsingMenuButton svg-positive' />
+                        }
+                    </span>
+                </h2>
+                {isCompleteTodoInList &&
+                <div className="todos__header--filterCompletedTodosBlock">
+                    <label
+                        title={filterCompletedTodos ? "Show completed tasks" : "Hide completed tasks"}
+                        className="todos__header--filterCompletedTodosLabel"
+                        htmlFor="todos__header--filterCompletedCheckbox"
+                    >
+                        {filterCompletedTodos ? "Show " : "Hide "}
+                        <FontAwesomeIcon className="completed-fontColor" icon={faCheck as IconProp} />
+                        {' '}
+                    </label>
+                    <input
+                        title={filterCompletedTodos ? "Show completed tasks" : "Hide completed tasks"}
+                        aria-label="hide completed tasks"
+                        id="todos__header--filterCompletedCheckbox"
+                        className="todos__header--filterCompletedCheckbox"
+                        type="checkbox"
+                        checked={filterCompletedTodos}
+                        onChange={() => dispatch(switchFilterCompletedTodos())}
+                    />
+                </div>
+                }
+            </div>
             <div className="todos__addTodo--wrapper" ref={addTodoRef} visible={addTodoMenuState ? 1 : 0}>
                 {addTodoMenuState && <AddTodo />}
             </div>

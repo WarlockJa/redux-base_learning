@@ -1,0 +1,20 @@
+.deleteUser {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--sz-header-height);
+    bottom: 0;
+
+    background-color: var(--clr-bg-main);
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.deleteUser--buttonsBlock {
+    display: flex;
+    gap: 2em;
+}

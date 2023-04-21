@@ -76,7 +76,6 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
 
     // discarding changes
     const handleDiscardChanges = () => {
-        // setCompleted(todo.completed)
         setTitle(todo.title)
         setDescription(todo.description)
         setReminder(todo.reminder)
@@ -134,17 +133,16 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                         onBlur={() => setDescriptionEdit(false)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     ></textarea>
-                    : <p className={description ? '' : 'todoItem__body--placeholder'} title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Add Task Description'}</p>
+                    : <p className={description ? 'clickable' : 'clickable todoItem__body--placeholder'} title="Change description" onClick={() => setDescriptionEdit(true)}>{description ? description : 'Add Task Description'}</p>
                 }
             </div>
             <div className="todoItem__completedState">
                 <div
-                    // onClick={() => setCompleted(prev => prev === 1 ? 0 : 1)}
                     onClick={() => handleTodoCompletedClick()}
                     className="faIcon-container"
                 >
                     {todo.completed
-                        ? <FontAwesomeIcon className="completed-fontColor" title="Mark undone :(" icon={faCheck as IconProp} />
+                        ? <FontAwesomeIcon className="completed-fontColor" title="Mark not done :(" icon={faCheck as IconProp} />
                         : <FontAwesomeIcon title="Mark done!" icon={faMinusCircle as IconProp} />
                     }
                 </div>
@@ -165,10 +163,8 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 </div>
                 : <div>Confirm email to enable reminders</div>
             }
-            {/* <div title={`Created at ${format(new Date(todo.date_created), 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated"> */}
             <div title={`Created at ${format(createdDate, 'dd-MM-y hh:mm a')}`} className="todoItem__footer--dateCreated">
                 <p>created</p>
-                {/* <p>{formatRelative(Date.parse(todo.date_created), new Date())}</p> */}
                 <p>{formatRelative(createdDate, new Date())}</p>
             </div>
             <div

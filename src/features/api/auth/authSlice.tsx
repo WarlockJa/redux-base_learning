@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../../app/store";
 import useSystemColorSchemeIsDark from "../../../util/useSystemColorSchemeIsDark";
 
@@ -11,19 +11,21 @@ export interface IDBAuth {
         locale: string;
         name: string | null;
         surname: string | null;
-        picture: Blob | null;
+        picture: string | null;
         authislocal: boolean | null;
         darkmode: boolean;
     }
 }
 
 // Auth data inside the App
-export interface IAuth {
-    accessToken: string | null;
-    idToken: IUser;
+export interface IAuthSliceInitialState {
+    accessToken: AccessTokenType;
+    idToken: IUserIdToken;
 }
 
-export interface IUser {
+export type AccessTokenType = string | null;
+
+export interface IUserIdToken {
     email: string | null;
     email_confirmed: boolean;
     locale: string;
@@ -34,7 +36,7 @@ export interface IUser {
     darkmode: boolean;
 }
 
-const initialState: IAuth = {
+const initialState: IAuthSliceInitialState = {
     accessToken: null,
     idToken: {
         email: null,
@@ -45,19 +47,19 @@ const initialState: IAuth = {
         picture: null,
         authislocal: null,
         darkmode: useSystemColorSchemeIsDark()
-    }
+    },
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setCredentials: (state, action) => {
+        setCredentials: (state, action: PayloadAction<IAuthSliceInitialState>) => {
             const { accessToken, idToken } = action.payload
             state.idToken = idToken
             state.accessToken = accessToken
         },
-        setIdToken: (state, action) => {
+        setIdToken: (state, action: PayloadAction<{ idToken: IUserIdToken }>) => {
             const { idToken } = action.payload
             state.idToken = idToken
         },

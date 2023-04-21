@@ -1,3 +1,7 @@
+.preferences {
+    position: relative;
+}
+
 .emptyField {
     opacity: 0.2;
 }
@@ -66,11 +70,11 @@
     justify-content: space-between;
 }
 
-.preferencesItem__userForm--darkmode > * {
-    border: 1px solid green;
-}
-
 .preferencesItem__userForm__avatar--editIcon {
     position: absolute;
     cursor: pointer;
+}
+
+.preferencesItem__userForm--deleteButton {
+    color: var(--clr-negative);
 }

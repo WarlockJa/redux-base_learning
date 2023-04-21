@@ -16,7 +16,6 @@
 }
 
 .todoItem__body--placeholder {
-    cursor: pointer;
     opacity: 0.4;
 }
 
@@ -76,6 +75,19 @@
 }
 .todos__contentContainer[visible='0'] {
     transition: transform 500ms ease;
+}
+.todosContentContainerEmpty {
+    transition: none!important;
+}
+
+.todos__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.todos__header--filterCompletedTodosBlock > * {
+    cursor: pointer;
 }
 
 /* add todo */

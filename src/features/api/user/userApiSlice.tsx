@@ -10,13 +10,6 @@ export const userApiSlice = apiSliceUserTag.injectEndpoints({
                 method: 'GET'
             }),
         }),
-        // getUserData: builder.query({
-        //     query: () => ({
-        //         url: '/user',
-        //         method: 'GET'
-        //     }),
-        //     providesTags: ['User']
-        // }),
         sendConfirmEmail: builder.mutation({
             query: () => ({
                 url: '/user',
