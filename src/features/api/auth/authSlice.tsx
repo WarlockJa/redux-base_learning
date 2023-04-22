@@ -14,6 +14,7 @@ export interface IDBAuth {
         picture: string | null;
         authislocal: boolean | null;
         darkmode: boolean;
+        hidecompleted: boolean;
     }
 }
 
@@ -34,6 +35,7 @@ export interface IUserIdToken {
     picture: string | null;
     authislocal: boolean | null;
     darkmode: boolean;
+    hidecompleted: boolean;
 }
 
 const initialState: IAuthSliceInitialState = {
@@ -46,7 +48,8 @@ const initialState: IAuthSliceInitialState = {
         surname: null,
         picture: null,
         authislocal: null,
-        darkmode: useSystemColorSchemeIsDark()
+        darkmode: useSystemColorSchemeIsDark(),
+        hidecompleted: false
     },
 }
 
@@ -63,6 +66,10 @@ const authSlice = createSlice({
             const { idToken } = action.payload
             state.idToken = idToken
         },
+        setHidecompleted: (state, action) => {
+            const { hidecompleted } = action.payload
+            state.idToken.hidecompleted = hidecompleted
+        },
         logOut: (state) => {
             state.accessToken = null
             state.idToken = initialState.idToken
@@ -70,7 +77,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { setCredentials, setIdToken, logOut } = authSlice.actions
+export const { setCredentials, setIdToken, logOut, setHidecompleted } = authSlice.actions
 
 export default authSlice.reducer
 
@@ -78,3 +85,4 @@ export const selectCurrentEmail = (state: RootState) => state.auth.idToken.email
 export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idToken.email_confirmed
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
 export const selectUserData = (state: RootState) => state.auth.idToken
+export const selectHidecompleted = (state: RootState) => state.auth.idToken.hidecompleted

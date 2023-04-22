@@ -6,17 +6,21 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react"
 import ScrollToTopButton, { ScrollToTop } from '../../util/ScrollToTopButton'
 import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { selectAddTodoState, selectFilterCompletedTodos, switchAddTodoMenuState, switchFilterCompletedTodos } from './todosSlice'
+import { selectAddTodoState, switchAddTodoMenuState } from './todosSlice'
 import { useGetTodosQuery } from './todoApiSlice'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
+import { selectHidecompleted, setHidecompleted } from "../api/auth/authSlice"
+import { useUpdateUserMutation } from "../api/user/userApiSlice"
 
 const TodosList = () => {
     // redux store for addTodo menu state and filterCompletedTodos
     const addTodoMenuState = useAppSelector(selectAddTodoState)
-    const filterCompletedTodos = useAppSelector(selectFilterCompletedTodos)
     const dispatch = useAppDispatch()
+    // store data for user option on hide completed tasks
+    const hidecompleted = useAppSelector(selectHidecompleted)
+    const [updateUser, { isLoading: IsLoadingUpdateUser }] = useUpdateUserMutation()
     // addTodoMenu ref
     const addTodoRef = useRef<HTMLDivElement>(null)
     const [todoMenuHeight, setTodoMenuHeight] = useState(0)
@@ -66,7 +70,7 @@ const TodosList = () => {
         // content = <pre>{JSON.stringify(error, null, 2)}</pre>
     } else if (isSuccess) {
         if(sortedTodos){
-            const renderedTodos = filterCompletedTodos
+            const renderedTodos = hidecompleted
             ? sortedTodos.filter(item => item.completed === 0).map(todo =>
                 <TodoItem key={todo.id} todo={todo} />
             )
@@ -92,6 +96,14 @@ const TodosList = () => {
         dispatch(switchAddTodoMenuState())
     }
 
+    // changing hideCompleted in idToken and in DB
+    const handleChangeHideCompleted = async () => {
+        const result = await updateUser({ hidecompleted: !hidecompleted }).unwrap()
+        if(result.status === 200) {
+            dispatch(setHidecompleted({ hidecompleted: !hidecompleted }))
+        } else { console.log(result) }
+    }
+
     return (
         <section className="todos">
             <div className="todos__header">
@@ -103,24 +115,25 @@ const TodosList = () => {
                     </span>
                 </h2>
                 {isCompleteTodoInList &&
-                <div className="todos__header--filterCompletedTodosBlock">
+                <div className={classnames("todos__header--filterCompletedTodosBlock", { translucent: IsLoadingUpdateUser })}>
                     <label
-                        title={filterCompletedTodos ? "Show completed tasks" : "Hide completed tasks"}
+                        title={hidecompleted ? "Show completed tasks" : "Hide completed tasks"}
                         className="todos__header--filterCompletedTodosLabel"
                         htmlFor="todos__header--filterCompletedCheckbox"
                     >
-                        {filterCompletedTodos ? "Show " : "Hide "}
+                        Hide{' '}
                         <FontAwesomeIcon className="completed-fontColor" icon={faCheck as IconProp} />
                         {' '}
                     </label>
                     <input
-                        title={filterCompletedTodos ? "Show completed tasks" : "Hide completed tasks"}
+                        title={hidecompleted ? "Uncheck to show completed tasks" : "Check to hide completed tasks"}
                         aria-label="hide completed tasks"
                         id="todos__header--filterCompletedCheckbox"
                         className="todos__header--filterCompletedCheckbox"
                         type="checkbox"
-                        checked={filterCompletedTodos}
-                        onChange={() => dispatch(switchFilterCompletedTodos())}
+                        checked={hidecompleted}
+                        disabled={IsLoadingUpdateUser}
+                        onChange={() => handleChangeHideCompleted()}
                     />
                 </div>
                 }

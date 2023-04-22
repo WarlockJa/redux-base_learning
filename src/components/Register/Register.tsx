@@ -4,7 +4,7 @@ import { useLoginMutation, useRegisterMutation } from "../../features/api/auth/a
 import Spinner from "../../util/Spinner"
 import { apiSlice, isApiRegisterError } from "../../features/api/apiSlice"
 import classNames from 'classnames'
-import { IAuth, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
+import { IAuthSliceInitialState, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { useSendConfirmEmailMutation } from '../../features/api/user/userApiSlice'
 
@@ -56,7 +56,7 @@ const Register = () => {
         // clearing out apiSlice flags
         dispatch(apiSlice.util.resetApiState())
         // sign in user upon registration
-        const signInData: IAuth = await login({ email, password }).unwrap()
+        const signInData: IAuthSliceInitialState = await login({ email, password }).unwrap()
         dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
         // clearing out registration form data
         setEmail('')

@@ -24,8 +24,6 @@ const AddTodo = () => {
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 
-    
-
     // add todo improper data saveguards
     const dueDateIsValid = !reminder || new Date < dueDate
 

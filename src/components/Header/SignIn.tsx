@@ -9,7 +9,7 @@ import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/fontaweso
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { IRTKQuery, isApiAuthError } from '../../features/api/apiSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { IAuth, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
+import { IAuthSliceInitialState, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import Spinner from '../../util/Spinner'
 import LineBreak from '../../util/LineBreak'
 import { useTranslation } from 'react-i18next'
@@ -42,7 +42,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     const handleSubmit = async (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault()
         setSignInCoverVisible(true)
-        const signInData: IAuth = login.login && await login.login({ email, password }).unwrap()
+        const signInData: IAuthSliceInitialState = login.login && await login.login({ email, password }).unwrap()
         dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
         i18n.changeLanguage(signInData.idToken.locale)
         setEmail('')
@@ -58,8 +58,8 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery, gLogin: IRTKQuery }) => {
     // sign in with google
     const loginGoogle = useGoogleLogin({
         onSuccess: async tokenResponse => {
-            const signInData: IAuth = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: idToken.darkmode }).unwrap()
-            dispatch(setCredentials({ accessToken: signInData?.accessToken, idToken: signInData.idToken }))
+            const signInData: IAuthSliceInitialState = gLogin.gLogin && await gLogin.gLogin({ ...tokenResponse, darkmode: idToken.darkmode }).unwrap()
+            dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
             i18n.changeLanguage(signInData.idToken.locale)
         },
     });
