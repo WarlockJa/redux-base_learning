@@ -3,7 +3,7 @@
     left: 0;
     right: 0;
     top: 0;
-    background-color: var(--clr-header-bg);
+    background-color: var(--clr-bg-main);
     display: flex;
     align-items: center;
     height: var(--sz-header-height);

@@ -68,7 +68,7 @@ const Header = () => {
 
     return (
         <section className="header">
-            <nav>
+            <nav className='header__nav'>
                 <NavLink to='/'>{t('home')}</NavLink>
                 <NavLink to='posts'>{t('news')}</NavLink>
                 {token && <NavLink to='todos'>{t('todos')}</NavLink>}

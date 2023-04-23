@@ -8,21 +8,18 @@ body {
   --clr-negative: rgb(158, 34, 59);
   
   --clr-font-main: #213547;
-  --clr-bg-main: #ffffff;
+  --clr-bg-main: #c5c5c5;
   --clr-bg-hoverMain: #AAAAAA;
-  --clr-button-bg: rgb(225, 225, 225);
-  --clr-header-bg: #ffffff;
+  --clr-button-bg: rgb(207, 207, 207);
   --clr-spinner: #232323;
   --clr-font-disabled: #6664;
   --clr-link-hover: #747bff;
-  --clr-button-bg: #f9f9f9;
 }
 
 .dark-theme {
   --clr-font-main: rgba(255, 255, 255, 0.87);
   --clr-bg-main: #242424;
   --clr-bg-hoverMain: #363636;
-  --clr-header-bg: #242424;
   --clr-spinner: white;
   --clr-font-disabled: #666;
   --clr-link-hover: #535bf2;
@@ -124,6 +121,7 @@ button, input, select, textarea, .buttonLike, .react-datetime-picker {
   font-weight: 500;
   font-family: inherit;
   background-color: var(--clr-button-bg);
+  color: var(--clr-font-main);
   transition: border-color 0.25s;
 }
 button, input, select, textarea {
