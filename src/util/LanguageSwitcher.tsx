@@ -37,7 +37,7 @@ const LanguageSwitcher = ({ fullDescription }: { fullDescription: boolean; }) =>
         const selectedValue = Object.keys(languages).find(lng => languages[lng].nativeName === event.target.value)
         i18n.changeLanguage(selectedValue)
         // changing idtoken locale in store
-        dispatch(setIdToken({ idToken: { ...idToken, locale: selectedValue } }))
+        dispatch(setIdToken({ idToken: { ...idToken, locale: selectedValue ? selectedValue : 'en' } }))
         // updating user locale in DB if accessToken present(user logged in)
         if(accessToken) {
             const result = await updateUser({ locale: selectedValue }).unwrap()
