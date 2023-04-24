@@ -59,7 +59,6 @@ form {
     align-items: center;
     justify-content: space-between;
     color: var(--clr-font-main);
-    padding: 0.5em;
     opacity: 0.9;
     border-radius: 8px;
     
@@ -70,6 +69,10 @@ form {
     opacity: 1;
     color: var(--clr-font-main);
     background-color: var(--clr-bg-hoverMain);
+}
+
+.headerMenu__dropMenu__menuItem--p {
+    margin: 0.66em 0;
 }
 
 .headerMenu__dropMenu--logoutButton {

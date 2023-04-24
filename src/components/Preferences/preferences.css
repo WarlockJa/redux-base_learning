@@ -34,7 +34,6 @@
 
 .preferencesItem__userForm > * {
     align-items: flex-start;
-    /* border: 1px solid green; */
 }
 
 .preferencesItem__userForm--avatar {

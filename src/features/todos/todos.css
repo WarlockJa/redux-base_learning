@@ -32,6 +32,12 @@
     display: flex;
     flex-direction: column;
 }
+.todoItem__completedState--IconMarkDone:hover {
+    filter: drop-shadow(0 0 0.3rem var(--clr-negative));
+}
+.todoItem__completedState--IconMarkUndone:hover {
+    filter: drop-shadow(0 0 0.3rem var(--clr-positive));
+}
 
 .todoItem__footer {
     display: flex;
@@ -63,6 +69,10 @@
     grid-row: 3 / 4;
     grid-column: 2 / 3;
     font-size: 1.5rem;
+}
+
+.todoItem__deleteIcon:hover {
+    filter: drop-shadow(0 0 0.3rem var(--clr-negative));
 }
 
 .faIcon-container {

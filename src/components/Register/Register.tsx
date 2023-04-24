@@ -2,7 +2,7 @@ import '../Header/headerMenu.css'
 import { FormEvent, useState } from "react"
 import { useLoginMutation, useRegisterMutation } from "../../features/api/auth/authApiSlice"
 import Spinner from "../../util/Spinner"
-import { apiSlice, isApiRegisterError } from "../../features/api/apiSlice"
+import { isApiRegisterError } from "../../features/api/apiSlice"
 import classNames from 'classnames'
 import { IAuthSliceInitialState, selectUserData, setCredentials } from '../../features/api/auth/authSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -42,7 +42,6 @@ const Register = () => {
         if(!isApiRegisterError(result)) {
             // showing alert for email verification
             setEmailVerificationCoverVisible(true)
-            dispatch(sendConfirmEmail)
         }
     }
     
@@ -53,12 +52,11 @@ const Register = () => {
     
     // handling click on the successful registration cover screen
     const handleVerificationCoverClick = async () => {
-        // clearing out apiSlice flags
-        dispatch(apiSlice.util.resetApiState())
         // sign in user upon registration
         const signInData: IAuthSliceInitialState = await login({ email, password }).unwrap()
         dispatch(setCredentials({ accessToken: signInData.accessToken, idToken: signInData.idToken }))
-        // clearing out registration form data
+        dispatch(sendConfirmEmail)
+        // reset local states
         setEmail('')
         setName('')
         setPassword('')
@@ -83,7 +81,7 @@ const Register = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={emailVerificationCoverVisible}
                     required
-                    />
+                />
                 <label htmlFor="register__name">Name</label>
                 <input
                     id="register__name"
@@ -94,7 +92,7 @@ const Register = () => {
                     onChange={(e) => setName(e.target.value)}
                     disabled={emailVerificationCoverVisible}
                     required
-                    />
+                />
                 <label htmlFor="register__password">Password</label>
                 <input
                     id="register__password"

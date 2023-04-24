@@ -79,6 +79,14 @@
     fill: var(--clr-negative);
 }
 
+.font-positive {
+    color: var(--clr-positive);
+}
+
+.font-negative {
+    color: var(--clr-negative);
+}
+
 .translucent {
     opacity: 0.6;
     cursor: default;
@@ -89,6 +97,13 @@
 }
 
 .noBackground {
+    background: transparent;
+}
+
+.buttonWrapper {
+    margin: 0;
+    padding: 0;
+    display: block;
     background: transparent;
 }
 

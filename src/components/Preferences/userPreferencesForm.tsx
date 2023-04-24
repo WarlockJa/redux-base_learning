@@ -176,7 +176,10 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     </div>
             }
             <div className='preferencesItem__userForm--email'>
-                <p className='preferencesItem__userForm--p' style={{ color: idToken.email_confirmed ? 'lightgreen' : 'coral' }}>{idToken.email}</p>
+                <p
+                    title={idToken.email_confirmed ? 'Email verified' : 'E-mail not verified'}
+                    className={('preferencesItem__userForm--p ').concat(idToken.email_confirmed ? 'font-positive' : 'font-negative')}
+                >{idToken.email}</p>
                 {idToken.email_confirmed
                     ? <FontAwesomeIcon title="Email verified" icon={faCheck as IconProp} />
                     : <ResendEmail />
@@ -192,8 +195,8 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     fullDescription={true}
                 />
             </div>
-            <div title='Delete account' aria-label='delete account' className='preferencesItem__userForm--userDeleteBlock'>
-                <button className='preferencesItem__userForm--deleteButton' onClick={() => setShowDeleteUserWarning(true)}>
+            <div className='preferencesItem__userForm--userDeleteBlock'>
+                <button title='Delete account' aria-label='delete account' className='preferencesItem__userForm--deleteButton' onClick={() => setShowDeleteUserWarning(true)}>
                     <FontAwesomeIcon icon={faTrashAlt as IconProp} />
                 </button>
             </div>

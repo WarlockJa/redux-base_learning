@@ -141,9 +141,9 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                     onClick={() => handleTodoCompletedClick()}
                     className="faIcon-container"
                 >
-                    {todo.completed
-                        ? <FontAwesomeIcon className="completed-fontColor" title="Mark not done :(" icon={faCheck as IconProp} />
-                        : <FontAwesomeIcon title="Mark done!" icon={faMinusCircle as IconProp} />
+                    {todo.completed || isUpdating
+                        ? <FontAwesomeIcon className="todoItem__completedState--IconMarkDone completed-fontColor" title="Mark not done :(" icon={faCheck as IconProp} />
+                        : <FontAwesomeIcon className='todoItem__completedState--IconMarkUndone' title="Mark done!" icon={faMinusCircle as IconProp} />
                     }
                 </div>
                 {todoHasChanges &&
@@ -172,7 +172,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
                 onClick={handleDeleteTodo}
                 title="Delete task"
             >
-                <FontAwesomeIcon icon={faTrash as IconProp} />
+                <FontAwesomeIcon className='todoItem__deleteIcon' icon={faTrash as IconProp} />
             </div>
         </li>
     )

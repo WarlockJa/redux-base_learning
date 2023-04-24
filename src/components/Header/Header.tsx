@@ -10,6 +10,12 @@ import Spinner from '../../util/Spinner'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../../util/LanguageSwitcher'
+import { getGeodata } from '../../util/useGetGeodata'
+
+interface IReauthResponse {
+    data: IDBAuth;
+    status: number;
+}
 
 const Header = () => {
     // autologin with existing refreshtoken on page reload
@@ -19,7 +25,7 @@ const Header = () => {
     // google api login call
     const [gLogin, { isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }] = useGLoginMutation()
     // store data
-    const token = useAppSelector(selectCurrentToken)
+    const accessToken = useAppSelector(selectCurrentToken)
     const idToken = useAppSelector(selectUserData)
     // i18n translation hook
     const { t, i18n } = useTranslation(['header'])
@@ -29,9 +35,14 @@ const Header = () => {
     // relogin user upon page reaload with stored httpOnly refresh token cookie
     useEffect(() => {
         const handleUserReauth = async () => {
-            const reauthData: IDBAuth = await reauth({}).unwrap()
-            dispatch(setCredentials({ accessToken: reauthData.accessToken, idToken: { ...reauthData.idToken } }))
-            i18n.changeLanguage(reauthData.idToken.locale)
+            const reauthData: IReauthResponse = await reauth({}).unwrap()
+            if(reauthData.status === 200) {
+                dispatch(setCredentials({ accessToken: reauthData.data.accessToken, idToken: { ...reauthData.data.idToken } }))
+                i18n.changeLanguage(reauthData.data.idToken.locale)
+            }
+            // TODO get geo data
+            const ipAddress = await getGeodata()
+            console.log(ipAddress)
         }
         
         handleUserReauth()
@@ -52,7 +63,7 @@ const Header = () => {
     if(isLoadingReauth) {
         authContent = <Spinner embed={false} width="5em" height="2em" />
     // user menu on successful login
-    } else if(token) {
+    } else if(accessToken) {
         authContent = <AuthorizedUserMenu />
     // sign in menu in other cases
     } else {
@@ -71,10 +82,10 @@ const Header = () => {
             <nav className='header__nav'>
                 <NavLink to='/'>{t('home')}</NavLink>
                 <NavLink to='posts'>{t('news')}</NavLink>
-                {token && <NavLink to='todos'>{t('todos')}</NavLink>}
+                {accessToken && <NavLink to='todos'>{t('todos')}</NavLink>}
             </nav>
             <div className="header__loginSection">
-                <div className='header__loginSection--globalSettings'>
+                <div className={accessToken ? 'undisplayed' : 'header__loginSection--globalSettings'}>
                     <LanguageSwitcher
                         fullDescription={false}
                     />

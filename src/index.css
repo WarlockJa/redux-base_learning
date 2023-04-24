@@ -4,13 +4,13 @@ body {
   --clr-link: #646cff;
   --clr-link-disabled: #535bf255;
   --clr-bg-modal: #0004;
-  --clr-positive: rgb(63, 122, 63);
   --clr-negative: rgb(158, 34, 59);
   
-  --clr-font-main: #213547;
-  --clr-bg-main: #c5c5c5;
-  --clr-bg-hoverMain: #AAAAAA;
-  --clr-button-bg: rgb(207, 207, 207);
+  --clr-positive: #128D15;
+  --clr-font-main: #342e3b;
+  --clr-bg-main: #ECF2FF;
+  --clr-bg-hoverMain: #E5D1FA;
+  --clr-button-bg: #E3DFFD;
   --clr-spinner: #232323;
   --clr-font-disabled: #6664;
   --clr-link-hover: #747bff;
@@ -24,6 +24,7 @@ body {
   --clr-font-disabled: #666;
   --clr-link-hover: #535bf2;
   --clr-button-bg: #414141;
+  --clr-positive: rgb(63, 122, 63);
 }
 
 :root {
