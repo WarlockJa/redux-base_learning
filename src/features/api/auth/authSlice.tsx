@@ -86,3 +86,4 @@ export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idTo
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
 export const selectUserData = (state: RootState) => state.auth.idToken
 export const selectHidecompleted = (state: RootState) => state.auth.idToken.hidecompleted
+export const selectLocale = (state: RootState) => state.auth.idToken.locale

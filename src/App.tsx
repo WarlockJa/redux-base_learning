@@ -3,7 +3,6 @@ import './features/posts/posts.css'
 import './features/todos/todos.css'
 import { Navigate, useRoutes } from "react-router-dom"
 import Layout from "./components/Routing/Layout"
-import Counter from "./features/counter/Counter"
 import PostsList from './features/posts/PostsList'
 import TodosList from './features/todos/TodosList'
 import SinglePostPage from './features/posts/SinglePostPage'
@@ -11,6 +10,7 @@ import Register from './components/Register/Register'
 import Preferences from './components/Preferences/Preferences'
 import UnprotectedRouteOnly from './components/Routing/UnprotectedRouteOnly'
 import ProtectedRoute from './components/Routing/ProtectedRoute'
+import Home from './components/Home/Home'
 
 function App() {
   const RoutesElement = useRoutes([
@@ -20,7 +20,7 @@ function App() {
       children: [
         {
           index: true,
-          element: <Counter />
+          element: <Home />
         },
         {
           path: '/posts',

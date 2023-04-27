@@ -122,7 +122,7 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                         onMouseEnter={() => setAvatarHovered(true)}
                         onMouseLeave={() => setAvatarHovered(false)}
                         >
-                        <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="" />
+                        <img className='preferencesItem__userForm--avatar' src={idToken.picture} alt="user avatar" />
                     </div>
                     : <div
                         onMouseEnter={() => setAvatarHovered(true)}

@@ -10,7 +10,6 @@ import Spinner from '../../util/Spinner'
 import SwitchDarkMode from '../../util/SwitchDarkMode'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../../util/LanguageSwitcher'
-import { getGeodata } from '../../util/useGetGeodata'
 
 interface IReauthResponse {
     data: IDBAuth;
@@ -40,9 +39,6 @@ const Header = () => {
                 dispatch(setCredentials({ accessToken: reauthData.data.accessToken, idToken: { ...reauthData.data.idToken } }))
                 i18n.changeLanguage(reauthData.data.idToken.locale)
             }
-            // TODO get geo data
-            const ipAddress = await getGeodata()
-            console.log(ipAddress)
         }
         
         handleUserReauth()

@@ -5,6 +5,7 @@ import postsReducer from "../features/posts/postsSlice";
 import todosReducer from "../features/todos/todosSlice";
 import authReducer from "../features/api/auth/authSlice";
 import userReducer from "../features/api/user/userSlice";
+import weatherstackReducer from '../features/weatherstack/weatherstackSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         posts: postsReducer,
         auth: authReducer,
         user: userReducer,
+        weatherstack: weatherstackReducer,
         [apiSlice.reducerPath]: apiSlice.reducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),

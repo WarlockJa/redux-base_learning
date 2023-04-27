@@ -40,6 +40,7 @@
     height: 100%;
     max-width: 6em;
     object-fit: contain;
+    border-radius: 5px;
 }
 
 .preferencesItem__userForm--editBlock {
