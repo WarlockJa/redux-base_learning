@@ -2,7 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import axios from "axios";
 
-interface IWeatherStackState {
+export interface IWeatherStackState {
     request: {
         type: string;
         query: string;
@@ -39,6 +39,7 @@ interface IWeatherStackState {
         is_day: string;
     } | undefined,
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    timestamp: number | undefined;
     error: string | null;
 }
 
@@ -47,6 +48,7 @@ const initialState: IWeatherStackState = {
     location: undefined,
     current: undefined,
     status: 'loading',
+    timestamp: undefined,
     error: null
 }
 
@@ -66,6 +68,7 @@ export const weatherstackSlice = createSlice({
             state.current = action.payload.current
             state.location = action.payload.location
             state.request = action.payload.request
+            state.timestamp = action.payload.timestamp
             state.status = 'succeeded'
         },
     },
@@ -78,7 +81,9 @@ export const weatherstackSlice = createSlice({
                 state.current = action.payload.current
                 state.location = action.payload.location
                 state.request = action.payload.request
+                state.timestamp = Date.now()
                 state.status = 'succeeded'
+                localStorage.setItem('DP_weatherstack', JSON.stringify(state))
             })
             .addCase(fetchWeatherstackData.rejected, (state, action) => {
                 state.status = 'failed'
