@@ -1,0 +1,19 @@
+.compass {
+    background-color: rgb(183, 196, 201);
+    opacity: 0.8;
+    border-radius: 50%;
+    width: 4em;
+    height: 4em;
+}
+
+.compass__arrows {
+    display: flex;
+    flex-direction: column;
+}
+
+.compass__arrows--arrowNorth {
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    /* clip-path: polygon(50% 0%, 40% 100%, 60% 100%); */
+}

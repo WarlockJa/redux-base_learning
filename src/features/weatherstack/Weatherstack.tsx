@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { IWeatherStackState, changeStatusToIdle, fetchWeatherstackData, saveWeatherDataToState, selectWeatherStackData } from "./weatherstackSlice"
 import Spinner from "../../util/Spinner"
+import WeatherForm from "./WeatherForm"
 
 const Weatherstack = () => {
     const dispatch = useAppDispatch()
@@ -18,10 +19,10 @@ const Weatherstack = () => {
         if (localStorage_DP_weatherstack) {
             const weatherstackLocalData: IWeatherStackState = JSON.parse(localStorage_DP_weatherstack)
     
-            // checking if saved weather data was fetched less than 2 hours ago if not inititating new fetch
-            weatherstackLocalData.timestamp !== undefined && weatherstackLocalData.timestamp > Date.now() - 2 * 60 * 60 * 1000
-                ? dispatch(saveWeatherDataToState(weatherstackLocalData))
-                : dispatch(changeStatusToIdle())
+            // checking if saved weather data was fetched less than 6 hours ago if not inititating new fetch
+            if (weatherstackLocalData.timestamp === undefined || weatherstackLocalData.timestamp + 6 * 60 * 60 * 1000 < Date.now()) {
+                dispatch(changeStatusToIdle())
+            }
 
         } else dispatch(changeStatusToIdle())
 
@@ -48,7 +49,7 @@ const Weatherstack = () => {
     } else if (weatherstack.status === 'failed') {
         content = <p>Error: {weatherstack.error}</p>
     } else if (weatherstack.status === 'succeeded') {
-        content = <pre>{JSON.stringify(weatherstack.current, null, 2)}</pre>
+        content = <WeatherForm weatherData={weatherstack} />
     }
 
     return (

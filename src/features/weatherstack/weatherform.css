@@ -1,0 +1,27 @@
+.weatherForm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    /* images resolution */
+    max-width: 640px;
+    max-height: 360px;
+
+    border-radius: 15px;
+    padding: 1em;
+}
+
+.weatherForm__section {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.weatherForm__header--weatherIcon {
+    border-radius: 42%;
+}
+
+.weatherForm__header--p {
+    font-size: 2rem;
+    margin: 0;
+}
