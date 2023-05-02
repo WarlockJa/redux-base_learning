@@ -16,10 +16,7 @@ const WeatherForm = ({ weatherData }: { weatherData: IWeatherStackState }) => {
                 <div className='weatherForm__body--windSection'>
                     <p>wind</p>
                     <p>{weatherData.current?.wind_speed} m/s</p>
-                    {/* Make compass arrow */}
                     {weatherData.current?.wind_degree && <Compass angle={weatherData.current?.wind_degree} />}
-                    {/* <p>{weatherData.current?.wind_dir}</p>
-                    <p>{weatherData.current?.wind_degree}</p> */}
                 </div>
                 <div className='weatherForm__body--temperatureFeelsLike'>
                     <p>{weatherData.current?.feelslike}</p>
