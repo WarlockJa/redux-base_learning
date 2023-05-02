@@ -18,11 +18,13 @@ const Weatherstack = () => {
         // reading local storage for DP_weatherstack if empty initiating fetch
         if (localStorage_DP_weatherstack) {
             const weatherstackLocalData: IWeatherStackState = JSON.parse(localStorage_DP_weatherstack)
+            
+            // console.log(((weatherstackLocalData.timestamp + 6 * 60 * 60 * 1000) - Date.now()) / (1000 * 60 * 60))
     
             // checking if saved weather data was fetched less than 6 hours ago if not inititating new fetch
             if (weatherstackLocalData.timestamp === undefined || weatherstackLocalData.timestamp + 6 * 60 * 60 * 1000 < Date.now()) {
                 dispatch(changeStatusToIdle())
-            }
+            } else dispatch(saveWeatherDataToState(weatherstackLocalData))
 
         } else dispatch(changeStatusToIdle())
 

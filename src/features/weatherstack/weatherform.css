@@ -3,6 +3,11 @@
     display: flex;
     flex-direction: column;
 
+    text-shadow: 1px 1px var(--clr-bg-main);
+    font-size: 1.1rem;
+    line-height: 0.6em;
+    /* color: var(--clr-bg-main); */
+
     /* images resolution */
     max-width: 640px;
     max-height: 360px;
@@ -13,8 +18,22 @@
 
 .weatherForm__section {
     display: flex;
-    align-items: center;
     gap: 1em;
+    flex-wrap: wrap;
+}
+
+.weatherForm__body {
+    justify-content: space-around;
+}
+
+.weatherForm__body--item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weatherForm__header {
+    align-items: center;
 }
 
 .weatherForm__header--weatherIcon {
@@ -22,6 +41,6 @@
 }
 
 .weatherForm__header--p {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 8vw, 2rem);
     margin: 0;
 }

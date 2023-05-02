@@ -3,10 +3,9 @@ import './compass.css'
 const Compass = ({ angle }: { angle: number; }) => {
     return (
         <div className='compass'>
-            <div className='compass--indicatorNorth compass--direction'>N</div>
-            <div className='compass--innerCircle'></div>
             <div className='compass--coverVertical compass--cover'></div>
             <div className='compass--coverHorizontal compass--cover'></div>
+            <div className='compass--indicatorNorth compass--direction'>N</div>
             <div className='compass--indicatorEast compass--direction'>E</div>
             <div className='compass--indicatorWest compass--direction'>W</div>
             <div className='compass--indicatorSouth compass--direction'>S</div>

@@ -31,7 +31,6 @@ form {
 .headerMenu--button {
     border: 1px solid var(--clr-font-main);
     border-radius: 2px;
-    padding: 0.5em;
     font-weight: normal;
     padding: 0.5em;
     background: transparent;

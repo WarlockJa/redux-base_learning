@@ -3,6 +3,10 @@
     background-color: var(--clr-bg-main);
 }
 
+.userMenu__button {
+    font-size: clamp(0.8rem, 6vw, 1rem);
+}
+
 .userMenu__button--image {
     position: fixed;
 }
