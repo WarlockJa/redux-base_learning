@@ -36,7 +36,7 @@ const weatherType = ({ weatherCode }: { weatherCode: number }) => {
         : { bgImage: NightClear, fontStyle: 1 }
     }
     // day time
-    else if (timeOfTheDay > 9 && timeOfTheDay << 17) {
+    else if (timeOfTheDay > 9 && timeOfTheDay < 17) {
         return  weatherCode === 116 ? { bgImage: DayPartiallyCloudy, fontStyle: 2 }
                 : weatherCode === 119 || weatherCode === 122 || weatherCode === 143 || weatherCode === 248 || weatherCode === 260 ? { bgImage: DayCloudy, fontStyle: 1 }
                     : weatherCode === 200 || weatherCode === 386 || weatherCode === 389 || weatherCode === 392 || weatherCode === 395 ? { bgImage: DayThunderstorm, fontStyle: 2 }

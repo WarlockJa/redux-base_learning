@@ -2,11 +2,11 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    align-self: center;
 
     text-shadow: 1px 1px var(--clr-bg-main);
     font-size: 1.1rem;
     line-height: 0.6em;
-    /* color: var(--clr-bg-main); */
 
     /* images resolution */
     max-width: 640px;

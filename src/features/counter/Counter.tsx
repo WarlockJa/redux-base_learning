@@ -1,3 +1,4 @@
+import './counter.css'
 import logo from '../../logo.svg'
 import { useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
@@ -11,7 +12,8 @@ const Counter = () => {
     
     const [value, setValue] = useState(0)
     return (
-        <section className='counter'>
+        <section className='counter widget'>
+            <h2>Redux Counter</h2>
             <img src={logo} alt="redux logo" className='app-logo' />
             <div className="counter-controlSection">
                 <button aria-label="increment the value" onClick={() => dispatch(increment())}>+</button>

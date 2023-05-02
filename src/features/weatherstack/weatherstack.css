@@ -1,0 +1,4 @@
+.weatherstack {
+    display: flex;
+    flex-direction: column;
+}

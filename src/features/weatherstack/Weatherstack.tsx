@@ -1,3 +1,4 @@
+import './weatherstack.css'
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { IWeatherStackState, changeStatusToIdle, fetchWeatherstackData, saveWeatherDataToState, selectWeatherStackData } from "./weatherstackSlice"
@@ -55,7 +56,7 @@ const Weatherstack = () => {
     }
 
     return (
-        <section>
+        <section className="weatherstack widget">
             <h2>Weatherstack</h2>
             {content}
         </section>

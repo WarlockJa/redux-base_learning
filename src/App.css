@@ -3,50 +3,9 @@
     margin: 0 auto;
 }
 
-.counter {
-    display: flex;
-    flex-direction: column;
-}
-
-.counter > * {
-    margin: 1rem 0;
-}
-
-.app-logo {
-    height: 40vmin;
-    pointer-events: none;
-    animation: rotate-logo 8s linear infinite;
-    background: transparent;
-}
-
-.counter-controlSection {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
-.asyncButton {
-    position: relative;
-}
-
-.asyncButton:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-    background-color: var(--clr-async-animation);
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    transition: width 1s linear, opacity 0.5s ease 1s;
-}
-
-.asyncButton:active:after {
-    width: 0%;
-    opacity: 1;
-    transition: 0s;
+.widget {
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .active {
