@@ -38,6 +38,7 @@
 
 .weatherForm__header--weatherIcon {
     border-radius: 42%;
+    opacity: 0.7;
 }
 
 .weatherForm__header--p {
