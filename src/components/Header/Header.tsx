@@ -65,7 +65,6 @@ const Header = () => {
     } else {
         authContent = 
         <>
-            {/* <GlobalSettings /> */}
             <SignIn
                 login={{ login, isLoading: isLoadingLogin, isError: isErrorLogin, error: errorLogin }}
                 gLogin={{ gLogin, isLoading: isLoadingGLogin, isError: isErrorGLogin, error: errorGLogin }}

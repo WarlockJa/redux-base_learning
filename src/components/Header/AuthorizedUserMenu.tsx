@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { apiSlice } from "../../features/api/apiSlice"
 import { logOut, selectUserData } from "../../features/api/auth/authSlice"
 import Spinner from "../../util/Spinner"
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
@@ -55,7 +55,6 @@ const AuthorizedUserMenu = () => {
     :(
         <>
             <button className="userMenu--button" onClick={() => setHidden(prev => !prev)}>
-                {/* {idToken?.picture && <img className="userMenu__button--avatar" src={idToken.picture} alt="user avatar" />} */}
                 {idToken.name}
             </button>
             <div className={classNames("headerMenu__dropMenu--wrapper formLike userMenu", { dropMenuHidden: hidden })}>
