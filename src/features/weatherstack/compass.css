@@ -1,9 +1,12 @@
 .compass {
+    --clr-bg-compass-main: #bee3ec;
+    --clr-bg-compassArrow-main: rgb(112, 55, 55);
+    --clr-border-compass: #002D;
+
     position: relative;
-    background-color: #002D;
-    background-color: rgb(183, 196, 201);
+    background-color: var(--clr-bg-compass-main);
     opacity: 0.7;
-    border: 2px solid #002D;
+    border: 2px solid var(--clr-border-compass);
     border-radius: 50%;
     width: 4em;
     height: 4em;
@@ -12,7 +15,7 @@
 
 .compass--cover {
     position: absolute;
-    background-color: rgb(183, 196, 201);
+    background-color: var(--clr-bg-compass-main);
     border-radius: 5px;
 }
 .compass--coverVertical {
@@ -30,7 +33,8 @@
 
 .compass--direction {
     position: absolute;
-    color: #002D;
+    color: var(--clr-bg-compassArrow-main);
+    filter: drop-shadow(0 0 2px var(--clr-bg-compass-main));
     font-size: .8rem;
     font-weight: 800;
     z-index: 2;
@@ -64,17 +68,17 @@
     height: 100%;
     width: 10%;
     margin: 0 auto;
-    background-color: rgb(112, 55, 55);
+    background-color: var(--clr-bg-compassArrow-main);
     clip-path: polygon(50% 0%, 0% 60%, 100% 60%);
     /* borders needed to get rid of clip-path artifacts in Firefox */
-    border: 1px solid rgb(183, 196, 201);
-    border-top: 0.3em solid rgb(183, 196, 201);
+    border: 1px solid var(--clr-bg-compass-main);
+    border-top: 0.3em solid var(--clr-bg-compass-main);
     /* animation: itsrotattin 2s linear infinite; */
 }
 
 .compass__arrows__arrowNorth--pommel {
     position: absolute;
-    background-color: rgb(183, 196, 201);
+    background-color: var(--clr-bg-compass-main);
     border-radius: 50%;
     width: 100%;
     height: 100%;

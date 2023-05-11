@@ -25,6 +25,7 @@ import Compass from './Compass'
 
 const weatherType = ({ weatherCode }: { weatherCode: number }) => {
     const timeOfTheDay = new Date().getHours()
+    // return { bgImage: DayPartiallyCloudy, fontStyle: 2 }
     // weather code is an API code for weather types
     // night time
     if (timeOfTheDay > 20 && timeOfTheDay < 6) {
@@ -58,15 +59,16 @@ const weatherType = ({ weatherCode }: { weatherCode: number }) => {
 const WeatherForm = ({ weatherData }: { weatherData: IWeatherStackState }) => {
     const { bgImage, fontStyle } = weatherType({ weatherCode: weatherData.current?.weather_code ? weatherData.current?.weather_code : 0 })
     const weatherFormFontColor = fontStyle === 2 ? 'var(--clr-bg-main)' : ''
+    const weatherFormBgColor = fontStyle === 2 ? 'var(--clr-bg-weatherForm-light)' : ''
 
     return (
-        <section className="weatherForm" style={{ backgroundImage: `url(${bgImage})`, color: weatherFormFontColor }}>
-            <div className='weatherForm__header weatherForm__section'>
+        <section className="weatherForm" style={{ backgroundImage: `url(${bgImage})`, color: weatherFormFontColor}}>
+            <div className='weatherForm__header weatherForm__section' style={{ backgroundColor: weatherFormBgColor }}>
                 <img className='weatherForm__header--weatherIcon' src={weatherData.current?.weather_icons[0]} alt="weather icon" />
                 <p className='weatherForm__header--p'>{weatherData.current?.temperature}°C</p>
                 <p className='weatherForm__header--p'>{weatherData.location?.name}</p>
             </div>
-            <div className='weatherForm__body weatherForm__section'>
+            <div className='weatherForm__body weatherForm__section' style={{ backgroundColor: weatherFormBgColor }}>
                 <div className='weatherForm__body--item'>
                     <p>Wind</p>
                     <p>{weatherData.current?.wind_speed}m/s</p>
