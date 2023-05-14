@@ -31,7 +31,7 @@ const Weatherstack = () => {
 
     },[])
 
-    // fetching data for the current category
+    // fetching weather data
     useEffect (() => {
         // fetching data
         if(weatherstack.status === 'idle') {

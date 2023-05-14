@@ -2,7 +2,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import Counter from "../../features/counter/Counter"
 import Weatherstack from "../../features/weatherstack/Weatherstack"
 import ErrorPlug from "../../util/ErrorPlug"
-import FreeCurrencyApi from "../../features/FreeCurrencyApi/FreeCurrencyApi"
+import FreeCurrencyApi from "../../features/freeCurrencyApi/FreeCurrencyApi"
 
 const Home = () => {
     return (
