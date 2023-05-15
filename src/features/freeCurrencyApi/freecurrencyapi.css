@@ -1,0 +1,45 @@
+/* making adjustments for the graph */
+.xAxis,
+.yAxis {
+    font-size: 0.8rem;
+}
+
+.freeCurrencyApi__formWrapper {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+}
+
+.formWrapper__inputsWrapper--h3 {
+    margin: 0;
+}
+
+.inputsWrapper__currency {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--clr-bg-main);
+    margin-top: 0.7em;
+}
+.inputsWrapper__currency:hover {
+    border-color: var(--clr-border-buttons-hover);
+}
+
+.inputsWrapper__currency--input {
+    text-align: left;
+    width: 35%;
+    border-radius: 8px 0 0 8px;
+    border-right: 1px solid var(--clr-bg-main);
+}
+
+.inputsWrapper__currency--select {
+    text-align: right;
+    width: 65%;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+}
+
+@media screen and (width < 700px) {
+    .freeCurrencyApi__formWrapper {
+        flex-direction: column;
+    }
+}

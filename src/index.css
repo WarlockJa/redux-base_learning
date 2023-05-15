@@ -5,6 +5,8 @@ body {
   --clr-link-disabled: #535bf255;
   --clr-bg-modal: #0004;
   --clr-negative: rgb(158, 34, 59);
+  --clr-divider: #3c3d3d;
+  --clr-border-buttons-hover: #646cff;
   
   --clr-positive: #128D15;
   --clr-font-main: #342e3b;
@@ -128,9 +130,9 @@ button, input, select, textarea, .buttonLike, .react-datetime-picker {
 button, input, select, textarea {
   padding: 0.6em 1.2em;
 }
-button:hover, input:hover, img:hover, textarea:hover {
-  border-color: #646cff;
-}
+/* button:hover, input:hover, img:hover, textarea:hover, select:hover {
+  border-color: var(--clr-border-buttons-hover);
+} */
 button:focus,
 button:focus-visible,
 input:focus,
