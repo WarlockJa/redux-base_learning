@@ -7,7 +7,7 @@
 .freeCurrencyApi__formWrapper {
     display: flex;
     gap: 1em;
-    padding: 1em;
+    /* padding: 1em; */
 }
 
 .formWrapper__inputsWrapper--h3 {
@@ -26,14 +26,14 @@
 
 .inputsWrapper__currency--input {
     text-align: left;
-    width: 35%;
+    width: 45%;
     border-radius: 8px 0 0 8px;
     border-right: 1px solid var(--clr-bg-main);
 }
 
 .inputsWrapper__currency--select {
     text-align: right;
-    width: 65%;
+    width: 55%;
     border-radius: 0 8px 8px 0;
     cursor: pointer;
 }

@@ -4,8 +4,14 @@ import axios from "axios";
 
 export type IFreeCurrencyApiData = Record<string, Record<string, number>>
 
+interface IExchangeCurrencies {
+    firstCurrency: string;
+    secondCurrency: string;
+}
+
 export interface IFreeCurrencyState {
-    data: IFreeCurrencyApiData | undefined
+    data: IFreeCurrencyApiData | undefined;
+    exchangeCurrencies: IExchangeCurrencies;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     timestamp: number | undefined;
     error: string | null;
@@ -13,6 +19,10 @@ export interface IFreeCurrencyState {
 
 const initialState: IFreeCurrencyState = {
     data: undefined,
+    exchangeCurrencies: {
+        firstCurrency: 'TRY', // get for current locale or default
+        secondCurrency: 'USD'
+    },
     status: 'loading',
     timestamp: undefined,
     error: null
@@ -40,6 +50,12 @@ export const freeCurrencySlice = createSlice({
             state.timestamp = action.payload.timestamp
             state.status = 'succeeded'
         },
+        setFirstCurrency: (state, action: PayloadAction<string>) => {
+            state.exchangeCurrencies.firstCurrency = action.payload
+        },
+        setSecondCurrency: (state, action: PayloadAction<string>) => {
+            state.exchangeCurrencies.secondCurrency = action.payload
+        },
     },
     extraReducers(builder) {
         builder
@@ -61,9 +77,13 @@ export const freeCurrencySlice = createSlice({
 
 export const {
     changeStatusToIdle,
-    saveFreeCurrencyDataToState
+    saveFreeCurrencyDataToState,
+    setFirstCurrency,
+    setSecondCurrency,
 } = freeCurrencySlice.actions
 
 export default freeCurrencySlice.reducer
 
-export const selectFreeCurrencyStackData = (state: RootState) => state.freeCurrency
+export const selectFreeCurrency = (state: RootState) => state.freeCurrency
+export const selectFreeCurrencyData = (state: RootState) => state.freeCurrency.data
+export const selectExchangeCurrencies = (state: RootState) => state.freeCurrency.exchangeCurrencies

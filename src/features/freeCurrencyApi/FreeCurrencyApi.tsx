@@ -1,14 +1,14 @@
 import './freecurrencyapi.css'
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { IFreeCurrencyState, changeStatusToIdle, fetchFreeCurrencyData, saveFreeCurrencyDataToState, selectFreeCurrencyStackData } from "./freeCurrencyApiSlice"
+import { IFreeCurrencyState, changeStatusToIdle, fetchFreeCurrencyData, saveFreeCurrencyDataToState, selectFreeCurrency } from "./freeCurrencyApiSlice"
 import Spinner from "../../util/Spinner"
 import FreeCurrencyApiForm from "./FreeCurrencyApiForm"
 
 const FreeCurrencyApi = () => {
     // store data
 	const dispatch = useAppDispatch()
-	const freeCurrency = useAppSelector(selectFreeCurrencyStackData)
+	const { status, error, data } = useAppSelector(selectFreeCurrency)
 
     // checking if currency data present in local storage. saving it to the store or initiating new fetch upon result
 	useEffect(() => {
@@ -36,7 +36,7 @@ const FreeCurrencyApi = () => {
 	// processing store freeCurrency status change, fetching new data
 	useEffect (() => {
 		// fetching data
-        if(freeCurrency.status === 'idle') {
+        if(status === 'idle') {
 			// getting dates range for fetch request
 			const dateYesterday = new Date()
 			dateYesterday.setDate(dateYesterday.getDate() - 1)
@@ -53,16 +53,16 @@ const FreeCurrencyApi = () => {
 
             dispatch(fetchFreeCurrencyData(fetchRequest))
         }
-	}, [dispatch, freeCurrency.status])
+	}, [dispatch, status])
 
     // assembling content for the component
     let content
-    if(freeCurrency.status === 'loading'){
+    if(status === 'loading'){
         content = <Spinner embed={false} height='12em' width="100%" />
-    } else if (freeCurrency.status === 'failed') {
-        content = <p>Error: {freeCurrency.error}</p>
-    } else if (freeCurrency.status === 'succeeded') {
-        content = <FreeCurrencyApiForm />
+    } else if (status === 'failed') {
+        content = <p>Error: {error}</p>
+    } else if (status === 'succeeded') {
+        content = data ? <FreeCurrencyApiForm data={data} /> : <p>No data found</p>
     }
 
     return (
