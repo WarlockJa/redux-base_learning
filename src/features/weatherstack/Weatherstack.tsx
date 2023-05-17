@@ -56,7 +56,7 @@ const Weatherstack = () => {
     }
 
     return (
-        <section className="weatherstack widget">
+        <section id='weatherstack' className="weatherstack widget">
             <h2>Weatherstack</h2>
             {content}
         </section>

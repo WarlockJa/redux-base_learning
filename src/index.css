@@ -16,6 +16,8 @@ body {
   --clr-spinner: #232323;
   --clr-font-disabled: #6664;
   --clr-link-hover: #747bff;
+  --clr-border-widgetIcons: #6664;
+  --clr-border-widgetIcons-hover: #747bff;
 }
 
 .dark-theme {
@@ -27,6 +29,8 @@ body {
   --clr-link-hover: #535bf2;
   --clr-button-bg: #414141;
   --clr-positive: rgb(63, 122, 63);
+  --clr-border-widgetIcons: #666;
+  --clr-border-widgetIcons-hover: #535bf2;
 }
 
 :root {

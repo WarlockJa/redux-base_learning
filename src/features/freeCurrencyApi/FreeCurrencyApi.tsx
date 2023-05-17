@@ -66,7 +66,7 @@ const FreeCurrencyApi = () => {
     }
 
     return (
-        <section className="freeCurrencyApi">
+        <section id='freecurrencyapi' className="freeCurrencyApi">
             <h2>Currency Exchange</h2>
             {content}
         </section>
