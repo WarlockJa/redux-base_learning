@@ -12,7 +12,7 @@ import DateTimePicker from "react-datetime-picker"
 import { useDeleteTodoMutation, useUpdateTodoMutation } from "./todoApiSlice"
 import dateToSqlDatetime from "../../util/dateToSQLdatetime"
 import { useAppSelector } from "../../app/hooks"
-import { selectCurrentEmail, selectCurrentEmailConfirmed } from "../api/auth/authSlice"
+import { selectUserData } from "../api/auth/authSlice"
 import dateSQLtoLocalTZ from "../../util/dateSQLtoLocalTZ"
 
 
@@ -45,8 +45,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
     const [titleEdit, setTitleEdit] = useState(false)
     const [descriptionEdit, setDescriptionEdit] = useState(false)
 
-    const useremail = useAppSelector(selectCurrentEmail)
-    const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
+    const { email: useremail, email_confirmed: useremailConfirmed } = useAppSelector(selectUserData)
 
     // deleting todo
     const handleDeleteTodo = async () => {

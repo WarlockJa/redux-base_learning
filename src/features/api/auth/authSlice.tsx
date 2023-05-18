@@ -15,6 +15,7 @@ export interface IDBAuth {
         authislocal: boolean | null;
         darkmode: boolean;
         hidecompleted: boolean;
+        widgets: string;
     }
 }
 
@@ -36,6 +37,7 @@ export interface IUserIdToken {
     authislocal: boolean | null;
     darkmode: boolean;
     hidecompleted: boolean;
+    widgets: string[];
 }
 
 const initialState: IAuthSliceInitialState = {
@@ -49,7 +51,8 @@ const initialState: IAuthSliceInitialState = {
         picture: null,
         authislocal: null,
         darkmode: useSystemColorSchemeIsDark(),
-        hidecompleted: false
+        hidecompleted: false,
+        widgets: ['reduxshowcase']
     },
 }
 
@@ -81,9 +84,5 @@ export const { setCredentials, setIdToken, logOut, setHidecompleted } = authSlic
 
 export default authSlice.reducer
 
-export const selectCurrentEmail = (state: RootState) => state.auth.idToken.email
-export const selectCurrentEmailConfirmed = (state: RootState) => state.auth.idToken.email_confirmed
 export const selectCurrentToken = (state: RootState) => state.auth.accessToken
 export const selectUserData = (state: RootState) => state.auth.idToken
-export const selectHidecompleted = (state: RootState) => state.auth.idToken.hidecompleted
-export const selectLocale = (state: RootState) => state.auth.idToken.locale

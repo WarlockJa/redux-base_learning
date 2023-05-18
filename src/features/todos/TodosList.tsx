@@ -11,7 +11,7 @@ import { useGetTodosQuery } from './todoApiSlice'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/fontawesome-free-solid"
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
-import { selectHidecompleted, setHidecompleted } from "../api/auth/authSlice"
+import { selectUserData, setHidecompleted } from "../api/auth/authSlice"
 import { useUpdateUserMutation } from "../api/user/userApiSlice"
 
 const TodosList = () => {
@@ -19,7 +19,7 @@ const TodosList = () => {
     const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
     // store data for user option on hide completed tasks
-    const hidecompleted = useAppSelector(selectHidecompleted)
+    const { hidecompleted } = useAppSelector(selectUserData)
     const [updateUser, { isLoading: IsLoadingUpdateUser }] = useUpdateUserMutation()
     // addTodoMenu ref
     const addTodoRef = useRef<HTMLDivElement>(null)

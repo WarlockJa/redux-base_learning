@@ -3,7 +3,7 @@ import './widgeticonssidebar.css'
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import { selectCurrentToken } from "../../features/api/auth/authSlice";
-import { IWidgetListWithData } from "./Home";
+import { IWidgetListWithData } from "./widgetsSlice";
 
 // takes id of the element and scrolls it into view
 // necessary for the dynamic widget list
@@ -24,12 +24,13 @@ const WidgetIconsSidebar = ({ widgetList }: { widgetList: IWidgetListWithData[] 
         className="widgetsSideBar__widgetWrapper"
         title={widget.title}
         onClick={() => handleWidgetIconClick(widget.id)}
+        draggable
     >
         {widget.icon}
     </div>)
 
     return (
-        <div className="widgetsSideBar">
+        <div className="widgetsSideBar" >
             {content}
             <div
                 title="Modify widgets list"

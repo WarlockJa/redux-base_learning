@@ -10,6 +10,7 @@ import DeleteUserConfirm from './DeleteUserConfirm'
 import { apiSlice } from '../../features/api/apiSlice'
 import { useTranslation } from 'react-i18next'
 import Spinner from '../../util/Spinner'
+import WidgetPreferencesForm from './WidgetPreferencesForm'
 
 const Preferences = () => {
     // i18next
@@ -70,17 +71,12 @@ const Preferences = () => {
         verticalOffset: 0
     })
 
-    // generating widgets preferences menu form
-    const widgetPreferencesForm = <form>
-        <p>{idToken.name}</p>
-    </form>
-
     // wrapping widgets form in a collapsing menu function
     const widgetPreferences = collapsingMenu({
         defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
         headerContent: 'Widget Preferences',
         headerTitle: 'Open/close widget preferences menu',
-        formContent: widgetPreferencesForm,
+        formContent: <WidgetPreferencesForm />,
         verticalOffset: userPreferences.currentHeight
     })
 

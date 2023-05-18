@@ -36,7 +36,11 @@ const Header = () => {
         const handleUserReauth = async () => {
             const reauthData: IReauthResponse = await reauth({}).unwrap()
             if(reauthData.status === 200) {
-                dispatch(setCredentials({ accessToken: reauthData.data.accessToken, idToken: { ...reauthData.data.idToken } }))
+                // widgets array is stored in DB as JSON.stringify
+                // transforming widgets string from DB back into an array
+                const widgetsArray = reauthData.data.idToken.widgets ? JSON.parse(reauthData.data.idToken.widgets) : []
+
+                dispatch(setCredentials({ accessToken: reauthData.data.accessToken, idToken: { ...reauthData.data.idToken, widgets: widgetsArray } }))
                 i18n.changeLanguage(reauthData.data.idToken.locale)
             }
         }

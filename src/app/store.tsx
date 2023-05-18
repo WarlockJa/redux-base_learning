@@ -7,6 +7,7 @@ import authReducer from "../features/api/auth/authSlice";
 import userReducer from "../features/api/user/userSlice";
 import weatherstackReducer from '../features/weatherstack/weatherstackSlice';
 import freeCurrencyReducer from '../features/freeCurrencyApi/freeCurrencyApiSlice';
+import widgetsReducer from '../components/Widgets/widgetsSlice';
 
 export const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
         user: userReducer,
         weatherstack: weatherstackReducer,
         freeCurrency: freeCurrencyReducer,
+        widgets: widgetsReducer,
         [apiSlice.reducerPath]: apiSlice.reducer
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),

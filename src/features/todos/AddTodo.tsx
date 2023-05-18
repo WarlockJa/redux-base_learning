@@ -7,7 +7,7 @@ import { switchAddTodoMenuState } from './todosSlice';
 import classNames from 'classnames';
 import { useAddTodoMutation } from './todoApiSlice';
 import dateToSqlDatetime from '../../util/dateToSQLdatetime';
-import { selectCurrentEmail, selectCurrentEmailConfirmed } from '../api/auth/authSlice';
+import { selectUserData } from '../api/auth/authSlice';
 import ResendEmail from '../../util/ResendEmail';
 
 const AddTodo = () => {
@@ -19,8 +19,7 @@ const AddTodo = () => {
     // redux store state for the addTodo menu
     // const addTodoMenuState = useAppSelector(selectAddTodoState)
     const dispatch = useAppDispatch()
-    const useremail = useAppSelector(selectCurrentEmail)
-    const useremailConfirmed = useAppSelector(selectCurrentEmailConfirmed)
+    const { email: useremail, email_confirmed: useremailConfirmed } = useAppSelector(selectUserData)
     // RTK Query method for posting new todo
     const [addTodo, { isLoading, isError, error }] = useAddTodoMutation()
 

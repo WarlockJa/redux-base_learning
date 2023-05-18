@@ -115,7 +115,7 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
     }
 
     return (
-        <form onSubmit={e => handleFormSubmit(e)} className={classNames('preferencesItem__userForm', { translucent: isLoading })}>
+        <div onSubmit={e => handleFormSubmit(e)} className={classNames('preferencesItem__userForm formLike', { translucent: isLoading })}>
             <div className='preferencesItem__userForm--editBlock'>
                 {idToken.picture
                     ? <div
@@ -200,7 +200,7 @@ const userPreferencesForm = (setAvatarFile: Dispatch<SetStateAction<File | undef
                     <FontAwesomeIcon icon={faTrashAlt as IconProp} />
                 </button>
             </div>
-        </form>
+        </div>
     )
 }
 
