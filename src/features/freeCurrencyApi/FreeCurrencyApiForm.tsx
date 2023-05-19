@@ -16,12 +16,21 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
     const [firstCurrencyInput, setFirstCurrencyInput] = useState<string>('')
     const [secondCurrencyInput, setSecondCurrencyInput] = useState<string>('')
     // generating translated select options
+    // const { t, i18n } = useTranslation(['freecurrencyapi'])
     const currencyOptions = useGetCurrencyOptions()
+    // const [currencyOptions, setCurrencyOptions] = useState<JSX.Element[]>()
+    // const currencyOptions = Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{item[1]}</option>)
 
     // setting initial exchange values on form load
     useEffect(() => {
         data[yesterday] && handleExchange('1', 'first')
     }, [data[yesterday]])
+
+    // // loading translated options
+    // useEffect(() => {
+    //     // creating list of options based on available translations for the currencyNames with fallbak as EN
+    //     setCurrencyOptions(Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{t([item[0]])}</option>))
+    // },[i18n.language])
 
     // show exchange rate based on the data from api and value from input fields
     const handleExchange = (value: string, source: string) => {
@@ -68,6 +77,11 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
 
     // preparing data for the graph
     const graphData = useMemo(() => transformApiHistoricalDataToGraphFormat(data, firstCurrency),[data, firstCurrency])
+
+    // formatting excessive floating point on graph Y axis
+    const yAxisTickFormatter = (value: number) => {
+        return value.toFixed(3)
+    }
 
     return (
         <div className='freeCurrencyApi__formWrapper'>
@@ -117,9 +131,9 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
                     >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
-                        <YAxis domain={['dataMin', 'dataMax']} />
+                        <YAxis domain={['dataMin', 'dataMax']} tickFormatter={yAxisTickFormatter} />
                         <Tooltip contentStyle={{ backgroundColor: '#444', fontSize: '0.8rem', textAlign: 'center', borderRadius: '4px' }} itemStyle={{ margin: 0 }} />
-                        <Area type="monotone" dataKey={secondCurrency} stroke="#8884d8" fill="#8884d8" />
+                        <Area type="monotone" dataKey={secondCurrency} stroke="#8884d8" fill="#8884d8" isAnimationActive={false} />
                 </AreaChart>
             </ResponsiveContainer>
         </div>

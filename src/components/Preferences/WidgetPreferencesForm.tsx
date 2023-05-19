@@ -1,23 +1,23 @@
 import classNames from "classnames"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { selectUserData, setIdToken } from "../../features/api/auth/authSlice"
+import { selectUserData, setWidgets } from "../../features/api/auth/authSlice"
 import { useUpdateUserMutation } from "../../features/api/user/userApiSlice"
 import { selectAllWidgets } from "../Widgets/widgetsSlice"
 
 const WidgetPreferencesForm = () => {
     // store data
     const dispatch = useAppDispatch()
-    const idToken = useAppSelector(selectUserData)
+    const { widgets } = useAppSelector(selectUserData)
     const storeWidgetList = useAppSelector(selectAllWidgets)
     // update DB
     const [updateUser] = useUpdateUserMutation()
 
     // changing store and DB on menu change
     const handleChange = async (id: string) => {
-        const newWidgetsList = idToken.widgets.findIndex(widget => widget === id) === -1
-            ? [...idToken.widgets, id]
-            : [...idToken.widgets].filter(item => item !== id)
-        dispatch(dispatch(setIdToken({ idToken: { ...idToken, widgets: newWidgetsList } })))
+        const newWidgetsList = widgets.findIndex(widget => widget === id) === -1
+            ? [...widgets, id]
+            : [...widgets].filter(item => item !== id)
+        dispatch(setWidgets({ widgets: newWidgetsList }))
         // updating DB
         const result = await updateUser({ widgets: JSON.stringify(newWidgetsList) }).unwrap()
             if(result.status !== 200) console.log(result)
@@ -29,7 +29,7 @@ const WidgetPreferencesForm = () => {
             <p>{item.title}</p>
             <input
                 type="checkbox"
-                defaultChecked={!!idToken.widgets.find(widget => widget === item.id)}
+                defaultChecked={!!widgets.find(widget => widget === item.id)}
                 onChange={() => handleChange(item.id)}
             />
         </div>

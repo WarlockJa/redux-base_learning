@@ -73,6 +73,10 @@ const authSlice = createSlice({
             const { hidecompleted } = action.payload
             state.idToken.hidecompleted = hidecompleted
         },
+        setWidgets: (state, action) => {
+            const { widgets } = action.payload
+            state.idToken.widgets = widgets
+        },
         logOut: (state) => {
             state.accessToken = null
             state.idToken = initialState.idToken
@@ -80,7 +84,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { setCredentials, setIdToken, logOut, setHidecompleted } = authSlice.actions
+export const { setCredentials, setIdToken, logOut, setHidecompleted, setWidgets } = authSlice.actions
 
 export default authSlice.reducer
 

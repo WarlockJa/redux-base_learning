@@ -50,7 +50,6 @@ body {
 
 * {
   box-sizing: border-box;
-  transition: background 400ms ease, color 400ms ease;
 }
 
 body {

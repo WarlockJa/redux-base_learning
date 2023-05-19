@@ -21,13 +21,8 @@ const FreeCurrencyApi = () => {
             const dateToday = new Date().toLocaleDateString()
             const dateSaved = freeCurrencyLocalData.timestamp ? new Date(freeCurrencyLocalData.timestamp).toLocaleDateString() : 'error'
 
-            // checking if saved weather data was fetched less than 6 hours ago if not inititating new fetch
-            if (dateSaved !== dateToday || !freeCurrencyLocalData.data) {
-                dispatch(changeStatusToIdle())
-            } else {
-				dispatch(saveFreeCurrencyDataToState(freeCurrencyLocalData))
-				// setCurrencyList(freeCurrencyLocalData.data[dateYesterdayString])
-			}
+            // checking if saved weather data was fetched today if not inititating new fetch
+            dateSaved !== dateToday || !freeCurrencyLocalData.data ? dispatch(changeStatusToIdle()) : dispatch(saveFreeCurrencyDataToState(freeCurrencyLocalData))
 
         } else dispatch(changeStatusToIdle())
 
