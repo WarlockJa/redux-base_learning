@@ -16,21 +16,12 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
     const [firstCurrencyInput, setFirstCurrencyInput] = useState<string>('')
     const [secondCurrencyInput, setSecondCurrencyInput] = useState<string>('')
     // generating translated select options
-    // const { t, i18n } = useTranslation(['freecurrencyapi'])
     const currencyOptions = useGetCurrencyOptions()
-    // const [currencyOptions, setCurrencyOptions] = useState<JSX.Element[]>()
-    // const currencyOptions = Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{item[1]}</option>)
 
     // setting initial exchange values on form load
     useEffect(() => {
         data[yesterday] && handleExchange('1', 'first')
-    }, [data[yesterday]])
-
-    // // loading translated options
-    // useEffect(() => {
-    //     // creating list of options based on available translations for the currencyNames with fallbak as EN
-    //     setCurrencyOptions(Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{t([item[0]])}</option>))
-    // },[i18n.language])
+    }, [yesterday])
 
     // show exchange rate based on the data from api and value from input fields
     const handleExchange = (value: string, source: string) => {
@@ -96,7 +87,7 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
                     <select
                         className='inputsWrapper__currency--select'
                         value={firstCurrency}
-                        onChange={(e) => handleSelect(e.target.value, 'first')}//handleSelect(e.target.value, 'first')}
+                        onChange={(e) => handleSelect(e.target.value, 'first')}
                     >
                         {currencyOptions}
                     </select>
@@ -110,7 +101,7 @@ const FreeCurrencyApiForm = ({ data }: { data: IFreeCurrencyApiData }) => {
                     <select
                         className='inputsWrapper__currency--select'
                         value={secondCurrency}
-                        onChange={(e) => handleSelect(e.target.value, 'second')}//handleSelect(e.target.value, 'second')}
+                        onChange={(e) => handleSelect(e.target.value, 'second')}
                     >
                         {currencyOptions}
                     </select>

@@ -41,16 +41,14 @@ export const currencyNames = {
 const useGetCurrencyOptions = () => {
     const [currencyOptions, setCurrencyOptions] = useState<JSX.Element[]>()
     // const { t, i18n } = useTranslation(['freecurrencyapi'])
+    // for reasons unknown using line above results in drag'n'drop action not working on initial page load
+    // my clues are zero and my fatigue is high
+    const { t, i18n } = useTranslation()
 
     useEffect(() => {
-        // creating list of options based on available translations for the currencyNames with fallbak as EN
-        setCurrencyOptions(Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{item[1]}</option>))
-    },[])
-
-    // useEffect(() => {
-    //     // creating list of options based on available translations for the currencyNames with fallbak as EN
-    //     setCurrencyOptions(Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{t([item[0]])}</option>))
-    // },[i18n.language])
+        // creating list of options based on available translations for the currencyNames with fallback as EN
+        setCurrencyOptions(Object.entries(currencyNames).map(item => <option key={item[0]} value={item[0]}>{t([item[0]])}</option>))
+    },[i18n.language])
     
     return currencyOptions
 }

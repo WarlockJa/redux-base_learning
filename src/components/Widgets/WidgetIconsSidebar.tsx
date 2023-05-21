@@ -2,10 +2,10 @@ import Icons from "../../assets/Icons"
 import './widgeticonssidebar.css'
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectCurrentToken, selectUserData, setWidgets } from "../../features/api/auth/authSlice";
+import { selectCurrentToken, setWidgets } from "../../features/api/auth/authSlice";
 import { IWidgetListWithData } from "./widgetsSlice";
-import { useState } from "react";
 import { useUpdateUserMutation } from "../../features/api/user/userApiSlice";
+import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
 
 // takes id of the element and scrolls it into view
 // necessary for the dynamic widget list
@@ -25,63 +25,99 @@ const WidgetIconsSidebar = ({ widgetList }: { widgetList: IWidgetListWithData[] 
     // update DB
     const [updateUser] = useUpdateUserMutation()
     // drag and drop pointers
-    const [dragNDrop, setDragNDrop] = useState<{ drag: number | undefined, drop: number | undefined }>({ drag: undefined, drop: undefined })
-    // const dragItem = useRef<HTMLDivElement[]>([])
-    // const dragOverItem = useRef([])
+    // const [dragNDrop, setDragNDrop] = useState<{ drag: number | undefined, drop: number | undefined }>({ drag: undefined, drop: undefined })
 
     // drag and drop methods
-    const dragStart = (position: number) => {
-        // dragItem[position].current = position
-        setDragNDrop({ ...dragNDrop, drag: position })
-        // console.log(e.target.innerHTML)
-    }
+    // const dragStart = (position: number) => {
+    //     // dragItem[position].current = position
+    //     setDragNDrop({ ...dragNDrop, drag: position })
+    //     // console.log(e.target.innerHTML)
+    // }
     
-    const dragEnter = (position: number) => {
-        // dragOverItem.current = position
-        // dragItem[position].current = position
-        setDragNDrop({ ...dragNDrop, drop: position })
-        // console.log(e.target.innerHTML)
-    }
+    // const dragEnter = (position: number) => {
+    //     // dragOverItem.current = position
+    //     // dragItem[position].current = position
+    //     setDragNDrop({ ...dragNDrop, drop: position })
+    //     // console.log(e.target.innerHTML)
+    // }
 
-    const dragDrop = async () => {
-        // const newWidgetsList = [...widgets]
-        // const dragItemContent = newWidgetsList[dragItem.current]
-        // newWidgetsList.splice(dragItem.current, 1)
-        // newWidgetsList.splice(dragOverItem.current, 0, dragItemContent)
-        // dragItem.current = null
-        // dragOverItem.current = null
-        if(dragNDrop.drag !== undefined && dragNDrop.drop !== undefined) {
-            const newWidgetsList = widgetList.map(widget => widget.id)
-            const dragItemContent = newWidgetsList[dragNDrop.drag]
-            newWidgetsList.splice(dragNDrop.drag, 1)
-            newWidgetsList.splice(dragNDrop.drop, 0, dragItemContent)
-            setDragNDrop({ drag: undefined, drop: undefined })
+    // const dragDrop = async () => {
+    //     if(dragNDrop.drag !== undefined && dragNDrop.drop !== undefined) {
+    //         const newWidgetsList = widgetList.map(widget => widget.id)
+    //         const dragItemContent = newWidgetsList[dragNDrop.drag]
+    //         newWidgetsList.splice(dragNDrop.drag, 1)
+    //         newWidgetsList.splice(dragNDrop.drop, 0, dragItemContent)
+    //         setDragNDrop({ drag: undefined, drop: undefined })
             
-            dispatch(setWidgets({ widgets: newWidgetsList }))
+    //         dispatch(setWidgets({ widgets: newWidgetsList }))
 
-            // updating DB
-            const result = await updateUser({ widgets: JSON.stringify(newWidgetsList) }).unwrap()
-                if(result.status !== 200) console.log(result)
-        }
+    //         // updating DB
+    //         const result = await updateUser({ widgets: JSON.stringify(newWidgetsList) }).unwrap()
+    //             if(result.status !== 200) console.log(result)
+    //     }
+    // }
 
+    const handleDrop = async (droppedItem: DropResult) => {
+        // Ignore drop outside droppable container
+        if (!droppedItem.destination) return;
+        const updatedList = widgetList.map(widget => widget.id)
+        // Remove dragged item
+        const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1)
+        // Add dropped item
+        updatedList.splice(droppedItem.destination.index, 0, reorderedItem)
+        // Update State
+        dispatch(setWidgets({ widgets: updatedList }))
+        // updating DB
+        const result = await updateUser({ widgets: JSON.stringify(updatedList) }).unwrap()
+        if(result.status !== 200) console.log(result)
     }
     
-    const content = widgetList.map((widget, index) => <div
-        key={index}
-        className="widgetsSideBar__widgetWrapper"
-        title={widget.title}
-        onClick={() => handleWidgetIconClick(widget.id)}
-        onDragStart={() => dragStart(index)}
-        onDragEnter={() => dragEnter(index)}
-        onDragEnd={() => dragDrop()}
-        draggable
-    >
-        {widget.icon}
-    </div>)
+    // const content = widgetList.map((widget, index) => <div
+    //     key={index}
+    //     className="widgetsSideBar__widgetWrapper"
+    //     title={widget.title}
+    //     onClick={() => handleWidgetIconClick(widget.id)}
+    //     onDragStart={() => dragStart(index)}
+    //     onDragEnter={() => dragEnter(index)}
+    //     onDragEnd={() => dragDrop()}
+    //     draggable
+    // >
+    //     {widget.icon}
+    // </div>)
 
     return (
         <div className="widgetsSideBar" >
-            {content}
+            {/* {content} */}
+
+            <DragDropContext onDragEnd={handleDrop}>
+                <Droppable droppableId="list-container">
+                {(provided) => (
+                    <div
+                        className="list-container"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                    >
+                        {widgetList.map((item, index) => (
+                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                                {(provided) => (
+                                    <div
+                                        className="item-container widgetsSideBar__widgetWrapper"
+                                        title={item.title}
+                                        onClick={() => handleWidgetIconClick(item.id)}
+                                        ref={provided.innerRef}
+                                        {...provided.dragHandleProps}
+                                        {...provided.draggableProps}
+                                    >
+                                        {item.icon}
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
+                    </div>
+                )}
+                </Droppable>
+            </DragDropContext>
             <div
                 title="Modify widgets list"
                 className={token ? "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink" : "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink widgetsSideBar__widgetWrapper--disabled"}

@@ -34,7 +34,8 @@ const Header = () => {
     // relogin user upon page reaload with stored httpOnly refresh token cookie
     useEffect(() => {
         const handleUserReauth = async () => {
-            const reauthData: IReauthResponse = await reauth({}).unwrap()
+            
+            const reauthData: IReauthResponse = await reauth(null).unwrap()
             if(reauthData.status === 200) {
                 // widgets array is stored in DB as JSON.stringify
                 // transforming widgets string from DB back into an array

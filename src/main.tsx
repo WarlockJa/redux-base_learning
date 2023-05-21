@@ -9,8 +9,8 @@ import { store } from './app/store'
 import './i18n'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId="459124454901-6qh96eeuqackonqpsqkp0shtnvbie0ua.apps.googleusercontent.com">
+  // <React.StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_APP_GOOGLEOAUTH_CLIENTID}>
       <React.Suspense fallback='Loading'>
         <Provider store={store}>
           <BrowserRouter>
@@ -21,5 +21,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         </Provider>
       </React.Suspense>
     </GoogleOAuthProvider>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

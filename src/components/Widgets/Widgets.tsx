@@ -4,7 +4,6 @@ import { selectCurrentToken, selectUserData } from "../../features/api/auth/auth
 import ErrorPlug from "../../util/ErrorPlug";
 import WidgetIconsSidebar from "./WidgetIconsSidebar";
 import { IWidgetListWithData, widgetList } from "./widgetsSlice";
-import { useEffect } from "react";
 
 // user-defined type guard in case DB stored widget list is outdated
 const widgetDoesExist = (widget: IWidgetListWithData | undefined): widget is IWidgetListWithData => {
@@ -16,12 +15,8 @@ const Widgets = () => {
     const token = useAppSelector(selectCurrentToken)
     const { widgets } = useAppSelector(selectUserData)
 
-    // useEffect(() => {
-    //     console.log('Feck!')
-    // }, [JSON.stringify(widgets)])
-
     // forming content for widget icons sidebar
-    const filteredList = token
+    const filteredList = (token && widgets)
         ? widgets.map(widget => widgetList.find(item => item.id === widget)).filter(widgetDoesExist)
         : widgetList.filter(widget => !widget.requiresRegistration)
     
