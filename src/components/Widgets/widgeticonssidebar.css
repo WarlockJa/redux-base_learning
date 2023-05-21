@@ -1,8 +1,5 @@
 .widgetsSideBar {
     position: fixed;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4em;
     left: calc(50% - var(--media-medium-size-threshold) / 2 - 5em);
 }
 
@@ -14,6 +11,7 @@
     padding: 0.2em;
     cursor: pointer;
     transition: border 300ms ease;
+    margin-bottom: 0.4em;
 }
 .widgetsSideBar__widgetWrapper:hover {
     border: 1px solid var(--clr-link-hover);
