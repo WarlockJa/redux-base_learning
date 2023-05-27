@@ -1,45 +1,76 @@
-import './preferences.css'
-import Icons from '../../assets/Icons'
-import { useLayoutEffect, useRef, useState } from "react"
+import "./preferences.css";
+import Icons from "../../assets/Icons";
+import { useLayoutEffect, useRef, useState } from "react";
+import { ActionCreatorWithPayload } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
 
 interface ICollapsingMenuProps {
-    defaultHeaderOffset: number;
-    headerTitle: string;
-    headerContent: string;
-    formContent: JSX.Element;
-    verticalOffset: number;
+  defaultHeaderOffset: number;
+  headerTitle: string;
+  headerContent: string;
+  menuState: boolean;
+  menuSwitch: ActionCreatorWithPayload<boolean>;
+  formContent: JSX.Element;
+  verticalOffset: number;
 }
 
-const collapsingMenu = ({ defaultHeaderOffset, headerTitle, headerContent, formContent, verticalOffset }: ICollapsingMenuProps) => {
-    // menu section states
-    const collapsingMenuItemRef = useRef<HTMLDivElement>(null)
-    const [collapsingMenuItemState, setCollapsingMenuItemState] = useState(false)
-    const [collapsingMenuItemMenuHeight, setCollapsingMenuItemMenuHeight] = useState(defaultHeaderOffset)
+const collapsingMenu = ({
+  defaultHeaderOffset,
+  headerTitle,
+  headerContent,
+  menuState,
+  menuSwitch,
+  formContent,
+  verticalOffset,
+}: ICollapsingMenuProps) => {
+  // store data
+  const dispatch = useDispatch();
+  // menu section states
+  const collapsingMenuItemRef = useRef<HTMLDivElement>(null);
+  const [collapsingMenuItemMenuHeight, setCollapsingMenuItemMenuHeight] =
+    useState(defaultHeaderOffset);
 
-    // calculating current menu offset
-    useLayoutEffect(() => {
-        collapsingMenuItemState
-            ? setCollapsingMenuItemMenuHeight(collapsingMenuItemRef.current!.children[0].clientHeight + defaultHeaderOffset)
-            : setCollapsingMenuItemMenuHeight(defaultHeaderOffset)
-    },[collapsingMenuItemState])
+  // calculating current menu offset
+  useLayoutEffect(() => {
+    menuState
+      ? setCollapsingMenuItemMenuHeight(
+          collapsingMenuItemRef.current!.children[0].clientHeight +
+            defaultHeaderOffset
+        )
+      : setCollapsingMenuItemMenuHeight(defaultHeaderOffset);
+  }, [menuState]);
 
-    const menuItem = 
-        <div className="preferencesItem" style={{ transform: `translateY(${verticalOffset}px)`}}>
-            <h3 className='preferencesItem--header' onClick={() => setCollapsingMenuItemState(prev => !prev)}>{headerContent} <span title={headerTitle}>
-                    {collapsingMenuItemState
-                        ? <Icons.CloseAddTodo className='collapsingMenuButton svg-negative' />
-                        : <Icons.OpenAddTodo className='collapsingMenuButton svg-positive' />
-                    }
-                </span>
-            </h3>
-            <div className="preferencesItem--formWrapper" ref={collapsingMenuItemRef} visible={collapsingMenuItemState ? 1 : 0}>
-                {formContent}
-            </div>
-        </div>
-    
-    const currentHeight = collapsingMenuItemMenuHeight
+  const menuItem = (
+    <div
+      className="preferencesItem"
+      style={{ transform: `translateY(${verticalOffset}px)` }}
+    >
+      <h3
+        className="preferencesItem--header"
+        onClick={() => dispatch(menuSwitch(!menuState))}
+      >
+        {headerContent}{" "}
+        <span title={headerTitle}>
+          {menuState ? (
+            <Icons.CloseAddTodo className="collapsingMenuButton svg-negative" />
+          ) : (
+            <Icons.OpenAddTodo className="collapsingMenuButton svg-positive" />
+          )}
+        </span>
+      </h3>
+      <div
+        className="preferencesItem--formWrapper"
+        ref={collapsingMenuItemRef}
+        visible={menuState ? 1 : 0}
+      >
+        {formContent}
+      </div>
+    </div>
+  );
 
-    return { menuItem, currentHeight }
-}
+  const currentHeight = collapsingMenuItemMenuHeight;
 
-export default collapsingMenu
+  return { menuItem, currentHeight };
+};
+
+export default collapsingMenu;

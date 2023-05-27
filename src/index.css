@@ -1,18 +1,18 @@
 body {
   --sz-header-height: 2.5rem;
-  --clr-async-animation: rgb(120,90,188, 0.5);
+  --clr-async-animation: rgb(120, 90, 188, 0.5);
   --clr-link: #646cff;
   --clr-link-disabled: #535bf255;
   --clr-bg-modal: #0004;
   --clr-negative: rgb(158, 34, 59);
   --clr-divider: #3c3d3d;
   --clr-border-buttons-hover: #646cff;
-  
-  --clr-positive: #128D15;
+
+  --clr-positive: #128d15;
   --clr-font-main: #342e3b;
-  --clr-bg-main: #ECF2FF;
-  --clr-bg-hoverMain: #E5D1FA;
-  --clr-button-bg: #E3DFFD;
+  --clr-bg-main: #ecf2ff;
+  --clr-bg-hoverMain: #e5d1fa;
+  --clr-button-bg: #e3dffd;
   --clr-spinner: #232323;
   --clr-font-disabled: #6664;
   --clr-link-hover: #747bff;
@@ -78,7 +78,10 @@ ul {
   padding: 0 1px;
 }
 
-li, form, article, .formLike {
+li,
+form,
+article,
+.formLike {
   margin: 1em 0;
   padding: 1em;
   border: 1px solid var(--clr-font-main);
@@ -119,7 +122,12 @@ option {
   text-align: start;
 }
 
-button, input, select, textarea, .buttonLike, .react-datetime-picker {
+button,
+input,
+select,
+textarea,
+.buttonLike,
+.react-datetime-picker {
   text-align: center;
   border-radius: 8px;
   border: 1px solid transparent;
@@ -130,21 +138,28 @@ button, input, select, textarea, .buttonLike, .react-datetime-picker {
   color: var(--clr-font-main);
   transition: border-color 0.25s;
 }
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   padding: 0.6em 1.2em;
 }
-/* button:hover, input:hover, img:hover, textarea:hover, select:hover {
+button:hover,
+input:hover,
+img:hover,
+textarea:hover,
+select:hover {
   border-color: var(--clr-border-buttons-hover);
-} */
+}
 button:focus,
 button:focus-visible,
 input:focus,
 input:focus-visible {
   outline: 1px auto -webkit-focus-ring-color;
-}button:active {
+}
+button:active {
   opacity: 0.8;
 }
-
 
 /* @media (prefers-color-scheme: light) {
   body {

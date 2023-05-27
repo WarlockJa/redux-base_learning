@@ -1,0 +1,30 @@
+.widgetForm__item {
+  flex-direction: row;
+  gap: 1em;
+}
+
+.widgetForm__item + .widgetForm__item {
+  margin-top: 0.2em;
+}
+
+.widgetForm__item--icon {
+  width: 3em;
+  border: 1px solid var(--clr-border-widgetIcons);
+  border-radius: 8px;
+}
+
+.widgetForm__item--title {
+  flex: 1;
+  text-align: start;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 300ms ease;
+}
+.widgetForm__item--title:hover {
+  color: var(--clr-link-hover);
+}
+
+.widgetForm__item--checkbox {
+  transform: scale(1.5);
+  cursor: pointer;
+}

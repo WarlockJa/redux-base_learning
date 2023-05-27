@@ -1,40 +1,44 @@
 .widgetsSideBar {
-    position: fixed;
-    left: calc(50% - var(--media-medium-size-threshold) / 2 - 5em);
+  position: fixed;
+  left: calc(50% - var(--media-medium-size-threshold) / 2 - 5em);
 }
 
 .widgetsSideBar__widgetWrapper {
-    max-width: 4em;
-    max-height: 4em;
-    border: 1px solid var(--clr-font-disabled);
-    border-radius: 8px;
-    padding: 0.2em;
-    cursor: pointer;
-    transition: border 300ms ease;
-    margin-bottom: 0.4em;
+  max-width: 4em;
+  max-height: 4em;
+  border: 1px solid var(--clr-font-disabled);
+  border-radius: 8px;
+  padding: 0.2em;
+  cursor: pointer;
+  transition: border 300ms ease;
+  margin-bottom: 0.4em;
 }
 .widgetsSideBar__widgetWrapper:hover {
-    border: 1px solid var(--clr-link-hover);
+  border: 1px solid var(--clr-link-hover);
 }
 
 .widgetsSideBar__widgetWrapper--preferencesLink {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 .widgetsSideBar__widgetWrapper--disabled {
-    opacity: 0.3;
-    pointer-events: none;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.widgetsSideBar__widgetWrapper__preferencesLink--link {
+  height: 4em;
 }
 
 .widgetsSideBar__widgetWrapper svg {
-    width: 100%;
-    transition: filter 300ms ease;
+  width: 100%;
+  transition: filter 300ms ease;
 }
 .widgetsSideBar__widgetWrapper svg:hover {
-    filter: drop-shadow(0 0 2px var(--clr-font-main));
+  filter: drop-shadow(0 0 2px var(--clr-font-main));
 }
 
 @media screen and (width < 840px) {
-    .widgetsSideBar {
-        display: none;
-    }
+  .widgetsSideBar {
+    display: none;
+  }
 }
