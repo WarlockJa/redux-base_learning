@@ -24,9 +24,10 @@ const freeCurrencyLocalData: IFreeCurrencyState = localStorage_DP_freeCurrency
     : undefined;
 // verifying that information is current
 const dateToday = new Date().toLocaleDateString();
-const dateSaved = freeCurrencyLocalData.timestamp
-    ? new Date(freeCurrencyLocalData.timestamp).toLocaleDateString()
-    : "error";
+const dateSaved =
+    freeCurrencyLocalData && freeCurrencyLocalData.timestamp
+        ? new Date(freeCurrencyLocalData.timestamp).toLocaleDateString()
+        : "error";
 
 const initialState: IFreeCurrencyState =
     dateSaved !== dateToday
@@ -36,7 +37,7 @@ const initialState: IFreeCurrencyState =
                   firstCurrency: "TRY", // TODO: get for current locale or default
                   secondCurrency: "USD",
               },
-              status: "loading",
+              status: "idle",
               timestamp: undefined,
               error: null,
           }

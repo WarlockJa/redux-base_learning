@@ -17,14 +17,19 @@ const FreeCurrencyApi = () => {
 
     // checking if currency data present in local storage. saving it to the store or initiating new fetch upon result
     useEffect(() => {
-        // verifying that information is current
-        const dateToday = new Date().toLocaleDateString();
-        const dateSaved = timestamp
-            ? new Date(timestamp).toLocaleDateString()
-            : "error";
+        if (status === "succeeded") {
+            // verifying that information is current
+            const dateToday = new Date().toLocaleDateString();
+            const dateSaved = timestamp
+                ? new Date(timestamp).toLocaleDateString()
+                : "error";
 
-        // checking if saved weather data was fetched today if not inititating new fetch
-        if (dateSaved !== dateToday) dispatch(changeStatusToIdle());
+            // checking if saved weather data was fetched today if not inititating new fetch
+            if (dateSaved !== dateToday) {
+                console.log("free currency set to idle");
+                dispatch(changeStatusToIdle());
+            }
+        }
     });
 
     // processing store freeCurrency status change, fetching new data

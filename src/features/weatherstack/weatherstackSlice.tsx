@@ -62,13 +62,14 @@ const weatherstackLocalData: IWeatherStackState = localStorage_DP_weatherstack
 
 // forming initial state if there is data and it is not older than 6 hours
 const initialState: IWeatherStackState =
-    weatherstackLocalData.timestamp === undefined ||
+    !weatherstackLocalData ||
+    !weatherstackLocalData.timestamp ||
     weatherstackLocalData.timestamp + 6 * 60 * 60 * 1000 < Date.now()
         ? {
               request: undefined,
               location: undefined,
               current: undefined,
-              status: "loading",
+              status: "idle",
               timestamp: undefined,
               error: null,
           }

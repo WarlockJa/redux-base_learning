@@ -16,11 +16,15 @@ const Weatherstack = () => {
     // on component reload
     // checking if 6 hours has pssed since last weatherstack data fetch
     useEffect(() => {
-        if (
-            weatherstack.timestamp === undefined ||
-            weatherstack.timestamp + 6 * 60 * 60 * 1000 < Date.now()
-        )
-            dispatch(changeStatusToIdle());
+        if (weatherstack.status === "succeeded") {
+            if (
+                weatherstack.timestamp === undefined ||
+                weatherstack.timestamp + 6 * 60 * 60 * 1000 < Date.now()
+            ) {
+                console.log("weatherstack set to idle");
+                dispatch(changeStatusToIdle());
+            }
+        }
     });
 
     // fetching weather data
