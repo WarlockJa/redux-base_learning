@@ -1,6 +1,6 @@
 import "./datetimepicker.css";
 import "./calendar.css";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import DateTimePicker from "react-datetime-picker";
 import { switchAddTodoMenuState } from "./todosSlice";
