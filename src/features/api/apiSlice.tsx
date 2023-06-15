@@ -9,7 +9,6 @@ import { RootState } from "../../app/store";
 import { MutationTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URI;
-// const PGSQL_URL = import.meta.env.VITE_APP_RAILWAY_POSTGRES_URL
 
 export interface IRTKQuery {
     login?: MutationTrigger<
