@@ -9,19 +9,19 @@ import { store } from "./app/store";
 import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    // <React.StrictMode>
-    <GoogleOAuthProvider
-        clientId={import.meta.env.VITE_APP_GOOGLEOAUTH_CLIENTID}
-    >
-        <React.Suspense fallback="Loading">
-            <Provider store={store}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/*" element={<App />} />
-                    </Routes>
-                </BrowserRouter>
-            </Provider>
-        </React.Suspense>
-    </GoogleOAuthProvider>
-    // </React.StrictMode>
+    <React.StrictMode>
+        <GoogleOAuthProvider
+            clientId={import.meta.env.VITE_APP_GOOGLEOAUTH_CLIENTID}
+        >
+            <React.Suspense fallback="Loading">
+                <Provider store={store}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/*" element={<App />} />
+                        </Routes>
+                    </BrowserRouter>
+                </Provider>
+            </React.Suspense>
+        </GoogleOAuthProvider>
+    </React.StrictMode>
 );
