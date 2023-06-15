@@ -2,7 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import axios from "axios";
 
-interface IWeatherStackState {
+export interface IWeatherStackState {
     request:
         | {
               type: string;
