@@ -1,11 +1,11 @@
-import Widgets from "../Widgets/Widgets"
+import Widgets from "../Widgets/Widgets";
 
 const Home = () => {
-    return (
-        <>
-            <Widgets /> 
-        </>
-    )
-}
+  return (
+    <>
+      <Widgets />
+    </>
+  );
+};
 
-export default Home
+export default Home;

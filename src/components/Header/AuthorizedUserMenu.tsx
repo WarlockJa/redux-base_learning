@@ -42,6 +42,9 @@ const AuthorizedUserMenu = () => {
     dispatch(logOut());
     // changing locale to browser default
     i18n.changeLanguage(navigator.language);
+    // removing localStorage data
+    // TODO: turn the clear option on. Currently off to save on precious requests per month count
+    // localStorage.clear();
     // resetting apiSlice todos data
     dispatch(apiSlice.util.resetApiState());
   };
