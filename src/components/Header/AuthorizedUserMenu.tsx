@@ -57,7 +57,7 @@ const AuthorizedUserMenu = () => {
   };
 
   return isLoading ? (
-    <Spinner embed={false} width="5em" height="2em" />
+    <Spinner embed={false} width="6em" height="3em" small />
   ) : (
     <>
       <button

@@ -5,20 +5,26 @@ import {
   selectUserData,
 } from "../../features/api/auth/authSlice";
 import ErrorPlug from "../../util/ErrorPlug";
-import WidgetIconsSidebar from "./WidgetIconsSidebar";
-import { IWidgetListWithData, widgetList } from "./widgetsSlice";
+import "./iframes.css";
+import IFramesIconsSidebar from "./IFramesIconsSideBar";
+import {
+  IIFramesList,
+  IIFramesListWithData,
+  selectAllWidgets,
+} from "./widgetsSlice";
 
 // user-defined type guard in case DB stored widget list is outdated
 const widgetDoesExist = (
-  widget: IWidgetListWithData | undefined
-): widget is IWidgetListWithData => {
+  widget: IIFramesList | undefined
+): widget is IIFramesList => {
   return !!widget;
 };
 
-const Widgets = () => {
+const IFrames = () => {
   // user data from the store
   const token = useAppSelector(selectCurrentToken);
   const { widgets } = useAppSelector(selectUserData);
+  const widgetList = useAppSelector(selectAllWidgets);
 
   // forming content for widget icons sidebar
   const filteredList =
@@ -28,8 +34,24 @@ const Widgets = () => {
           .filter(widgetDoesExist)
       : widgetList.filter((widget) => !widget.requiresRegistration);
 
+  // forming iFrame content
+  const iFramesList: IIFramesListWithData[] = filteredList.map((item) => ({
+    ...item,
+    widget: (
+      <section id={item.id}>
+        <h1>{item.title}</h1>
+        <iframe
+          className="iFrameWidget"
+          src={item.src}
+          width="100%"
+          height={item.height}
+        />
+      </section>
+    ),
+  }));
+
   // forming content from the filtered list
-  const content = filteredList.map((widget, index) => (
+  const content = iFramesList.map((widget, index) => (
     <ErrorBoundary key={index} FallbackComponent={ErrorPlug}>
       {widget.widget}
     </ErrorBoundary>
@@ -37,20 +59,10 @@ const Widgets = () => {
 
   return (
     <>
-      <WidgetIconsSidebar widgetList={filteredList} />
-      <ErrorBoundary FallbackComponent={ErrorPlug}>
-        <section>
-          <iframe
-            style={{ borderRadius: "20px" }}
-            src="https://agecalculator-ebon.vercel.app/"
-            width="100%"
-            height="510px"
-          />
-        </section>
-      </ErrorBoundary>
+      <IFramesIconsSidebar widgetList={iFramesList} />
       {content.length !== 0 ? content : <p>You have no active widgets</p>}
     </>
   );
 };
 
-export default Widgets;
+export default IFrames;

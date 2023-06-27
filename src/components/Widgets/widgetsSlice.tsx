@@ -1,51 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-import Icons from "../../assets/Icons";
-import Counter from "../../features/counter/Counter";
-import Weatherstack from "../../features/weatherstack/Weatherstack";
-import FreeCurrencyApi from "../../features/freeCurrencyApi/FreeCurrencyApi";
 
-interface IWidgetList {
+export interface IIFramesList {
   id: string;
+  src: string;
+  height: string;
+  // icon: JSX.Element;
+  icon: string;
   title: string;
-}
-
-export interface IWidgetListWithData extends IWidgetList {
-  icon: JSX.Element;
-  widget: JSX.Element;
   requiresRegistration: boolean;
 }
 
+export interface IIFramesListWithData extends IIFramesList {
+  widget: JSX.Element;
+}
 // list of all widgets used by the app
 // needs to be here so it is available when store is initialized
-export const widgetList: IWidgetListWithData[] = [
+const widgetList: IIFramesList[] = [
   {
-    id: "reduxshowcase",
-    title: "Redux store showcase",
-    icon: <Icons.ReduxLogo />,
-    widget: <Counter />,
+    id: "agecalculator",
+    title: "Age calculator",
+    icon: "/icons/calculator.svg",
+    src: "https://agecalculator-ebon.vercel.app/",
+    height: "510px",
     requiresRegistration: false,
   },
   {
-    id: "weatherstack",
+    id: "weatherreport",
     title: "Weather report",
-    icon: <Icons.Weather />,
-    widget: <Weatherstack />,
-    requiresRegistration: true,
-  },
-  {
-    id: "freecurrencyapi",
-    title: "Currency exchange",
-    icon: <Icons.Exchange />,
-    widget: <FreeCurrencyApi />,
-    requiresRegistration: true,
+    icon: "/icons/weather.svg",
+    src: "https://wj-weatherapi.vercel.app/",
+    height: "340px",
+    requiresRegistration: false,
   },
 ];
 
 // store contains data of all widget ids in order to display selection menu in WidgetPreferences
-const initialState: IWidgetList[] = widgetList.map((widget) => ({
+const initialState: IIFramesList[] = widgetList.map((widget) => ({
   id: widget.id,
   title: widget.title,
+  height: widget.height,
+  icon: widget.icon,
+  src: widget.src,
+  requiresRegistration: widget.requiresRegistration,
 }));
 
 export const widgetSlice = createSlice({

@@ -1,13 +1,14 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUserData, setWidgets } from "../../features/api/auth/authSlice";
 import { useUpdateUserMutation } from "../../features/api/user/userApiSlice";
-import { widgetList } from "../Widgets/widgetsSlice";
+import { selectAllWidgets } from "../Widgets/widgetsSlice";
 import "./widgetpreferencesform.css";
 
 const WidgetPreferencesForm = () => {
   // store data
   const dispatch = useAppDispatch();
   const { widgets } = useAppSelector(selectUserData);
+  const widgetList = useAppSelector(selectAllWidgets);
   // update DB
   const [updateUser] = useUpdateUserMutation();
 
@@ -28,7 +29,9 @@ const WidgetPreferencesForm = () => {
   // generating content from the list of widgets
   const content = widgetList.map((item) => (
     <div key={item.id} className="widgetForm__item">
-      <div className="widgetForm__item--icon">{item.icon}</div>
+      <div className="widgetForm__item--icon">
+        <img src={item.icon} alt="widget icon" />
+      </div>
       <label htmlFor={item.id} className="widgetForm__item--title">
         {item.title}
       </label>

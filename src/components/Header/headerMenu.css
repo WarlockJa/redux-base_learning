@@ -4,6 +4,7 @@ form {
 
 .headerMenu--formWrapper {
   padding: 0;
+  border: none;
 }
 
 .headerMenu__form {

@@ -131,6 +131,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
                 <Spinner embed={false} />
               </div>
             )}
+
             {(login.isError || gLogin.isError) && signInCoverVisible && (
               <div
                 onClick={() => handleErrorClick()}

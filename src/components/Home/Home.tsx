@@ -1,9 +1,10 @@
-import Widgets from "../Widgets/Widgets";
+import IFrames from "../Widgets/IFrames";
 
 const Home = () => {
   return (
     <>
-      <Widgets />
+      {/* <Widgets /> */}
+      <IFrames />
     </>
   );
 };

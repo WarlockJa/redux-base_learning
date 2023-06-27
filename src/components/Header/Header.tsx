@@ -84,7 +84,7 @@ const Header = () => {
   let authContent;
   // header menu spinner on loggin out and auto relog
   if (isLoadingReauth) {
-    authContent = <Spinner embed={false} width="5em" height="2em" />;
+    authContent = <Spinner embed={false} width="6em" height="3em" small />;
     // user menu on successful login
   } else if (accessToken) {
     authContent = <AuthorizedUserMenu />;
@@ -126,6 +126,7 @@ const Header = () => {
           <LanguageSwitcher fullDescription={false} disabled={false} />
           <SwitchDarkMode disabled={false} />
         </div>
+
         {authContent}
       </div>
     </section>
