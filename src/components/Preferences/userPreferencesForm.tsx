@@ -25,7 +25,7 @@ const userPreferencesForm = (
   setShowDeleteUserWarning: Dispatch<SetStateAction<boolean>>
 ) => {
   // i18next
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation("preferences");
   // user data from the store
   const idToken = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();
@@ -156,7 +156,7 @@ const userPreferencesForm = (
             <img
               className="preferencesItem__userForm--avatar"
               src={idToken.picture}
-              alt="user avatar"
+              alt={t("user_avatar")!}
             />
           </div>
         ) : (
@@ -182,7 +182,10 @@ const userPreferencesForm = (
           onMouseLeave={() => setAvatarHovered(false)}
           onClick={() => handleAvatarChange()}
         >
-          <FontAwesomeIcon title="Change avatar" icon={faEdit as IconProp} />
+          <FontAwesomeIcon
+            title={t("user_changeAvatar")!}
+            icon={faEdit as IconProp}
+          />
         </div>
       </div>
       {userNameEdit ? (
@@ -203,7 +206,7 @@ const userPreferencesForm = (
             type="button"
             className="preferencesItem__userForm--editButton"
             onClick={() => handleUserNameEditClick()}
-            title="Edit"
+            title={t("user_edit")!}
           >
             · · ·
           </button>
@@ -226,19 +229,21 @@ const userPreferencesForm = (
             type="button"
             className="preferencesItem__userForm--editButton"
             onClick={() => handleUserSurnameEditClick()}
-            title="Edit"
+            title={t("user_edit")!}
           >
             · · ·
           </button>
         </div>
       ) : (
         <div className="preferencesItem__userForm--editBlock">
-          <p className="preferencesItem__userForm--p emptyField">Surname</p>
+          <p className="preferencesItem__userForm--p emptyField">
+            {t("user_surname")}
+          </p>
           <button
             type="button"
             className="preferencesItem__userForm--editButton"
             onClick={() => handleUserSurnameEditClick()}
-            title="Edit"
+            title={t("user_edit")!}
           >
             · · ·
           </button>
@@ -247,7 +252,9 @@ const userPreferencesForm = (
       <div className="preferencesItem__userForm--email">
         <p
           title={
-            idToken.email_confirmed ? "Email verified" : "E-mail not verified"
+            idToken.email_confirmed
+              ? t("user_emailVerified")!
+              : t("user_emailUnverified")!
           }
           className={"preferencesItem__userForm--p ".concat(
             idToken.email_confirmed ? "font-positive" : "font-negative"
@@ -256,23 +263,26 @@ const userPreferencesForm = (
           {idToken.email}
         </p>
         {idToken.email_confirmed ? (
-          <FontAwesomeIcon title="Email verified" icon={faCheck as IconProp} />
+          <FontAwesomeIcon
+            title={t("user_emailVerified")!}
+            icon={faCheck as IconProp}
+          />
         ) : (
           <ResendEmail />
         )}
       </div>
       <div className="preferencesItem__userForm--editBlock">
-        <p className="preferencesItem__userForm--p">Color scheme:</p>
+        <p className="preferencesItem__userForm--p">{t("user_colorScheme")}:</p>
         <SwitchDarkMode disabled={false} />
       </div>
       <div className="preferencesItem__userForm--editBlock">
-        <p>Locale</p>
+        <p>{t("user_locale")}</p>
         <LanguageSwitcher fullDescription={true} disabled={false} />
       </div>
       <div className="preferencesItem__userForm--userDeleteBlock">
         <button
-          title="Delete account"
-          aria-label="delete account"
+          title={t("user_delete")!}
+          aria-label={t("user_delete")!}
           className="preferencesItem__userForm--deleteButton"
           onClick={() => setShowDeleteUserWarning(true)}
         >

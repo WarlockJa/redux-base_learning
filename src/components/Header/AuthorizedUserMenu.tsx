@@ -19,7 +19,7 @@ import { setUserMenu } from "../Preferences/preferencesSlice";
 
 const AuthorizedUserMenu = () => {
   // i18next
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation("header");
   // logout api call
   const [logout, { isLoading }] = useLogoutMutation();
   // user data from the store
@@ -83,16 +83,21 @@ const AuthorizedUserMenu = () => {
             onClick={() => setHidden(true)}
             to="/preferences"
           >
-            Preferences <FontAwesomeIcon icon={faEdit as IconProp} />
+            {t("signedMenu_preferences")}{" "}
+            <FontAwesomeIcon icon={faEdit as IconProp} />
           </Link>
         </button>
         <LineBreak />
         <div className="headerMenu__dropMenu--menuItem">
-          <p className="headerMenu__dropMenu__menuItem--p">Color scheme:</p>
+          <p className="headerMenu__dropMenu__menuItem--p">
+            {t("signedMenu_colorScheme")}:
+          </p>
           <SwitchDarkMode disabled={hidden} />
         </div>
         <div className="headerMenu__dropMenu--menuItem">
-          <p className="headerMenu__dropMenu__menuItem--p">Locale</p>
+          <p className="headerMenu__dropMenu__menuItem--p">
+            {t("signedMenu_locale")}
+          </p>
           <LanguageSwitcher fullDescription={true} disabled={hidden} />
         </div>
         <LineBreak />
@@ -101,7 +106,7 @@ const AuthorizedUserMenu = () => {
           className="headerMenu__dropMenu--logoutButton"
           onClick={() => handleLogout()}
         >
-          Logout
+          {t("signedMenu_logout")}
         </button>
       </div>
       {!hidden && (

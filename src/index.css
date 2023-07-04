@@ -18,6 +18,17 @@ body {
   --clr-link-hover: #747bff;
   --clr-border-widgetIcons: #6664;
   --clr-border-widgetIcons-hover: #747bff;
+
+  --sz-agecalculator: 470px;
+  --sz-weatherreport: 340px;
+  --sz-freecurrencyapi: 200px;
+}
+
+@media screen and (width < 700px) {
+  body {
+    --sz-agecalculator: 450px;
+    --sz-freecurrencyapi: 313px;
+  }
 }
 
 .dark-theme {

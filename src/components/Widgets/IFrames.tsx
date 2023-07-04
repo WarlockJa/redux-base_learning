@@ -12,6 +12,7 @@ import {
   IIFramesListWithData,
   selectAllWidgets,
 } from "./widgetsSlice";
+import { useTranslation } from "react-i18next";
 
 // user-defined type guard in case DB stored widget list is outdated
 const widgetDoesExist = (
@@ -21,10 +22,13 @@ const widgetDoesExist = (
 };
 
 const IFrames = () => {
+  // passing language to iFrames
+  const { i18n, t } = useTranslation("widgets");
   // user data from the store
   const token = useAppSelector(selectCurrentToken);
   const { widgets } = useAppSelector(selectUserData);
   const widgetList = useAppSelector(selectAllWidgets);
+  const { darkmode } = useAppSelector(selectUserData);
 
   // forming content for widget icons sidebar
   const filteredList =
@@ -39,12 +43,14 @@ const IFrames = () => {
     ...item,
     widget: (
       <section id={item.id}>
-        <h1>{item.title}</h1>
+        <h1>{t(item.title)}</h1>
         <iframe
           className="iFrameWidget"
-          src={item.src}
+          src={item.src.concat(
+            `?lng=${i18n.language}&theme=${darkmode ? "dark" : "light"}`
+          )}
           width="100%"
-          height={item.height}
+          style={{ height: item.height }}
         />
       </section>
     ),
@@ -60,7 +66,7 @@ const IFrames = () => {
   return (
     <>
       <IFramesIconsSidebar widgetList={iFramesList} />
-      {content.length !== 0 ? content : <p>You have no active widgets</p>}
+      {content.length !== 0 ? content : <p>{t("no_widgets")}</p>}
     </>
   );
 };

@@ -26,6 +26,7 @@ form {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(2px);
+  border-radius: 20px;
 }
 
 .headerMenu__loading {

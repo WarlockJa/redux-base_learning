@@ -26,7 +26,7 @@ import {
 
 const Preferences = () => {
   // i18next
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation("preferences");
   // user data from the store
   const idToken = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();
@@ -77,8 +77,8 @@ const Preferences = () => {
   // wrapping widgets form in a collapsing menu function
   const widgetPreferences = collapsingMenu({
     defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
-    headerContent: "Widget Preferences",
-    headerTitle: "Open/close widget preferences menu",
+    headerContent: t("header_widget"),
+    headerTitle: t("header_widget_title"),
     menuState: preferences.widgetMenu,
     menuSwitch: setWidgetMenu,
     formContent: <WidgetPreferencesForm />,
@@ -89,8 +89,8 @@ const Preferences = () => {
   // wrapping user preferences form in a collapsing menu function
   const userPreferences = collapsingMenu({
     defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
-    headerContent: "User Preferences",
-    headerTitle: "Open/close user preferences menu",
+    headerContent: t("header_user"),
+    headerTitle: t("header_user_title"),
     // invoking userPreferencesForm and passing setAvatarFile method to it
     formContent: userPreferencesForm(setAvatarFile, setShowDeleteUserWarning),
     menuState: preferences.userMenu,
@@ -112,6 +112,7 @@ const Preferences = () => {
       {showDeleteUserWarning && (
         <DeleteUserConfirm
           callback={(res: boolean) => handleUserDeleteConfirm(res)}
+          t={t}
         />
       )}
       {widgetPreferences.menuItem}

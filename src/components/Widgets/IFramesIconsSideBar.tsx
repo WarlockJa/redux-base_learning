@@ -15,6 +15,7 @@ import {
 } from "react-beautiful-dnd";
 import { setWidgetMenu } from "../Preferences/preferencesSlice";
 import { IIFramesListWithData } from "./widgetsSlice";
+import { useTranslation } from "react-i18next";
 
 // takes id of the element and scrolls it into view
 // necessary for the dynamic widget list
@@ -31,6 +32,7 @@ const IFramesIconsSidebar = ({
   // widgetList: IWidgetListWithData[];
   widgetList: IIFramesListWithData[];
 }) => {
+  const { t } = useTranslation("widgets");
   // router hook
   const navigate = useNavigate();
   // store
@@ -71,7 +73,7 @@ const IFramesIconsSidebar = ({
                   {(provided) => (
                     <div
                       className="item-container widgetsSideBar__widgetWrapper"
-                      title={item.title}
+                      title={t(item.title)!}
                       onClick={() => handleWidgetIconClick(item.id)}
                       ref={provided.innerRef}
                       {...provided.dragHandleProps}
@@ -88,7 +90,7 @@ const IFramesIconsSidebar = ({
         </Droppable>
       </DragDropContext>
       <button
-        title="Modify widgets list"
+        title={t("title_modifywidgetslist")!}
         className={
           token
             ? "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink"

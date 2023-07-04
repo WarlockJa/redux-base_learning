@@ -1,5 +1,15 @@
 {
-    "home": "Начало",
-    "news": "Новости",
-    "todos": "Задачи"
+  "home": "Главная",
+  "news": "Новости",
+  "todos": "Задачи",
+  "signinMenu_SignIn": "Вход",
+  "signinMenu_email": "е-мейл",
+  "signinMenu_password": "пароль",
+  "signinMenu_Signin": "Вход",
+  "signinMenu_signin": "вход",
+  "signinMenu_register": "Регистрация",
+  "signedMenu_preferences": "Настройки",
+  "signedMenu_colorScheme": "Тема",
+  "signedMenu_locale": "Язык",
+  "signedMenu_logout": "Выход"
 }

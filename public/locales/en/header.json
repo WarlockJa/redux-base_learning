@@ -1,5 +1,15 @@
 {
-    "home": "Home",
-    "news": "News",
-    "todos": "Tasks"
+  "home": "Home",
+  "news": "News",
+  "todos": "Tasks",
+  "signinMenu_SignIn": "Sign In",
+  "signinMenu_email": "email",
+  "signinMenu_password": "password",
+  "signinMenu_Signin": "Sign in",
+  "signinMenu_signin": "sign in",
+  "signinMenu_register": "Register",
+  "signedMenu_preferences": "Preferences",
+  "signedMenu_colorScheme": "Color scheme",
+  "signedMenu_locale": "Locale",
+  "signedMenu_logout": "Logout"
 }

@@ -6,7 +6,6 @@ import todosReducer from "../features/todos/todosSlice";
 import authReducer from "../features/api/auth/authSlice";
 import userReducer from "../features/api/user/userSlice";
 import weatherstackReducer from "../features/weatherstack/weatherstackSlice";
-import freeCurrencyReducer from "../features/freeCurrencyApi/freeCurrencyApiSlice";
 import widgetsReducer from "../components/Widgets/widgetsSlice";
 import preferencesReducer from "../components/Preferences/preferencesSlice";
 
@@ -18,7 +17,6 @@ export const store = configureStore({
     auth: authReducer,
     user: userReducer,
     weatherstack: weatherstackReducer,
-    freeCurrency: freeCurrencyReducer,
     widgets: widgetsReducer,
     preferences: preferencesReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,

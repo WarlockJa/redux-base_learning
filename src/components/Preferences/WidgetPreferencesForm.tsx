@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectUserData, setWidgets } from "../../features/api/auth/authSlice";
 import { useUpdateUserMutation } from "../../features/api/user/userApiSlice";
@@ -5,6 +6,7 @@ import { selectAllWidgets } from "../Widgets/widgetsSlice";
 import "./widgetpreferencesform.css";
 
 const WidgetPreferencesForm = () => {
+  const { t } = useTranslation("widgets");
   // store data
   const dispatch = useAppDispatch();
   const { widgets } = useAppSelector(selectUserData);
@@ -33,7 +35,7 @@ const WidgetPreferencesForm = () => {
         <img src={item.icon} alt="widget icon" />
       </div>
       <label htmlFor={item.id} className="widgetForm__item--title">
-        {item.title}
+        {t(item.title)}
       </label>
       <input
         id={item.id}

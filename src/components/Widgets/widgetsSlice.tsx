@@ -5,7 +5,6 @@ export interface IIFramesList {
   id: string;
   src: string;
   height: string;
-  // icon: JSX.Element;
   icon: string;
   title: string;
   requiresRegistration: boolean;
@@ -14,24 +13,33 @@ export interface IIFramesList {
 export interface IIFramesListWithData extends IIFramesList {
   widget: JSX.Element;
 }
+
 // list of all widgets used by the app
 // needs to be here so it is available when store is initialized
 const widgetList: IIFramesList[] = [
   {
     id: "agecalculator",
-    title: "Age calculator",
+    title: "title_agecalculator",
     icon: "/icons/calculator.svg",
     src: "https://agecalculator-ebon.vercel.app/",
-    height: "510px",
-    requiresRegistration: false,
+    height: "var(--sz-agecalculator)",
+    requiresRegistration: true,
   },
   {
     id: "weatherreport",
-    title: "Weather report",
+    title: "title_weatherreport",
     icon: "/icons/weather.svg",
     src: "https://wj-weatherapi.vercel.app/",
-    height: "340px",
-    requiresRegistration: false,
+    height: "var(--sz-weatherreport)",
+    requiresRegistration: true,
+  },
+  {
+    id: "freecurrencyapi",
+    title: "title_currencyexchange",
+    icon: "/icons/currency-exchange.svg",
+    src: "https://wj-freecurrencyapi.vercel.app/",
+    height: "var(--sz-freecurrencyapi)",
+    requiresRegistration: true,
   },
 ];
 

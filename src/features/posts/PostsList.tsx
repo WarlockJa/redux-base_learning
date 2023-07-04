@@ -67,7 +67,9 @@ const PostsList = () => {
         API_URL: import.meta.env.VITE_APP_NYTIMES_API_URL.replace(
           "FILENAME",
           categoryId
-        ).concat(import.meta.env.VITE_APP_NYTIMES_API_KEY),
+        ),
+        API_KEY: import.meta.env.VITE_APP_NYTIMES_API_KEY,
+        // .concat(import.meta.env.VITE_APP_NYTIMES_API_KEY),
       };
 
       console.log("Fetching news category");

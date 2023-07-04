@@ -1,15 +1,21 @@
-import './deleteuserconfirm.css'
+import "./deleteuserconfirm.css";
 
-const DeleteUserConfirm = ({ callback }: { callback: (res: boolean) => void}) => {
-    return (
-        <section className="deleteUser">
-            <h2>Are you sure you want to delete account?</h2>
-            <div className='deleteUser--buttonsBlock'>
-                <button onClick={() => callback(true)}>Yes</button>
-                <button onClick={() => callback(false)}>No</button>
-            </div>
-        </section>
-    )
-}
+const DeleteUserConfirm = ({
+  callback,
+  t,
+}: {
+  callback: (res: boolean) => void;
+  t: (text: string) => string;
+}) => {
+  return (
+    <section className="deleteUser">
+      <h2>{t("user_deleteConfirm")}</h2>
+      <div className="deleteUser--buttonsBlock">
+        <button onClick={() => callback(true)}>{t("user_deleteYes")}</button>
+        <button onClick={() => callback(false)}>{t("user_deleteNo")}</button>
+      </div>
+    </section>
+  );
+};
 
-export default DeleteUserConfirm
+export default DeleteUserConfirm;

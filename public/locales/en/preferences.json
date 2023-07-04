@@ -1,0 +1,18 @@
+{
+  "header_widget": "Widget Preferences",
+  "header_widget_title": "Open/close widget preferences menu",
+  "header_user": "User Preferences",
+  "header_user_title": "Open/close user preferences menu",
+  "user_edit": "Edit",
+  "user_surname": "Surname",
+  "user_emailVerified": "Email verified",
+  "user_emailUnverified": "E-mail not verified",
+  "user_colorScheme": "Color scheme",
+  "user_locale": "Locale",
+  "user_avatar": "user avatar",
+  "user_changeAvatar": "Change avatar",
+  "user_delete": "Delete account",
+  "user_deleteConfirm": "Are you sure you want to delete account?",
+  "user_deleteYes": "Yes",
+  "user_deleteNo": "No"
+}

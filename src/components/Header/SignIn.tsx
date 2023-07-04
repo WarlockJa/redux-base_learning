@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
   // i18next hook
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("header");
   // react-router-dom navigate to different route
   const navigate = useNavigate();
   // flag for hiding sign in and options menus
@@ -107,7 +107,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
         onClick={() => setHidden((prev) => !prev)}
       >
         <span>
-          Sign In{" "}
+          {t("signinMenu_SignIn")}{" "}
           <FontAwesomeIcon
             style={{ backgroundColor: "transparent" }}
             icon={
@@ -146,7 +146,9 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
                   : JSON.stringify(gLogin.error)}
               </div>
             )}
-            <label htmlFor="headerMenu__form--email">email</label>
+            <label htmlFor="headerMenu__form--email">
+              {t("signinMenu_email")}
+            </label>
             <input
               ref={formEmailRef}
               id="headerMenu__form--email"
@@ -156,7 +158,9 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
               maxLength={50}
               required
             />
-            <label htmlFor="headerMenu__form--password">password</label>
+            <label htmlFor="headerMenu__form--password">
+              {t("signinMenu_password")}
+            </label>
             <input
               ref={formPassRef}
               id="headerMenu__form--password"
@@ -167,7 +171,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
               required
             />
             <button disabled={login.isLoading || gLogin.isLoading}>
-              Sign in
+              {t("signinMenu_Signin")}
             </button>
             <LineBreak />
             <button onClick={() => loginGoogle()} type="button">
@@ -176,7 +180,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
                   style={{ backgroundColor: "transparent" }}
                   icon={faGoogle}
                 />{" "}
-                sign in
+                {t("signinMenu_signin")}
               </span>
             </button>
             <LineBreak />
@@ -188,7 +192,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
               className="headerMenu__form--registerButton"
               type="button"
             >
-              Register
+              {t("signinMenu_register")}
             </button>
           </form>
         </fieldset>
