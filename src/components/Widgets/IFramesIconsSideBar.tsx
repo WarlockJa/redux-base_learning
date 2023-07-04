@@ -1,5 +1,5 @@
 import Icons from "../../assets/Icons";
-import "./widgeticonssidebar.css";
+import "./iframesiconssidebar.css";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
