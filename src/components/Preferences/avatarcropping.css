@@ -1,21 +1,25 @@
 .avatarCropping {
-    position: fixed;
-    left: 0;
-    top: var(--sz-header-height);
-    bottom: 0;
-    right: 0;
-    z-index: 2;
-    background-color: var(--clr-bg-main);
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  left: 0;
+  top: var(--sz-header-height);
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  background-color: var(--clr-bg-main);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .avatarCropping__reactCrop {
-    max-width: var(--sz-cropImage-maxWidth);
+  max-width: var(--sz-cropImage-maxWidth);
 }
 
 .ReactCrop__crop-selection {
-    background: transparent;
+  background: transparent;
+}
+
+.lds-spinner {
+  z-index: 3;
 }

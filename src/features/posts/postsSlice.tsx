@@ -96,10 +96,11 @@ const initialState: IPostsState =
 
 export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
-  async ({ API_URL, API_KEY }: { API_URL: string; API_KEY: string }) => {
-    const response = await axios.get(API_URL, {
-      headers: { Authorization: `Bearer ${API_KEY}` },
-    });
+  async ({ API_URL }: { API_URL: string }) => {
+    const response = await axios.get(
+      API_URL
+      // , { headers: { authorization: API_KEY }, }
+    );
     return response.data;
   }
 );

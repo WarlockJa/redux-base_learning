@@ -12,8 +12,11 @@ import {
 } from "./postsSlice";
 import SelectCategory from "./SelectCategory";
 import { categoryList } from "./SelectCategory";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const PostsList = () => {
+  const { t } = useTranslation("news");
   const { categoryId } = useParams();
   const posts = useAppSelector(selectAllPosts);
   const dispatch = useAppDispatch();
@@ -67,9 +70,9 @@ const PostsList = () => {
         API_URL: import.meta.env.VITE_APP_NYTIMES_API_URL.replace(
           "FILENAME",
           categoryId
-        ),
-        API_KEY: import.meta.env.VITE_APP_NYTIMES_API_KEY,
-        // .concat(import.meta.env.VITE_APP_NYTIMES_API_KEY),
+        )
+          // API_KEY: import.meta.env.VITE_APP_NYTIMES_API_KEY,
+          .concat(import.meta.env.VITE_APP_NYTIMES_API_KEY),
       };
 
       console.log("Fetching news category");
@@ -109,7 +112,7 @@ const PostsList = () => {
 
   return (
     <section className="newsSection">
-      <h2>News Posts</h2>
+      <h2>{t("news")}</h2>
       <SelectCategory activeOption={posts.currentCategory} />
       <ul>{content}</ul>
       <ScrollToTopButton />

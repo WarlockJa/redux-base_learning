@@ -11,10 +11,12 @@ import { useGetTodosQuery } from "./todoApiSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/fontawesome-free-solid";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { selectUserData, setHidecompleted } from "../api/auth/authSlice";
+import { selectUserData, setHideCompleted } from "../api/auth/authSlice";
 import { useUpdateUserMutation } from "../api/user/userApiSlice";
+import { useTranslation } from "react-i18next";
 
 const TodosList = () => {
+  const { t } = useTranslation("todo");
   // redux store for addTodo menu state and filterCompletedTodos
   const addTodoMenuState = useAppSelector(selectAddTodoState);
   const dispatch = useAppDispatch();
@@ -31,13 +33,16 @@ const TodosList = () => {
   // scrolling to the top on route change
   useLayoutEffect(() => {
     ScrollToTop();
-  }, []);
-
-  useLayoutEffect(() => {
     addTodoMenuState
       ? setTodoMenuHeight(addTodoRef.current!.children[0].clientHeight)
       : setTodoMenuHeight(0);
-  }, [addTodoMenuState]);
+  });
+
+  // useLayoutEffect(() => {
+  //   addTodoMenuState
+  //     ? setTodoMenuHeight(addTodoRef.current!.children[0].clientHeight)
+  //     : setTodoMenuHeight(0);
+  // }, [addTodoMenuState]);
 
   // RTK Query states for data fetching
   const {
@@ -69,7 +74,7 @@ const TodosList = () => {
       </>
     );
   } else if (isError) {
-    content = <p>There was an error fetching data</p>;
+    content = <p>{t("error_fetching")}</p>;
     // content = <pre>{JSON.stringify(error, null, 2)}</pre>
   } else if (isSuccess) {
     if (sortedTodos) {
@@ -88,25 +93,25 @@ const TodosList = () => {
         ? !isCompleteTodoInList && setIsCompleteTodoInList(true)
         : isCompleteTodoInList && setIsCompleteTodoInList(false);
 
-      content =
-        renderedTodos.length === 0 ? (
-          <p>Everything is done! Good job!</p>
-        ) : (
-          renderedTodos
-        );
+      content = renderedTodos.length === 0 ? <p>{t("done")}</p> : renderedTodos;
     }
   }
 
-  // closing addTodo menu on successful POST
-  const handleAddTodoIconClick = () => {
-    dispatch(switchAddTodoMenuState());
+  // switching addTodo menu state on close/open icon click
+  const handleAddTodoIconClick = (newState: boolean) => {
+    dispatch(switchAddTodoMenuState(newState));
+    addTodoRef.current?.children[0]
+      ? newState
+        ? setTodoMenuHeight(addTodoRef.current!.children[0].clientHeight)
+        : setTodoMenuHeight(0)
+      : null;
   };
 
   // changing hideCompleted in idToken and in DB
   const handleChangeHideCompleted = async () => {
     const result = await updateUser({ hidecompleted: !hidecompleted }).unwrap();
     if (result.status === 200) {
-      dispatch(setHidecompleted({ hidecompleted: !hidecompleted }));
+      dispatch(setHideCompleted({ hidecompleted: !hidecompleted }));
     } else {
       console.log(result);
     }
@@ -116,16 +121,16 @@ const TodosList = () => {
     <section className="todos">
       <div className="todos__header">
         <h2>
-          Tasks{" "}
-          <span title="Open/close add todo menu">
+          {t("tasks")}{" "}
+          <span title={t("addTask_openClose")!}>
             {addTodoMenuState ? (
               <Icons.CloseAddTodo
-                onClick={() => handleAddTodoIconClick()}
+                onClick={() => handleAddTodoIconClick(false)}
                 className="collapsingMenuButton svg-negative"
               />
             ) : (
               <Icons.OpenAddTodo
-                onClick={() => handleAddTodoIconClick()}
+                onClick={() => handleAddTodoIconClick(true)}
                 className="collapsingMenuButton svg-positive"
               />
             )}
@@ -139,12 +144,12 @@ const TodosList = () => {
           >
             <label
               title={
-                hidecompleted ? "Show completed tasks" : "Hide completed tasks"
+                hidecompleted ? t("show_completed")! : t("hide_completed")!
               }
               className="todos__header--filterCompletedTodosLabel"
               htmlFor="todos__header--filterCompletedCheckbox"
             >
-              Hide{" "}
+              {t("hide")}{" "}
               <FontAwesomeIcon
                 className="completed-fontColor"
                 icon={faCheck as IconProp}
@@ -153,10 +158,12 @@ const TodosList = () => {
             <input
               title={
                 hidecompleted
-                  ? "Uncheck to show completed tasks"
-                  : "Check to hide completed tasks"
+                  ? t("show_completed_title")!
+                  : t("hide_completed_title")!
               }
-              aria-label="hide completed tasks"
+              aria-label={
+                hidecompleted ? t("show_completed")! : t("hide_completed")!
+              }
               id="todos__header--filterCompletedCheckbox"
               className="todos__header--filterCompletedCheckbox"
               type="checkbox"
