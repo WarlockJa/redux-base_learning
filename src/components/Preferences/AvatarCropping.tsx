@@ -4,6 +4,7 @@ import ReactCrop, { Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import imageCompression from "browser-image-compression";
 import Spinner from "../../util/Spinner";
+import { useTranslation } from "react-i18next";
 
 // compressing image blob
 const handleImageCompression = async (
@@ -15,7 +16,7 @@ const handleImageCompression = async (
   };
 
   try {
-    // while Blob lacks several attributes of a File for image compression
+    // while Blob lacks several attributes of a File
     // it is incosequential for image compression and therefore can be ignored
     const fileAsBlob = imageFile as File;
     const compressedFile = await imageCompression(fileAsBlob, options);
@@ -127,6 +128,7 @@ const AvatarCropping = ({
   cancelEdit: () => void;
   acceptEdit: (avatar: string) => void;
 }) => {
+  const { t } = useTranslation();
   // crop state
   const [crop, setCrop] = useState<Crop>();
   // crop ref
@@ -140,27 +142,32 @@ const AvatarCropping = ({
   if (imageToHttpBlob) URL.revokeObjectURL(imageToHttpBlob);
   imageToHttpBlob = URL.createObjectURL(imageFile);
 
-  // processing accept command or cancel command
+  // processing new avatar and saving result
+  const handleAccept = async () => {
+    if (crop && cropRef.current) {
+      setAvatarIsCropping(true);
+      // acceptEdit(crop)
+      const croppedImg = await getCroppedImg(
+        cropRef.current.mediaRef.current.firstChild,
+        crop,
+        "croppedimage.jpg"
+      );
+      // console.dir(cropRef.current.mediaRef.current.firstChild)
+      // console.log(croppedImg)
+      const compressedImage = await handleImageCompression(croppedImg);
+      if (compressedImage) {
+        // acceptEdit(URL.createObjectURL(compressedImage))
+        acceptEdit(compressedImage);
+      } else {
+        setAvatarIsCropping(false);
+      }
+    }
+  };
+
+  // processing enter command or escape keypress
   const handleKeyDown = async (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      if (crop && cropRef.current) {
-        setAvatarIsCropping(true);
-        // acceptEdit(crop)
-        const croppedImg = await getCroppedImg(
-          cropRef.current.mediaRef.current.firstChild,
-          crop,
-          "croppedimage.jpg"
-        );
-        // console.dir(cropRef.current.mediaRef.current.firstChild)
-        // console.log(croppedImg)
-        const compressedImage = await handleImageCompression(croppedImg);
-        if (compressedImage) {
-          // acceptEdit(URL.createObjectURL(compressedImage))
-          acceptEdit(compressedImage);
-        } else {
-          setAvatarIsCropping(false);
-        }
-      }
+      handleAccept();
     } else if (event.key === "Escape") {
       cancelEdit();
     }
@@ -214,6 +221,20 @@ const AvatarCropping = ({
         >
           <img src={imageToHttpBlob} onLoad={onImageLoad} />
         </ReactCrop>
+        <div className="avatarCropping__controls">
+          <button
+            className="avatarCropping__controls--cancel"
+            onClick={() => cancelEdit()}
+          >
+            {t("cancel")}
+          </button>
+          <button
+            className="avatarCropping__controls--accept"
+            onClick={() => handleAccept()}
+          >
+            {t("accept")}
+          </button>
+        </div>
       </div>
     </section>
   );

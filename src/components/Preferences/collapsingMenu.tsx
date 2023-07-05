@@ -14,6 +14,10 @@ interface ICollapsingMenuProps {
   verticalOffset: number;
 }
 
+function delay(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 const collapsingMenu = ({
   defaultHeaderOffset,
   headerTitle,

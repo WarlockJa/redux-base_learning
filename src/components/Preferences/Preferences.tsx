@@ -74,18 +74,6 @@ const Preferences = () => {
   // Cascading collapsing menus. Eachs section returns JSX element and its current height in px
   // Sum of previous elements heights is used to calculate offset for each subsequent menu item
 
-  // wrapping widgets form in a collapsing menu function
-  const widgetPreferences = collapsingMenu({
-    defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
-    headerContent: t("header_widget"),
-    headerTitle: t("header_widget_title"),
-    menuState: preferences.widgetMenu,
-    menuSwitch: setWidgetMenu,
-    formContent: <WidgetPreferencesForm />,
-    // offset is 0 as it is the first menu
-    verticalOffset: 0,
-  });
-
   // wrapping user preferences form in a collapsing menu function
   const userPreferences = collapsingMenu({
     defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
@@ -95,7 +83,19 @@ const Preferences = () => {
     formContent: userPreferencesForm(setAvatarFile, setShowDeleteUserWarning),
     menuState: preferences.userMenu,
     menuSwitch: setUserMenu,
-    verticalOffset: widgetPreferences.currentHeight,
+    // offset is 0 as it is the first menu
+    verticalOffset: 0,
+  });
+
+  // wrapping widgets form in a collapsing menu function
+  const widgetPreferences = collapsingMenu({
+    defaultHeaderOffset: DEFAULT_HEADER_OFFSET,
+    headerContent: t("header_widget"),
+    headerTitle: t("header_widget_title"),
+    menuState: preferences.widgetMenu,
+    menuSwitch: setWidgetMenu,
+    formContent: <WidgetPreferencesForm />,
+    verticalOffset: userPreferences.currentHeight,
   });
 
   return isLoadingDeleteUser ? (
@@ -115,8 +115,8 @@ const Preferences = () => {
           t={t}
         />
       )}
-      {widgetPreferences.menuItem}
       {userPreferences.menuItem}
+      {widgetPreferences.menuItem}
     </section>
   );
 };

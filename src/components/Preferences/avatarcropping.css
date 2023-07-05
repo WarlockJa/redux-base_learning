@@ -23,3 +23,8 @@
 .lds-spinner {
   z-index: 3;
 }
+
+.avatarCropping__controls {
+  display: flex;
+  justify-content: center;
+}
