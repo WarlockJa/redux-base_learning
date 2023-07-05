@@ -208,12 +208,12 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
         {todoHasChanges && (
           <>
             <button
-              title={t("task_update")!}
+              title={t("task_updateTitle")!}
               className={!canSave ? "translucent" : undefined}
               onClick={() => handleUpdateTodo()}
               disabled={!canSave}
             >
-              Update
+              {t("task_update")}
             </button>
             <button
               title={t("task_discard")!}
@@ -252,17 +252,15 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
             onChange={handleDateTimePickerOnChange}
             disableClock
             minDate={new Date()}
-            format="dd-MM-y hh:mm a"
+            format="dd-MM-y hh:mm"
+            locale={i18n.language}
           />
         </div>
       ) : (
         <div>{t("addTask_confirmMessage")}</div>
       )}
       <div
-        title={`${t("task_createdAt")} ${format(
-          createdDate,
-          "dd-MM-y hh:mm a"
-        )}`}
+        title={`${t("task_createdAt")} ${format(createdDate, "dd-MM-y HH:mm")}`}
         className="todoItem__footer--dateCreated"
       >
         <p>{t("task_created")}</p>

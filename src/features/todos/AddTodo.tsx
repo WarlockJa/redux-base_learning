@@ -12,7 +12,7 @@ import ResendEmail from "../../util/ResendEmail";
 import { useTranslation } from "react-i18next";
 
 const AddTodo = () => {
-  const { t } = useTranslation("todo");
+  const { t, i18n } = useTranslation("todo");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState<Date>(new Date());
@@ -121,6 +121,7 @@ const AddTodo = () => {
               disableClock
               minDate={new Date()}
               format="dd-MM-y hh:mm"
+              locale={i18n.language}
             />
           </div>
         ) : (
