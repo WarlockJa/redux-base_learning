@@ -40,7 +40,7 @@ const SelectCategory = ({
 }: {
   activeOption: NYTimesSectionsType | undefined;
 }) => {
-  const { t } = useTranslation("news");
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <nav>

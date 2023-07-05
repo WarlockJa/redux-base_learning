@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const RESEND_DELAY_IN_SECONDS = 30;
 
 const ResendEmail = () => {
-  const { t } = useTranslation("resendemail");
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [sendConfirmEmail] = useSendConfirmEmailMutation();
   const resendEmailVerificationTimer = useAppSelector(

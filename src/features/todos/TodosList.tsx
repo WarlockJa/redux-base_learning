@@ -16,7 +16,7 @@ import { useUpdateUserMutation } from "../api/user/userApiSlice";
 import { useTranslation } from "react-i18next";
 
 const TodosList = () => {
-  const { t } = useTranslation("todo");
+  const { t } = useTranslation();
   // redux store for addTodo menu state and filterCompletedTodos
   const addTodoMenuState = useAppSelector(selectAddTodoState);
   const dispatch = useAppDispatch();

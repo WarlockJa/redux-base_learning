@@ -12,7 +12,7 @@ import ResendEmail from "../../util/ResendEmail";
 import { useTranslation } from "react-i18next";
 
 const AddTodo = () => {
-  const { t, i18n } = useTranslation("todo");
+  const { t, i18n } = useTranslation();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState<Date>(new Date());

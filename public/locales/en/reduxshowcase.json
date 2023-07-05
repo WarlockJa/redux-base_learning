@@ -1,7 +1,0 @@
-{
-    "title": "Redux Showcase",
-    "addvalue": "Amount to add",
-    "increment": "Increment By Amount",
-    "reset": "Reset",
-    "async": "Async Increment"
-}

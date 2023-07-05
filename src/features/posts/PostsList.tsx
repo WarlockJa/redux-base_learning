@@ -16,7 +16,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
 const PostsList = () => {
-  const { t } = useTranslation("news");
+  const { t } = useTranslation();
   const { categoryId } = useParams();
   const posts = useAppSelector(selectAllPosts);
   const dispatch = useAppDispatch();

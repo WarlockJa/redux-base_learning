@@ -6,7 +6,7 @@ import { selectAllWidgets } from "../Widgets/widgetsSlice";
 import "./widgetpreferencesform.css";
 
 const WidgetPreferencesForm = () => {
-  const { t } = useTranslation("widgets");
+  const { t } = useTranslation();
   // store data
   const dispatch = useAppDispatch();
   const { widgets } = useAppSelector(selectUserData);

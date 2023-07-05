@@ -26,7 +26,7 @@ import {
 
 const Preferences = () => {
   // i18next
-  const { i18n, t } = useTranslation("preferences");
+  const { i18n, t } = useTranslation();
   // user data from the store
   const idToken = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();

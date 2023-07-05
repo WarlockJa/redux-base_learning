@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
   // i18next hook
-  const { t, i18n } = useTranslation("header");
+  const { t, i18n } = useTranslation();
   // react-router-dom navigate to different route
   const navigate = useNavigate();
   // flag for hiding sign in and options menus

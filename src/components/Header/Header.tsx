@@ -42,7 +42,7 @@ const Header = () => {
   const accessToken = useAppSelector(selectCurrentToken);
   const idToken = useAppSelector(selectUserData);
   // i18n translation hook
-  const { t, i18n } = useTranslation(["header"]);
+  const { t, i18n } = useTranslation();
 
   const dispatch = useAppDispatch();
 

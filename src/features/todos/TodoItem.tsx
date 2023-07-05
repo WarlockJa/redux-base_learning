@@ -31,7 +31,7 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
 };
 
 const TodoItemContent = ({ todo }: { todo: ITodo }) => {
-  const { t, i18n } = useTranslation("todo");
+  const { t, i18n } = useTranslation();
   // apiSlice data
   const [deleteTodo, { isLoading }] = useDeleteTodoMutation();
   const [updateTodo, { isLoading: isUpdating }] = useUpdateTodoMutation();

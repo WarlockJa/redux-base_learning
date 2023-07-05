@@ -25,7 +25,7 @@ const userPreferencesForm = (
   setShowDeleteUserWarning: Dispatch<SetStateAction<boolean>>
 ) => {
   // i18next
-  const { t } = useTranslation("preferences");
+  const { t } = useTranslation();
   // user data from the store
   const idToken = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();

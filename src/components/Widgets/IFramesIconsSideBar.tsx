@@ -32,7 +32,7 @@ const IFramesIconsSidebar = ({
   // widgetList: IWidgetListWithData[];
   widgetList: IIFramesListWithData[];
 }) => {
-  const { t } = useTranslation("widgets");
+  const { t } = useTranslation();
   // router hook
   const navigate = useNavigate();
   // store

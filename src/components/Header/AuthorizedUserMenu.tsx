@@ -19,7 +19,7 @@ import { setUserMenu } from "../Preferences/preferencesSlice";
 
 const AuthorizedUserMenu = () => {
   // i18next
-  const { i18n, t } = useTranslation("header");
+  const { i18n, t } = useTranslation();
   // logout api call
   const [logout, { isLoading }] = useLogoutMutation();
   // user data from the store

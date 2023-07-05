@@ -23,7 +23,7 @@ const widgetDoesExist = (
 
 const IFrames = () => {
   // passing language to iFrames
-  const { i18n, t } = useTranslation("widgets");
+  const { i18n, t } = useTranslation();
   // user data from the store
   const token = useAppSelector(selectCurrentToken);
   const { widgets } = useAppSelector(selectUserData);

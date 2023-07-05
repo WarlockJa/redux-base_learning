@@ -8,7 +8,7 @@ import Spinner from "../../util/Spinner";
 import { isApiRegisterError } from "../../features/api/apiSlice";
 import classNames from "classnames";
 import {
-  IAuthSliceInitialState,
+  IDBAuth,
   selectUserData,
   setCredentials,
 } from "../../features/api/auth/authSlice";
@@ -29,7 +29,7 @@ const returnErrorMessage = (error: unknown, t: (value: string) => string) => {
 };
 
 const Register = () => {
-  const { t } = useTranslation("register");
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const idToken = useAppSelector(selectUserData);
   // register form fields and cover states
@@ -68,14 +68,21 @@ const Register = () => {
   // handling click on the successful registration cover screen
   const handleVerificationCoverClick = async () => {
     // sign in user upon registration
-    const signInData: IAuthSliceInitialState = await login({
+    const signInData: IDBAuth = await login({
       email,
       password,
     }).unwrap();
+    // converting DB widgets string into an array
+    const widgetsArray = signInData.idToken.widgets
+      ? JSON.parse(signInData.idToken.widgets)
+      : [];
     dispatch(
       setCredentials({
         accessToken: signInData.accessToken,
-        idToken: signInData.idToken,
+        idToken: {
+          ...signInData.idToken,
+          widgets: widgetsArray,
+        },
       })
     );
     dispatch(sendConfirmEmail);
