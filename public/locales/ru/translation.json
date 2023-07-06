@@ -11,7 +11,7 @@
   "news": "Новости",
   "todos": "Задачи",
   "signinMenu_SignIn": "Вход",
-  "signinMenu_email": "е-мейл",
+  "signinMenu_email": "почта",
   "signinMenu_password": "пароль",
   "signinMenu_Signin": "Вход",
   "signinMenu_signin": "вход",
@@ -73,7 +73,7 @@
   "email": "Е-Мейл",
   "name": "Имя",
   "password": "Пароль",
-  "verification": "Подтверждающий е-мейл был отправлен на Ваш адрес",
+  "verification": "Подтверждающее письмо было отправлено на Ваш адрес",
   "already_registered": "Е-мейл уже зарегистрирован",
   "password_invalid": "Пароль должен содержать 5-60 символов, заглавные, прописные буквы, и цифры.",
   "register_title": "Выполнить регистрацию",
@@ -116,5 +116,7 @@
   "title_weatherreport": "Погода",
   "title_agecalculator": "Калькулятор возраста",
   "title_reduxshowcase": "Redux Демонстрация",
-  "title_modifywidgetslist": "Изменить список приложений"
+  "title_modifywidgetslist": "Изменить список приложений",
+  "user_not_found": "Пользователь не найден",
+  "password_incorrect": "Неверный пароль"
 }

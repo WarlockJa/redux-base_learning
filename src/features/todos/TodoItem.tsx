@@ -56,10 +56,12 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
 
   // deleting todo
   const handleDeleteTodo = async () => {
-    try {
-      await deleteTodo(todo.id).unwrap();
-    } catch (error) {
-      console.log(error);
+    if (!isLoading) {
+      try {
+        await deleteTodo(todo.id).unwrap();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

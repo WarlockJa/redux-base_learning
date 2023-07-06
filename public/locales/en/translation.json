@@ -116,5 +116,7 @@
   "title_weatherreport": "Weather Report",
   "title_agecalculator": "Age Calculator",
   "title_reduxshowcase": "Redux Showcase",
-  "title_modifywidgetslist": "Modify widgets list"
+  "title_modifywidgetslist": "Modify widgets list",
+  "user_not_found": "User not found",
+  "password_incorrect": "Password incorrect"
 }

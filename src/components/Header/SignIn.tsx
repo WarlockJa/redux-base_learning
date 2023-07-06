@@ -20,6 +20,7 @@ import {
 import Spinner from "../../util/Spinner";
 import LineBreak from "../../util/LineBreak";
 import { useTranslation } from "react-i18next";
+import { useResetPasswordMutation } from "../../features/api/auth/authApiSlice";
 
 const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
   // i18next hook
@@ -36,16 +37,26 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
   // redux store methods to store user data
   const dispatch = useAppDispatch();
   const idToken = useAppSelector(selectUserData);
+  // display password recovery options on incorrect pass input
+  const [forgotPass, setForgotPass] = useState(false);
+  const [resetPassOverlay, setResetPassOverlay] = useState(false);
+  const [resetPassword, { isLoading, isError, error, isSuccess }] =
+    useResetPasswordMutation();
   // reattaching focus to the sign in menu on error cover close
   const formPassRef = useRef<HTMLInputElement>(null);
   const formEmailRef = useRef<HTMLInputElement>(null);
   const handleErrorClick = () => {
     setSignInCoverVisible(false);
     // verifying that error is from the API by checking its type. If so focusing appropriate fields based on error message
-    isApiAuthError(login.error) &&
-    login.error.data.message === "Password incorrect"
-      ? formPassRef.current && formPassRef.current.focus()
-      : formEmailRef.current && formEmailRef.current.focus();
+    if (
+      isApiAuthError(login.error) &&
+      login.error.data.message === "password_incorrect"
+    ) {
+      formPassRef.current && formPassRef.current.focus();
+      setForgotPass(true);
+    } else {
+      formEmailRef.current && formEmailRef.current.focus();
+    }
   };
 
   // sign in form data submission
@@ -99,6 +110,12 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
     },
   });
 
+  // password reset
+  const handlePasswordReset = async (email: string) => {
+    const result = await resetPassword({ email }).unwrap();
+    console.log(result);
+  };
+
   // content for sign in and options menu
   const content = (
     <>
@@ -139,7 +156,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
               >
                 {login.isError
                   ? isApiAuthError(login.error)
-                    ? login.error.data.message
+                    ? t(login.error.data.message)
                     : JSON.stringify(login.error)
                   : isApiAuthError(gLogin.error)
                   ? gLogin.error.data.message
@@ -154,7 +171,10 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
               id="headerMenu__form--email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setForgotPass(false);
+              }}
               maxLength={50}
               required
             />
@@ -173,6 +193,58 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
             <button disabled={login.isLoading || gLogin.isLoading}>
               {t("signinMenu_Signin")}
             </button>
+
+            {forgotPass && (
+              <button
+                type="button"
+                className="headerMenu__form--forgotPassword"
+                onClick={() => setResetPassOverlay(true)}
+              >
+                forgot password?
+              </button>
+            )}
+            {resetPassOverlay &&
+              (isLoading ? (
+                <div className="headerMenu__form--cover">
+                  <Spinner embed={true} />
+                </div>
+              ) : isError ? (
+                <div
+                  onClick={() => setResetPassOverlay(false)}
+                  className="headerMenu__form--cover"
+                >
+                  <p>{JSON.stringify(error)}</p>
+                </div>
+              ) : isSuccess ? (
+                <div
+                  onClick={() => setResetPassOverlay(false)}
+                  className="headerMenu__form--cover"
+                >
+                  <p>
+                    An email was sent to {email} address. Follow instruction
+                    inside in order to reset your password
+                  </p>
+                </div>
+              ) : (
+                <div className="headerMenu__form--cover">
+                  <p>Are you sure you want to reset your password?</p>
+                  <div className="headerMenu__form__cover--controlsWrapper">
+                    <button
+                      type="button"
+                      onClick={() => handlePasswordReset(email)}
+                    >
+                      Yes
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setResetPassOverlay(false)}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+              ))}
+
             <LineBreak />
             <button onClick={() => loginGoogle()} type="button">
               <span style={{ backgroundColor: "transparent" }}>
