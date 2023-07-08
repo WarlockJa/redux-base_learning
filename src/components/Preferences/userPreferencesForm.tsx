@@ -1,9 +1,5 @@
 import classNames from "classnames";
-import {
-  useDeleteUserMutation,
-  useSendConfirmEmailMutation,
-  useUpdateUserMutation,
-} from "../../features/api/user/userApiSlice";
+import { useUpdateUserMutation } from "../../features/api/user/userApiSlice";
 import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -19,6 +15,7 @@ import {
 import LanguageSwitcher from "../../util/LanguageSwitcher";
 import SwitchDarkMode from "../../util/SwitchDarkMode";
 import ResendEmail from "../../util/ResendEmail";
+import ChangePassword from "./ChangePassword";
 
 const userPreferencesForm = (
   setAvatarFile: Dispatch<SetStateAction<File | undefined>>,
@@ -29,8 +26,7 @@ const userPreferencesForm = (
   // user data from the store
   const idToken = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();
-  const [updateUser, { isLoading, isSuccess, isError, error }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
   // user name states
   const [userName, setUserName] = useState<string>(
     idToken.name ? idToken.name : ""
@@ -45,12 +41,6 @@ const userPreferencesForm = (
   const [userSurnameIfCancelEdit, setUserSurnameIfCancelEdit] = useState<
     string | null
   >(idToken.surname);
-  // user email states
-  const [userEmail, setUserEmail] = useState(idToken.email);
-  const [userEmailEdit, setUserEmailEdit] = useState(false);
-  // user password states
-  const [userPasswordChangeFormState, setUserPasswordChangeFormState] =
-    useState(false);
   // user image states
   const [avatarHovered, setAvatarHovered] = useState(false);
 
@@ -276,10 +266,11 @@ const userPreferencesForm = (
         <SwitchDarkMode disabled={false} />
       </div>
       <div className="preferencesItem__userForm--editBlock">
-        <p>{t("user_locale")}</p>
+        <p className="preferencesItem__userForm--p">{t("user_locale")}</p>
         <LanguageSwitcher fullDescription={true} disabled={false} />
       </div>
-      <div className="preferencesItem__userForm--userDeleteBlock">
+      <ChangePassword />
+      <div>
         <button
           title={t("user_delete")!}
           aria-label={t("user_delete")!}

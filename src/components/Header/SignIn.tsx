@@ -111,9 +111,8 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
   });
 
   // password reset
-  const handlePasswordReset = async (email: string) => {
-    const result = await resetPassword({ email }).unwrap();
-    console.log(result);
+  const handlePasswordReset = (email: string) => {
+    resetPassword({ email });
   };
 
   // content for sign in and options menu
@@ -200,7 +199,7 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
                 className="headerMenu__form--forgotPassword"
                 onClick={() => setResetPassOverlay(true)}
               >
-                forgot password?
+                {t("forgot_password")}
               </button>
             )}
             {resetPassOverlay &&
@@ -213,33 +212,34 @@ const SignIn = ({ login, gLogin }: { login: IRTKQuery; gLogin: IRTKQuery }) => {
                   onClick={() => setResetPassOverlay(false)}
                   className="headerMenu__form--cover"
                 >
-                  <p>{JSON.stringify(error)}</p>
+                  <p>
+                    {isApiAuthError(error)
+                      ? t(error.data.message)
+                      : JSON.stringify(error)}
+                  </p>
                 </div>
               ) : isSuccess ? (
                 <div
                   onClick={() => setResetPassOverlay(false)}
                   className="headerMenu__form--cover"
                 >
-                  <p>
-                    An email was sent to {email} address. Follow instruction
-                    inside in order to reset your password
-                  </p>
+                  <p>{t("post_password_reset_message", { email })}</p>
                 </div>
               ) : (
                 <div className="headerMenu__form--cover">
-                  <p>Are you sure you want to reset your password?</p>
+                  <p>{t("confirm_password_reset")}</p>
                   <div className="headerMenu__form__cover--controlsWrapper">
                     <button
                       type="button"
                       onClick={() => handlePasswordReset(email)}
                     >
-                      Yes
+                      {t("yes")}
                     </button>
                     <button
                       type="button"
                       onClick={() => setResetPassOverlay(false)}
                     >
-                      No
+                      {t("no")}
                     </button>
                   </div>
                 </div>

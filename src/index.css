@@ -1,5 +1,6 @@
 body {
   --sz-header-height: 2.5rem;
+  --sz-form-borderRadius: 15px;
   --clr-async-animation: rgb(120, 90, 188, 0.5);
   --clr-link: #646cff;
   --clr-link-disabled: #535bf255;
@@ -96,7 +97,7 @@ article,
   margin: 1em 0;
   padding: 1em;
   border: 1px solid var(--clr-font-main);
-  border-radius: 15px;
+  border-radius: var(--sz-form-borderRadius);
 }
 
 form > *,

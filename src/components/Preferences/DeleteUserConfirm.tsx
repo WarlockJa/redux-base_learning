@@ -11,8 +11,8 @@ const DeleteUserConfirm = ({
     <section className="deleteUser">
       <h2>{t("user_deleteConfirm")}</h2>
       <div className="deleteUser--buttonsBlock">
-        <button onClick={() => callback(true)}>{t("user_deleteYes")}</button>
-        <button onClick={() => callback(false)}>{t("user_deleteNo")}</button>
+        <button onClick={() => callback(true)}>{t("yes")}</button>
+        <button onClick={() => callback(false)}>{t("no")}</button>
       </div>
     </section>
   );

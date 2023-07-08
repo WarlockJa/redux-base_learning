@@ -42,12 +42,14 @@
   width: 6em;
   object-fit: contain;
   border-radius: 5px;
+  align-self: flex-start;
 }
 
 .preferencesItem__userForm--editBlock {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .preferencesItem__userForm--editButton {
@@ -73,6 +75,7 @@
 
 .preferencesItem__userForm__avatar--editIcon {
   position: absolute;
+  align-self: flex-start;
   cursor: pointer;
 }
 
