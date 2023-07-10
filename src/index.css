@@ -28,7 +28,7 @@ body {
 @media screen and (width < 700px) {
   body {
     --sz-agecalculator: 510px;
-    --sz-freecurrencyapi: 313px;
+    --sz-freecurrencyapi: 320px;
   }
 }
 
