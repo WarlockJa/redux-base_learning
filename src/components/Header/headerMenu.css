@@ -78,6 +78,7 @@ form {
 
 .test {
   border: 1px solid green;
+  width: 100%;
 }
 
 .headerMenu__dropMenu--menuItem {
