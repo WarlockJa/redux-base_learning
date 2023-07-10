@@ -61,8 +61,9 @@ const AuthorizedUserMenu = () => {
   ) : (
     <>
       <button
-        className="userMenu--button"
+        className="userMenu__button"
         onClick={() => setHidden((prev) => !prev)}
+        title={idToken.name ? idToken.name : ""}
       >
         {idToken.name}
       </button>

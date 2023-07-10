@@ -1,12 +1,16 @@
 .userMenu {
-    margin-top: 3em;
-    background-color: var(--clr-bg-main);
+  margin-top: 3em;
+  background-color: var(--clr-bg-main);
 }
 
 .userMenu__button {
-    font-size: clamp(0.8rem, 6vw, 1rem);
+  font-size: clamp(0.8rem, 6vw, 1rem);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 9em;
 }
 
 .userMenu__button--image {
-    position: fixed;
+  position: fixed;
 }
