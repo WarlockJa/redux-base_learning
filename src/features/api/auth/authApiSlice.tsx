@@ -4,13 +4,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     reauth: builder.mutation({
       query: () => ({
-        url: "/auth",
+        url: "/v1/auth",
         method: "GET",
       }),
     }),
     login: builder.mutation({
       query: (credentials) => ({
-        url: "/auth",
+        url: "/v1/auth",
         method: "POST",
         body: { ...credentials },
       }),
@@ -18,21 +18,21 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
     register: builder.mutation({
       query: (credentials) => ({
-        url: "/register",
+        url: "/v1/register",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     gLogin: builder.mutation({
       query: (credentials) => ({
-        url: "/authgoogle",
+        url: "/v1/authgoogle",
         method: "POST",
         body: { ...credentials },
       }),
     }),
     resetPassword: builder.mutation({
       query: (credentials) => ({
-        url: "/password",
+        url: "/v1/password",
         method: "PUT",
         body: { ...credentials },
       }),
