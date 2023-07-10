@@ -20,14 +20,14 @@ body {
   --clr-border-widgetIcons: #6664;
   --clr-border-widgetIcons-hover: #747bff;
 
-  --sz-agecalculator: 510px;
+  --sz-agecalculator: 470px;
   --sz-weatherreport: 340px;
   --sz-freecurrencyapi: 200px;
 }
 
 @media screen and (width < 700px) {
   body {
-    --sz-agecalculator: 450px;
+    --sz-agecalculator: 510px;
     --sz-freecurrencyapi: 313px;
   }
 }
@@ -172,29 +172,3 @@ input:focus-visible {
 button:active {
   opacity: 0.8;
 }
-
-/* @media (prefers-color-scheme: light) {
-  body {
-    --clr-font-main: #213547;
-    --clr-bg-main: #ffffff;
-    --clr-bg-hoverMain: #AAAAAA;
-    --clr-button-bg: rgb(225, 225, 225);
-    --clr-header-bg: #ffffff;
-    --clr-spinner: #232323;
-    --clr-font-disabled: #6664;
-
-    --clr-link-hover: #747bff;
-    --clr-button-bg: #f9f9f9;
-  }
-
-  .dark-theme {
-    --clr-font-main: rgba(255, 255, 255, 0.87);
-    --clr-bg-main: #242424;
-    --clr-bg-hoverMain: #363636;
-    --clr-header-bg: #242424;
-    --clr-spinner: white;
-    --clr-font-disabled: #666;
-    --clr-link-hover: #535bf2;
-    --clr-button-bg: #414141;
-  }
-} */
