@@ -254,7 +254,7 @@ const TodoItemContent = ({ todo }: { todo: ITodo }) => {
             onChange={handleDateTimePickerOnChange}
             disableClock
             minDate={new Date()}
-            format="dd-MM-y hh:mm"
+            format="dd-MM-y HH:mm"
             locale={i18n.language}
           />
         </div>
