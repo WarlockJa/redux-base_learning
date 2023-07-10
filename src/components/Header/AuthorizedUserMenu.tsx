@@ -84,7 +84,9 @@ const AuthorizedUserMenu = () => {
             onClick={() => setHidden(true)}
             to="/preferences"
           >
-            {t("signedMenu_preferences")}{" "}
+            <p className="headerMenu__dropMenu__menuItem--p">
+              {t("signedMenu_preferences")}{" "}
+            </p>
             <FontAwesomeIcon icon={faEdit as IconProp} />
           </Link>
         </button>

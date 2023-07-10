@@ -97,7 +97,7 @@
   "addTask_confirmMessage": "Confirm email to enable reminders",
   "addTask_fieldsMissingTitle": "Required fields are missing",
   "addTask_allGoodTitle": "All good!",
-  "addTask_add": "Add Task",
+  "addTask_add": "Add a Task",
   "addTask_openClose": "Open/close add todo menu",
   "task_changeTitle": "Change title",
   "task_titleRequired": "Title required",
