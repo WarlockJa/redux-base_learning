@@ -44,6 +44,20 @@ const userPreferencesForm = (
   // user image states
   const [avatarHovered, setAvatarHovered] = useState(false);
 
+  // chaging user name in DB and local store
+  const updateUserName = async () => {
+    const result = await updateUser({ name: userName }).unwrap();
+    const newIdToken = {
+      ...idToken,
+      name: userName,
+    };
+    if (result.status === 200) {
+      dispatch(setIdToken({ idToken: newIdToken }));
+    } else {
+      console.log(result);
+    }
+  };
+
   // exiting user name editing mode on Enter or Esc clicked
   const handleUserNameKeyDown = async (
     event: React.KeyboardEvent<HTMLInputElement>
@@ -51,20 +65,24 @@ const userPreferencesForm = (
     if (event.key === "Enter") {
       if (userName) {
         setUserNameEdit(false);
-        const result = await updateUser({ name: userName }).unwrap();
-        const newIdToken = {
-          ...idToken,
-          name: userName,
-        };
-        if (result.status === 200) {
-          dispatch(setIdToken({ idToken: newIdToken }));
-        } else {
-          console.log(result);
-        }
+        updateUserName();
       }
     } else if (event.key === "Escape") {
       setUserNameEdit(false);
       setUserName(userNameIfCancelEdit);
+    }
+  };
+
+  const updateUserSurname = async () => {
+    const result = await updateUser({ surname: userSurname }).unwrap();
+    const newIdToken = {
+      ...idToken,
+      surname: userSurname,
+    };
+    if (result.status === 200) {
+      dispatch(setIdToken({ idToken: newIdToken }));
+    } else {
+      console.log(result);
     }
   };
 
@@ -74,16 +92,7 @@ const userPreferencesForm = (
   ): Promise<void> => {
     if (event.key === "Enter") {
       setUserSurnameEdit(false);
-      const result = await updateUser({ surname: userSurname }).unwrap();
-      const newIdToken = {
-        ...idToken,
-        surname: userSurname,
-      };
-      if (result.status === 200) {
-        dispatch(setIdToken({ idToken: newIdToken }));
-      } else {
-        console.log(result);
-      }
+      updateUserSurname();
     } else if (event.key === "Escape") {
       setUserSurnameEdit(false);
       setUserSurname(userSurnameIfCancelEdit);
@@ -94,7 +103,10 @@ const userPreferencesForm = (
   const handleUserNameBlur = () => {
     if (userName === "") {
       setUserName(userNameIfCancelEdit);
+    } else {
+      updateUserName();
     }
+
     setUserNameEdit(false);
   };
 
@@ -208,7 +220,10 @@ const userPreferencesForm = (
           autoFocus
           value={userSurname ? userSurname : ""}
           onChange={(e) => setUserSurname(e.target.value)}
-          onBlur={() => setUserSurnameEdit(false)}
+          onBlur={() => {
+            updateUserSurname();
+            setUserSurnameEdit(false);
+          }}
           onKeyDown={(e) => handleUserSurnameKeyDown(e)}
           maxLength={254}
         ></input>
