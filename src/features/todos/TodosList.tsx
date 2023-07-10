@@ -93,7 +93,12 @@ const TodosList = () => {
         ? !isCompleteTodoInList && setIsCompleteTodoInList(true)
         : isCompleteTodoInList && setIsCompleteTodoInList(false);
 
-      content = renderedTodos.length === 0 ? <p>{t("done")}</p> : renderedTodos;
+      content =
+        renderedTodos.length === 0 ? (
+          <p className="todos--emptyList">{t("done")}</p>
+        ) : (
+          renderedTodos
+        );
     }
   }
 

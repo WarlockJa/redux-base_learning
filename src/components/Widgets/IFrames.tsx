@@ -1,5 +1,5 @@
 import { ErrorBoundary } from "react-error-boundary";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   selectCurrentToken,
   selectUserData,
@@ -13,6 +13,8 @@ import {
   selectAllWidgets,
 } from "./widgetsSlice";
 import { useTranslation } from "react-i18next";
+import { setWidgetMenu } from "../Preferences/preferencesSlice";
+import { useNavigate } from "react-router-dom";
 
 // user-defined type guard in case DB stored widget list is outdated
 const widgetDoesExist = (
@@ -29,6 +31,8 @@ const IFrames = () => {
   const { widgets } = useAppSelector(selectUserData);
   const widgetList = useAppSelector(selectAllWidgets);
   const { darkmode } = useAppSelector(selectUserData);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // forming content for widget icons sidebar
   const filteredList =
@@ -71,6 +75,20 @@ const IFrames = () => {
       ) : token ? (
         <div className="noWidgets">
           <p>{t("no_widgets")}</p>
+          <button
+            title={t("title_modifywidgetslist")!}
+            // className={
+            //   token
+            //     ? "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink"
+            //     : "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink widgetsSideBar__widgetWrapper--disabled"
+            // }
+            onClick={() => {
+              dispatch(setWidgetMenu(true));
+              navigate("preferences");
+            }}
+          >
+            {t("open_widgets_menu")}
+          </button>
         </div>
       ) : (
         <div className="noWidgets">

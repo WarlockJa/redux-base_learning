@@ -116,6 +116,10 @@
   max-height: 0em;
 }
 
+.todos--emptyList {
+  text-align: center;
+}
+
 .addTodo__dueDate {
   flex-direction: row;
   justify-content: center;
