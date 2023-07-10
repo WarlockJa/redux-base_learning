@@ -80,11 +80,11 @@ const AuthorizedUserMenu = () => {
         >
           <Link
             tabIndex={-1}
-            className="headerMenu__dropMenu--menuItem test"
+            className="headerMenu__dropMenu--menuItem mobileFix"
             onClick={() => setHidden(true)}
             to="/preferences"
           >
-            <p className="headerMenu__dropMenu__menuItem--p test2">
+            <p className="headerMenu__dropMenu__menuItem--p">
               {t("signedMenu_preferences")}{" "}
             </p>
             <FontAwesomeIcon icon={faEdit as IconProp} />
