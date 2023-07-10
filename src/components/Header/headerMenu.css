@@ -78,6 +78,7 @@ form {
 
 .headerMenu__dropMenu--menuItem {
   min-height: 2.6rem;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
