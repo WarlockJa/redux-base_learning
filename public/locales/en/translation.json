@@ -113,6 +113,7 @@
   "task_created": "created",
   "task_delete": "Delete task",
   "no_widgets": "You have no active widgets",
+  "no_widgets_not_signed": "Welcome! Sign in to view widgets",
   "title_currencyexchange": "Currency Exchange",
   "title_weatherreport": "Weather Report",
   "title_agecalculator": "Age Calculator",

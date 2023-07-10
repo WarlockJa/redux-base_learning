@@ -66,7 +66,13 @@ const IFrames = () => {
   return (
     <>
       <IFramesIconsSidebar widgetList={iFramesList} />
-      {content.length !== 0 ? content : <p>{t("no_widgets")}</p>}
+      {content.length !== 0 ? (
+        content
+      ) : token ? (
+        <p>{t("no_widgets")}</p>
+      ) : (
+        <p>{t("no_widgets_not_signed")}</p>
+      )}
     </>
   );
 };
