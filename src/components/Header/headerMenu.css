@@ -78,10 +78,10 @@ form {
 
 .headerMenu__dropMenu--menuItem {
   min-height: 2.6rem;
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   color: var(--clr-font-main);
   opacity: 0.9;
