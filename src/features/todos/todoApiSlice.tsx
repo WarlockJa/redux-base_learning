@@ -6,7 +6,7 @@ const apiSliceTodosTag = apiSlice.enhanceEndpoints({ addTagTypes: ["Todos"] });
 export const todoApiSlice = apiSliceTodosTag.injectEndpoints({
   endpoints: (builder) => ({
     getTodos: builder.query<ITodo[], void>({
-      query: () => "/todos",
+      query: () => "/v1/todos",
       providesTags: (result = [], error, arg) =>
         result
           ? [
