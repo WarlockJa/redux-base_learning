@@ -76,7 +76,7 @@ form {
   z-index: -1;
 }
 
-.test {
+/* .test {
   border: 1px solid green;
   width: 100%;
 }
@@ -84,14 +84,14 @@ form {
 .test2 {
   flex: 1;
   text-align: start;
-}
+} */
 
 .headerMenu__dropMenu--menuItem {
   min-height: 2.6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   color: var(--clr-font-main);
   opacity: 0.9;
   border-radius: 8px;

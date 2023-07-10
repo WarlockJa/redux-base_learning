@@ -1,104 +1,104 @@
 .App > * {
-    max-width: var(--media-medium-size-threshold);
-    margin: 0 auto;
+  max-width: var(--media-medium-size-threshold);
+  margin: 0 auto;
 }
 
 .widget {
-    margin-top: 2em;
-    margin-bottom: 2em;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .active {
-    pointer-events: none;
-    color: var(--clr-font-main);
+  pointer-events: none;
+  color: var(--clr-font-main);
 }
 
 .invalid {
-    border: 1px solid red;
-    border-radius: 8px;
+  border: 1px solid red;
+  border-radius: 8px;
 }
 
 .completed {
-    border: 1px solid green;
+  border: 1px solid green;
 }
 
 .completed-fontColor {
-    color: rgb(37, 177, 37);
+  color: rgb(37, 177, 37);
 }
 
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .svg-positive {
-    fill: var(--clr-positive);
+  fill: var(--clr-positive);
 }
 
 .svg-negative {
-    fill: var(--clr-negative);
+  fill: var(--clr-negative);
 }
 
 .font-positive {
-    color: var(--clr-positive);
+  color: var(--clr-positive);
 }
 
 .font-negative {
-    color: var(--clr-negative);
+  color: var(--clr-negative);
 }
 
 .translucent {
-    opacity: 0.6;
-    cursor: default;
+  opacity: 0.6;
+  cursor: default;
 }
 
 .undisplayed {
-    display: none;
+  display: none;
 }
 
 .noBackground {
-    background: transparent;
+  background: transparent;
 }
 
 .buttonWrapper {
-    margin: 0;
-    padding: 0;
-    display: block;
-    background: transparent;
+  margin: 0;
+  padding: 0;
+  display: block;
+  background: transparent;
 }
 
 .textButton,
 .textButtonPressed {
-    color: #2e5981;
-    text-decoration: underline;
-    line-height: 0;
-    cursor: pointer;
+  color: #2e5981;
+  text-decoration: underline;
+  line-height: 0;
+  cursor: pointer;
 }
 .textButton:hover,
 .textButton:active {
-    color: #456a8d;
+  color: #456a8d;
 }
 .textButtonPressed {
-    cursor: default;
+  cursor: default;
 }
 
 .collapsingMenuButton {
-    background: transparent;
-    stroke: none;
-    width: 1.2rem;
-    height: 1.2rem;
-    transition: filter 150ms ease;
+  background: transparent;
+  stroke: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  transition: filter 150ms ease;
 }
 
 .collapsingMenuButton:hover {
-    filter: drop-shadow(0 0 0.3rem var(--clr-font-main));
+  filter: drop-shadow(0 0 0.3rem var(--clr-font-main));
 }
 
 @media screen and (width < 700px) {
-    .flex-wide {
-        flex-direction: column;
-    }
+  .flex-wide {
+    flex-direction: column;
+  }
 
-    .flex-wide > * {
-        width: 100%;
-    }
+  .flex-wide > * {
+    width: 100%;
+  }
 }
