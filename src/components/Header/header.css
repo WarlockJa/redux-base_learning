@@ -1,26 +1,27 @@
 .header {
-    position: sticky;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-color: var(--clr-bg-main);
-    display: flex;
-    align-items: center;
-    height: var(--sz-header-height);
-    z-index: 2;
+  position: sticky;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: var(--clr-bg-main);
+  display: flex;
+  align-items: center;
+  height: var(--sz-header-height);
+  z-index: 2;
 }
 
 .header__loginSection {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.8em;
-    background-color: var(--clr-bg-main);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8em;
+  background-color: var(--clr-bg-main);
+  z-index: 1;
 }
 
 .header__loginSection--globalSettings {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }

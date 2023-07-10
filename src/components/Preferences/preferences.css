@@ -55,10 +55,14 @@
 .preferencesItem__userForm--editButton {
   padding: 0 0.1em;
   background: transparent;
+  min-width: 1.5em;
 }
 
 .preferencesItem__userForm--p {
   margin: 0.66em 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .preferencesItem__userForm--email {

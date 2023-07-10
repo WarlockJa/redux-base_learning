@@ -69,9 +69,14 @@ const IFrames = () => {
       {content.length !== 0 ? (
         content
       ) : token ? (
-        <p>{t("no_widgets")}</p>
+        <div className="noWidgets">
+          <p>{t("no_widgets")}</p>
+        </div>
       ) : (
-        <p>{t("no_widgets_not_signed")}</p>
+        <div className="noWidgets">
+          <h2>{t("no_widgets_welcome")}</h2>
+          <p>{t("no_widgets_not_signed")}</p>
+        </div>
       )}
     </>
   );
