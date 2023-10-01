@@ -4,6 +4,7 @@ import { RootState } from "../../app/store";
 export interface IIFramesList {
   id: string;
   src: string;
+  src_type: "vite" | "next";
   height: string;
   icon: string;
   title: string;
@@ -22,6 +23,7 @@ const widgetList: IIFramesList[] = [
     title: "title_agecalculator",
     icon: "/icons/calculator.svg",
     src: "https://agecalculator-ebon.vercel.app/",
+    src_type: "vite",
     height: "var(--sz-agecalculator)",
     requiresRegistration: true,
   },
@@ -30,6 +32,7 @@ const widgetList: IIFramesList[] = [
     title: "title_weatherreport",
     icon: "/icons/weather.svg",
     src: "https://wj-weatherapi.vercel.app/",
+    src_type: "vite",
     height: "var(--sz-weatherreport)",
     requiresRegistration: true,
   },
@@ -37,7 +40,8 @@ const widgetList: IIFramesList[] = [
     id: "freecurrencyapi",
     title: "title_currencyexchange",
     icon: "/icons/currency-exchange.svg",
-    src: "https://wj-freecurrencyapi.vercel.app/",
+    src: "https://wj-currencyexchange-db.vercel.app/",
+    src_type: "next",
     height: "var(--sz-freecurrencyapi)",
     requiresRegistration: true,
   },
@@ -50,6 +54,7 @@ const initialState: IIFramesList[] = widgetList.map((widget) => ({
   height: widget.height,
   icon: widget.icon,
   src: widget.src,
+  src_type: widget.src_type,
   requiresRegistration: widget.requiresRegistration,
 }));
 

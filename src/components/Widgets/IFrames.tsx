@@ -51,7 +51,9 @@ const IFrames = () => {
         <iframe
           className="iFrameWidget"
           src={item.src.concat(
-            `?lng=${i18n.language}&theme=${darkmode ? "dark" : "light"}`
+            item.src_type === "vite"
+              ? `?lng=${i18n.language}&theme=${darkmode ? "dark" : "light"}`
+              : `/${i18n.language}?theme=${darkmode ? "dark" : "light"}`
           )}
           width="100%"
           style={{ height: item.height }}
