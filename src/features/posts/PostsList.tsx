@@ -12,7 +12,6 @@ import {
 } from "./postsSlice";
 import SelectCategory from "./SelectCategory";
 import { categoryList } from "./SelectCategory";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 
 const PostsList = () => {
@@ -65,7 +64,7 @@ const PostsList = () => {
   // fetching data for the current category
   useEffect(() => {
     // fetching data
-    if (posts.status === "idle") {
+    if (posts.status === "idle" && categoryId) {
       const fetchRequest = {
         API_URL: import.meta.env.VITE_APP_NYTIMES_API_URL.replace(
           "FILENAME",
@@ -76,7 +75,7 @@ const PostsList = () => {
       console.log("Fetching news category");
       dispatch(fetchPosts(fetchRequest));
     }
-  }, [dispatch, posts.status]);
+  }, [dispatch, posts.status, categoryId]);
 
   // forming content for the page
   let content;
