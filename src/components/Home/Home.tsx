@@ -1,11 +1,8 @@
 import IFrames from "../Widgets/IFrames";
 
 const Home = () => {
-  return (
-    <>
-      <IFrames />
-    </>
-  );
+  // returns nothing. iFrames detects the pathname === "/" and displays itself
+  return <></>;
 };
 
 export default Home;

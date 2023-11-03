@@ -65,6 +65,9 @@ const PostsList = () => {
   useEffect(() => {
     // fetching data
     if (posts.status === "idle" && categoryId) {
+      // TEST
+      console.log(categoryId);
+
       const fetchRequest = {
         API_URL: import.meta.env.VITE_APP_NYTIMES_API_URL.replace(
           "FILENAME",

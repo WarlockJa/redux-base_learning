@@ -33,6 +33,9 @@ const IFrames = () => {
   const { darkmode } = useAppSelector(selectUserData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  // reading current url pathname and if it is "/" then displaying the elemnt's contents
+  // necessary in order to prevent iFrames reloading on route change
+  const url = window.location.pathname;
 
   // forming content for widget icons sidebar
   const filteredList =
@@ -70,7 +73,10 @@ const IFrames = () => {
   ));
 
   return (
-    <>
+    <div
+      className={url !== "/" ? "iFramesHidden" : ""}
+      aria-disabled={url !== "/"}
+    >
       <IFramesIconsSidebar widgetList={iFramesList} />
       {content.length !== 0 ? (
         content
@@ -79,11 +85,6 @@ const IFrames = () => {
           <p>{t("no_widgets")}</p>
           <button
             title={t("title_modifywidgetslist")!}
-            // className={
-            //   token
-            //     ? "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink"
-            //     : "widgetsSideBar__widgetWrapper widgetsSideBar__widgetWrapper--preferencesLink widgetsSideBar__widgetWrapper--disabled"
-            // }
             onClick={() => {
               dispatch(setWidgetMenu(true));
               navigate("preferences");
@@ -98,7 +99,7 @@ const IFrames = () => {
           <p>{t("no_widgets_not_signed")}</p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

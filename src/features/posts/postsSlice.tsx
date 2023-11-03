@@ -1,8 +1,6 @@
 import {
   createAsyncThunk,
-  createEntityAdapter,
   createSlice,
-  EntityState,
   nanoid,
   PayloadAction,
 } from "@reduxjs/toolkit";
