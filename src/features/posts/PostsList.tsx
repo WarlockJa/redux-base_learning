@@ -24,8 +24,10 @@ const PostsList = () => {
   useEffect(() => {
     // NY Times topstories categories update at different times
     // setting up an hour timer before a new refetch
-    if (posts.timestamp && posts.timestamp + 60 * 60 * 1000 < Date.now())
+    if (posts.timestamp && posts.timestamp + 60 * 60 * 1000 < Date.now()) {
+      localStorage.removeItem("DP_NYTimes");
       dispatch(changeStatusToIdle());
+    }
   });
 
   // scrolling to the top on route change
@@ -65,9 +67,6 @@ const PostsList = () => {
   useEffect(() => {
     // fetching data
     if (posts.status === "idle" && categoryId) {
-      // TEST
-      console.log(categoryId);
-
       const fetchRequest = {
         API_URL: import.meta.env.VITE_APP_NYTIMES_API_URL.replace(
           "FILENAME",
