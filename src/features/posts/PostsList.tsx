@@ -25,6 +25,8 @@ const PostsList = () => {
     // NY Times topstories categories update at different times
     // setting up an hour timer before a new refetch
     if (posts.timestamp && posts.timestamp + 60 * 60 * 1000 < Date.now()) {
+      // TODO test infinite refetch glitch
+      // TODO unfuck the useEffects
       localStorage.removeItem("DP_NYTimes");
       dispatch(changeStatusToIdle());
     }
