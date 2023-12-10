@@ -137,5 +137,7 @@
   "enter_current_password_title": "Please enter your current password",
   "passwords_differ": "Entered passwords do not match",
   "password_complexity_nottification": "Password must be 8-60 characters long, contain digits, uppercase, and lowercase letters",
-  "auth_incorrect": "Cannot reset password for this type of authentication"
+  "auth_incorrect": "Cannot reset password for this type of authentication",
+  "title_open": "Enlarge",
+  "title_close": "Close"
 }

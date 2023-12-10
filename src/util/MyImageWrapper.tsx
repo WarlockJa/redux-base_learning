@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import "./myimagewrapper.css";
 import { useEffect, useState } from "react";
 
@@ -19,6 +20,7 @@ const MyImageWrapper = ({
   onClick,
 }: IMyImageWrapper) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const image = new Image();
@@ -32,7 +34,13 @@ const MyImageWrapper = ({
 
   return isImageLoaded ? (
     <>
-      <img className={className} src={src} alt={alt} onClick={onClick} />
+      <img
+        className={className}
+        src={src}
+        alt={alt}
+        onClick={onClick}
+        title={alt === "large" ? t("title_close")! : t("title_open")!}
+      />
     </>
   ) : loadingBgImg ? (
     <div className="myImageWrapper">

@@ -1,59 +1,61 @@
 .postDescription {
-    font-style: italic;
-    font-weight: bold;
-    font-size: 1.1rem;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .postHeader {
-    display: flex;
+  display: flex;
 }
 
 .postHeader > p {
-    padding: 0 0.5em;
+  padding: 0 0.5em;
 }
 
 .postFooter {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .postFooter > p {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
-.disabled, .disabled:hover {
-    color: var(--clr-link-disabled);
-    cursor: default;
+.disabled,
+.disabled:hover {
+  color: var(--clr-link-disabled);
+  cursor: default;
 }
 
 .postMultimedia {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
 }
 
 .postMultimedia > div > p {
-    text-align: right;
+  text-align: right;
 }
 
 .modalImage {
-    position: fixed;
-    left: 0;
-    top: var(--sz-header-height);
-    width: 100%;
-    height: calc(100% - var(--sz-header-height));
-    background-color: var(--clr-bg-modal);
+  position: fixed;
+  left: 0;
+  top: var(--sz-header-height);
+  width: 100%;
+  height: calc(100% - var(--sz-header-height));
+  background-color: var(--clr-bg-modal);
+  cursor: pointer;
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .modalImage > img {
-    height: 100%;
-    object-fit: contain;
+  height: 100%;
+  object-fit: contain;
 }
 
 .scrollToTop-button {
-    position: fixed;
-    bottom: 1%;
-    right: 10%;
+  position: fixed;
+  bottom: 1%;
+  right: 10%;
 }
