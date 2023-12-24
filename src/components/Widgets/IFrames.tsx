@@ -58,6 +58,7 @@ const IFrames = () => {
               ? `?lng=${i18n.language}&theme=${darkmode ? "dark" : "light"}`
               : `/${i18n.language}?theme=${darkmode ? "dark" : "light"}`
           )}
+          allow={item.allow}
           width="100%"
           style={{ height: item.height }}
         />

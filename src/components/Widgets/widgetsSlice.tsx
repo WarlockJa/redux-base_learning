@@ -5,6 +5,7 @@ export interface IIFramesList {
   id: string;
   src: string;
   src_type: "vite" | "next";
+  allow?: string;
   height: string;
   icon: string;
   title: string;
@@ -33,6 +34,7 @@ const widgetList: IIFramesList[] = [
     icon: "/icons/weather.svg",
     src: "https://wj-weatherapi.vercel.app/",
     src_type: "vite",
+    allow: "geolocation 'self' https://wj-weatherapi.vercel.app",
     height: "var(--sz-weatherreport)",
     requiresRegistration: true,
   },
@@ -55,6 +57,7 @@ const initialState: IIFramesList[] = widgetList.map((widget) => ({
   icon: widget.icon,
   src: widget.src,
   src_type: widget.src_type,
+  allow: widget.allow,
   requiresRegistration: widget.requiresRegistration,
 }));
 
